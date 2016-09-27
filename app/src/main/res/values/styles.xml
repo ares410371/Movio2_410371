@@ -5,12 +5,16 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorPrimary">@color/textColorPrimary</item>
+        <item name="android:textColorSecondary">@color/textColorSecondary</item>
     </style>
-    <!-- Second theme-->
-    <style name="AppTheme.Second">
-        <item name="colorPrimary">@color/colorPrimarySec</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDarkSec</item>
-        <item name="colorAccent">@color/colorAccentSec</item>
+    <!-- Inverse base theme-->
+    <style name="AppTheme.Inverse">
+        <item name="colorPrimary">@color/colorPrimaryInverse</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkInverse</item>
+        <item name="colorAccent">@color/colorAccentInverse</item>
+        <item name="android:textColorPrimary">@color/textColorPrimary</item>
+        <item name="android:textColorSecondary">@color/textColorSecondary</item>
     </style>
 
 </resources>

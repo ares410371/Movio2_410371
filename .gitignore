@@ -15,6 +15,7 @@ out/
 
 # Gradle files
 .gradle/
+/gradle.properties
 build/
 
 # Local configuration file (sdk path, etc)
@@ -26,15 +27,40 @@ proguard/
 # Log Files
 *.log
 
-# Android Studio Navigation editor temp files
+# Android Studio
 .navigation/
-
-# Android Studio captures folder
 captures/
 
-# Intellij
+# IntelliJ
 *.iml
-.idea/workspace.xml
+*.ipr
+*.iws
+.idea/
+/out/
 
 # Keystore files
 *.jks
+
+# Ant
+build.xml
+
+# Maven
+target/
+pom.xml.*
+release.properties
+
+# Eclipse
+.classpath
+.project
+.externalToolBuilders/
+
+# Mac
+.DS_Store
+
+# Crashlytics
+crashlytics.properties
+crashlytics-build.properties
+com_crashlytics_export_strings.xml
+
+# Fabric
+fabric.properties

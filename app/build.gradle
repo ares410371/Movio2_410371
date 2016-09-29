@@ -1,15 +1,28 @@
 apply plugin: 'com.android.application'
 
+def versionMajor = 0
+def versionMinor = 1
+def versionPatch = 0
+
 android {
     compileSdkVersion 24
     buildToolsVersion "24.0.2"
 
+    // Build naming
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            output.outputFile = new File(
+                    output.outputFile.parent,
+                    "$project.name-$variant.name-$variant.versionName-${variant.versionCode}.apk"
+            )
+        }
+    }
     defaultConfig {
         applicationId "cz.muni.fi.pv256.movio2.uco_410371"
         minSdkVersion 17
         targetSdkVersion 24
-        versionCode 1
-        versionName "1.0"
+        versionCode versionMajor * 1000 + versionMinor * 100 + versionPatch * 10
+        versionName "${versionMajor}.${versionMinor}.${versionPatch}"
     }
     buildTypes {
         release {
@@ -17,10 +30,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    buildTypes.each {
+        it.buildConfigField "String", "MOVIE_DB_API_KEY", MOVIE_DB_API_KEY
+    }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:24.1.1'
+    compile 'com.android.support:recyclerview-v7:24.1.1'
 }

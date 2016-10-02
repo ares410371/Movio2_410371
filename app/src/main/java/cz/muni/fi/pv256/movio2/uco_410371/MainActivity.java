@@ -7,13 +7,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 
 /**
  * MainActivity
  * Created by Benjamin Varga on 20.9.2016.
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnClickListener {
 
     private static final String MOVIE_DB_API_KEY = BuildConfig.MOVIE_DB_API_KEY;
     private Button mChangeThemeBtn;
@@ -33,16 +34,16 @@ public class MainActivity extends AppCompatActivity {
         //Log.i("API_KEY", MOVIE_DB_API_KEY);
 
         mChangeThemeBtn = (Button) findViewById(R.id.button_theme);
-        mChangeThemeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SharedPreferences.Editor editor = mSharedPreferences.edit();
-                editor.putBoolean("theme", !mSharedPreferences.getBoolean("theme", false));
-                editor.apply();
-                Intent intent = getIntent();
-                finish();
-                startActivity(intent);
-            }
-        });
+        mChangeThemeBtn.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putBoolean("theme", !mSharedPreferences.getBoolean("theme", false));
+        editor.apply();
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
     }
 }

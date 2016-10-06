@@ -14,16 +14,16 @@ import android.widget.Button;
  * MainActivity
  * Created by Benjamin Varga on 20.9.2016.
  */
-public class MainActivity extends AppCompatActivity implements OnClickListener {
+public class MainActivity extends AppCompatActivity {
 
     private static final String MOVIE_DB_API_KEY = BuildConfig.MOVIE_DB_API_KEY;
-    private Button mChangeThemeBtn;
+
     private SharedPreferences mSharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mSharedPreferences = getPreferences(Context.MODE_PRIVATE);
+        mSharedPreferences = getSharedPreferences("ConfigTheme", Context.MODE_PRIVATE);
         if (mSharedPreferences.getBoolean("theme", false)){
             setTheme(R.style.AppTheme_Inverse);
         } else {
@@ -32,18 +32,5 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         setContentView(R.layout.activity_main);
 
         //Log.i("API_KEY", MOVIE_DB_API_KEY);
-
-        mChangeThemeBtn = (Button) findViewById(R.id.button_theme);
-        mChangeThemeBtn.setOnClickListener(this);
-    }
-
-    @Override
-    public void onClick(View v) {
-        SharedPreferences.Editor editor = mSharedPreferences.edit();
-        editor.putBoolean("theme", !mSharedPreferences.getBoolean("theme", false));
-        editor.apply();
-        Intent intent = getIntent();
-        finish();
-        startActivity(intent);
     }
 }

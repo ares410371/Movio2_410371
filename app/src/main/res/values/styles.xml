@@ -8,6 +8,7 @@
         <item name="android:textColorPrimary">@color/textColorPrimary</item>
         <item name="android:textColorSecondary">@color/textColorSecondary</item>
     </style>
+
     <!-- Inverse base theme-->
     <style name="AppTheme.Inverse">
         <item name="colorPrimary">@color/colorPrimaryInverse</item>
@@ -26,5 +27,9 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="AppTheme.Inverse.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 
 </resources>

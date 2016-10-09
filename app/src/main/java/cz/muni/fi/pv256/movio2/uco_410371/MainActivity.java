@@ -1,14 +1,11 @@
 package cz.muni.fi.pv256.movio2.uco_410371;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 
 /**
  * MainActivity
@@ -17,20 +14,54 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity {
 
     private static final String MOVIE_DB_API_KEY = BuildConfig.MOVIE_DB_API_KEY;
-
-    private SharedPreferences mSharedPreferences;
+    public static final String TAG  = MainActivity.class.getName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mSharedPreferences = getSharedPreferences("ConfigTheme", Context.MODE_PRIVATE);
-        if (mSharedPreferences.getBoolean("theme", false)){
-            setTheme(R.style.AppTheme_Inverse);
+        Log.d(TAG, "onCreate: ");
+        SharedPreferences sharedPreferences = getSharedPreferences("ConfigTheme", Context.MODE_PRIVATE);
+        if (sharedPreferences.getBoolean("theme", false)){
+            setTheme(R.style.AppTheme_Inverse_NoActionBar);
         } else {
-            setTheme(R.style.AppTheme);
+            setTheme(R.style.AppTheme_NoActionBar);
         }
         setContentView(R.layout.activity_main);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
+        setSupportActionBar(toolbar);
+
         //Log.i("API_KEY", MOVIE_DB_API_KEY);
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG, "onStart: ");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG, "onStop: ");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy: ");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPause: ");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.d(TAG, "onRestart: ");
+    }
+
 }

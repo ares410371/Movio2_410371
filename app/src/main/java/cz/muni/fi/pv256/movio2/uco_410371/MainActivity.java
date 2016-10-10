@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
 /**
@@ -22,14 +21,11 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate: ");
         SharedPreferences sharedPreferences = getSharedPreferences("ConfigTheme", Context.MODE_PRIVATE);
         if (sharedPreferences.getBoolean("theme", false)){
-            setTheme(R.style.AppTheme_Inverse_NoActionBar);
+            setTheme(R.style.AppTheme_Inverse);
         } else {
-            setTheme(R.style.AppTheme_NoActionBar);
+            setTheme(R.style.AppTheme);
         }
         setContentView(R.layout.activity_main);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
-        setSupportActionBar(toolbar);
 
         //Log.i("API_KEY", MOVIE_DB_API_KEY);
     }

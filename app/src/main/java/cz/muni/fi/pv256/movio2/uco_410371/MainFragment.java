@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 /**
  * Main Fragment
@@ -35,8 +34,6 @@ public class MainFragment extends Fragment implements View.OnClickListener{
         if (view.findViewById(R.id.movie_detail_container) != null) {
             mTwoPane = true;
         }
-        Log.d(TAG, "onCreateView: mTwoPane=" + (mTwoPane ? "true" : "false"));
-
 
         view.findViewById(R.id.button_theme).setOnClickListener(this);
         view.findViewById(R.id.button_movie1).setOnClickListener(this);

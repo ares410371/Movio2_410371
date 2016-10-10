@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="cz.muni.fi.pv256.movio2.uco_410371.MovieDetailFragment">
+
+    <RelativeLayout
+        android:id="@+id/movie_detail_info"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:background="@color/colorAccent">
+
+        <ImageView
+            android:id="@+id/movie_detail_back_poster"
+            android:layout_width="wrap_content"
+            android:layout_height="300dp"
+            android:src="@drawable/dummyback4"
+            android:scaleType="fitCenter"
+            android:contentDescription="@string/movie_detail_poster_picture"/>
+
+        <ImageView
+            android:id="@+id/movie_detail_poster"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxHeight="266dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/dummyposter4"
+            android:scaleType="fitCenter"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="16dp"
+            android:contentDescription="@string/movie_detail_poster_picture"/>
+
+        <TextView
+            android:id="@+id/movie_detail_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="The Magnificent Seven"
+            android:textSize="@dimen/movie_detail_title_text_size"
+            android:textColor="@android:color/white"
+            android:layout_below="@id/movie_detail_back_poster"
+            android:layout_toRightOf="@id/movie_detail_poster"
+            android:layout_toEndOf="@id/movie_detail_poster"/>
+
+        <TextView
+            android:id="@+id/movie_detail_director"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Antoine Fuqua"
+            android:textSize="@dimen/movie_detail_director_text_size"
+            android:textColor="@android:color/white"
+            android:layout_below="@id/movie_detail_title"
+            android:layout_toRightOf="@id/movie_detail_poster"
+            android:layout_toEndOf="@id/movie_detail_poster"/>
+
+        <TextView
+            android:id="@+id/movie_detail_year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2016"
+            android:textSize="@dimen/movie_detail_year_text_size"
+            android:textColor="@android:color/white"
+            android:layout_below="@id/movie_detail_title"
+            android:layout_toRightOf="@id/movie_detail_director"
+            android:layout_toEndOf="@id/movie_detail_director"
+            android:paddingStart="@dimen/text_margin"
+            android:paddingLeft="@dimen/text_margin"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/text_margin"
+        android:text="@string/large_text"
+        android:layout_below="@id/movie_detail_info"/>
+
+</RelativeLayout>
+

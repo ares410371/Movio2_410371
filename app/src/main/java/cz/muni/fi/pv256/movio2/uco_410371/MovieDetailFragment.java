@@ -45,34 +45,34 @@ public class MovieDetailFragment extends Fragment {
         Log.d(TAG, "onCreateView: ");
         View view = inflater.inflate(R.layout.movie_detail, container, false);
 
-        TextView movieTitleTV = (TextView)view.findViewById(R.id.movie_detail_title);
-        ImageView moviePosterIV = (ImageView)view.findViewById(R.id.movie_detail_poster);
-        ImageView moviePosterBackIV = (ImageView)view.findViewById(R.id.movie_detail_back_poster);
-
-        if (mMovie != null) {
-            movieTitleTV.setText(mMovie.getTitle());
-
-            switch (mMovie.getMovieId()) {
-                case 1 :
-                    moviePosterIV.setImageResource(R.drawable.dummyposter1);
-                    moviePosterBackIV.setImageResource(R.drawable.dummyback1);
-                    break;
-                case 2 :
-                    moviePosterIV.setImageResource(R.drawable.dummyposter2);
-                    moviePosterBackIV.setImageResource(R.drawable.dummyback2);
-                    break;
-                case 3 :
-                    moviePosterIV.setImageResource(R.drawable.dummyposter3);
-                    moviePosterBackIV.setImageResource(R.drawable.dummyback3);
-                    break;
-                case 4 :
-                    moviePosterIV.setImageResource(R.drawable.dummyposter4);
-                    moviePosterBackIV.setImageResource(R.drawable.dummyback4);
-                    break;
-                default:
-                    break;
-            }
-        }
+//        TextView movieTitleTV = (TextView)view.findViewById(R.id.movie_detail_title);
+//        ImageView moviePosterIV = (ImageView)view.findViewById(R.id.movie_detail_poster);
+//        ImageView moviePosterBackIV = (ImageView)view.findViewById(R.id.movie_detail_back_poster);
+//
+//        if (mMovie != null) {
+//            movieTitleTV.setText(mMovie.getTitle());
+//
+//            switch (mMovie.getMovieId()) {
+//                case 1 :
+//                    moviePosterIV.setImageResource(R.drawable.dummyposter1);
+//                    moviePosterBackIV.setImageResource(R.drawable.dummyback1);
+//                    break;
+//                case 2 :
+//                    moviePosterIV.setImageResource(R.drawable.dummyposter2);
+//                    moviePosterBackIV.setImageResource(R.drawable.dummyback2);
+//                    break;
+//                case 3 :
+//                    moviePosterIV.setImageResource(R.drawable.dummyposter3);
+//                    moviePosterBackIV.setImageResource(R.drawable.dummyback3);
+//                    break;
+//                case 4 :
+//                    moviePosterIV.setImageResource(R.drawable.dummyposter4);
+//                    moviePosterBackIV.setImageResource(R.drawable.dummyback4);
+//                    break;
+//                default:
+//                    break;
+//            }
+//        }
 
         return view;
     }

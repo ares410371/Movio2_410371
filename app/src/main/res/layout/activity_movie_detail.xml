@@ -12,17 +12,93 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/movie_detail_info_height"
         android:fitsSystemWindows="true"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar_detail"
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:layout_collapseMode="pin"
-            app:popupTheme="@style/AppTheme.PopupOverlay"/>
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true">
+
+                <ImageView
+                    android:id="@+id/movie_detail_back_poster"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/dummyback4"
+                    android:scaleType="fitCenter"
+                    app:layout_collapseMode="parallax"/>
+
+                <ImageView
+                    android:id="@+id/movie_detail_poster"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxHeight="@dimen/movie_detail_poster_max_height"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/dummyposter4"
+                    android:scaleType="fitCenter"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="@dimen/image_margin"
+                    android:layout_marginStart="@dimen/image_margin"
+                    android:layout_marginBottom="@dimen/image_margin"
+                    app:layout_collapseMode="parallax"/>
+
+                <TextView
+                    android:id="@+id/movie_detail_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/movie_detail_title_text_size"
+                    android:textColor="@android:color/white"
+                    android:layout_below="@id/movie_detail_back_poster"
+                    android:layout_toRightOf="@id/movie_detail_poster"
+                    android:layout_toEndOf="@id/movie_detail_poster"
+                    app:layout_collapseMode="parallax"/>
+
+                <TextView
+                    android:id="@+id/movie_detail_director"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Antoine Fuqua"
+                    android:textSize="@dimen/movie_detail_director_text_size"
+                    android:textColor="@android:color/white"
+                    android:layout_below="@id/movie_detail_title"
+                    android:layout_toRightOf="@id/movie_detail_poster"
+                    android:layout_toEndOf="@id/movie_detail_poster"
+                    app:layout_collapseMode="parallax"/>
+
+                <TextView
+                    android:id="@+id/movie_detail_year"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2016"
+                    android:textSize="@dimen/movie_detail_year_text_size"
+                    android:textColor="@android:color/white"
+                    android:layout_below="@id/movie_detail_title"
+                    android:layout_toRightOf="@id/movie_detail_director"
+                    android:layout_toEndOf="@id/movie_detail_director"
+                    android:paddingStart="@dimen/text_margin"
+                    android:paddingLeft="@dimen/text_margin"
+                    app:layout_collapseMode="parallax"/>
+
+            </RelativeLayout>
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar_detail"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/AppTheme.PopupOverlay"/>
+
+        </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.NestedScrollView
@@ -36,7 +112,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
-        app:layout_anchor="@+id/movie_detail_container"
+        app:layout_anchor="@+id/movie_detail_back_poster"
         app:layout_anchorGravity="bottom|end"
         app:srcCompat="@android:drawable/ic_menu_add"/>
 

@@ -5,6 +5,11 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import cz.muni.fi.pv256.movio2.uco_410371.dummy.DummyContent;
+import cz.muni.fi.pv256.movio2.uco_410371.model.Movie;
 
 /**
  * MovieDetail Activity
@@ -23,6 +28,37 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar_detail);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        TextView movieTitleTV = (TextView)findViewById(R.id.movie_detail_title);
+        ImageView moviePosterIV = (ImageView)findViewById(R.id.movie_detail_poster);
+        ImageView moviePosterBackIV = (ImageView)findViewById(R.id.movie_detail_back_poster);
+
+        Movie movie = DummyContent.MOVIES.get(getIntent().getIntExtra(MovieDetailFragment.ARG_MOVIE_ID, -1));
+        if (movie != null) {
+            movieTitleTV.setText(movie.getTitle());
+
+            switch (movie.getMovieId()) {
+                case 1 :
+                    moviePosterIV.setImageResource(R.drawable.dummyposter1);
+                    moviePosterBackIV.setImageResource(R.drawable.dummyback1);
+                    break;
+                case 2 :
+                    moviePosterIV.setImageResource(R.drawable.dummyposter2);
+                    moviePosterBackIV.setImageResource(R.drawable.dummyback2);
+                    break;
+                case 3 :
+                    moviePosterIV.setImageResource(R.drawable.dummyposter3);
+                    moviePosterBackIV.setImageResource(R.drawable.dummyback3);
+                    break;
+                case 4 :
+                    moviePosterIV.setImageResource(R.drawable.dummyposter4);
+                    moviePosterBackIV.setImageResource(R.drawable.dummyback4);
+                    break;
+                default:
+                    break;
+            }
+        }
 
         if (savedInstanceState == null) {
             Bundle args = new Bundle();

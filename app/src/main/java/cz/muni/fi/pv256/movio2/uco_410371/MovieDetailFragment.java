@@ -3,6 +3,9 @@ package cz.muni.fi.pv256.movio2.uco_410371;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,12 +22,20 @@ import cz.muni.fi.pv256.movio2.uco_410371.model.Movie;
  * Created by Benjamin Varga on 6.10.2016.
  */
 
-public class MovieDetailFragment extends Fragment {
+public class MovieDetailFragment extends Fragment
+        implements AppBarLayout.OnOffsetChangedListener{
 
-    public static final String TAG = MovieDetailFragment.class.getName();
+    private static final String TAG = MovieDetailFragment.class.getName();
     public static final String ARG_MOVIE_ID = "movie_id";
+    public static final String ARG_SCREEN_TYPE = "screen_type";
 
     private Movie mMovie;
+    private boolean mTwoPane;
+    private TextView mMovieTitleTVExpanded;
+    private ImageView mMoviePosterIV;
+    private ImageView mMoviePosterBackIV;
+    private boolean isHeaderVisible;
+    private FloatingActionButton mFab;
 
     public MovieDetailFragment() {
     }
@@ -37,42 +48,65 @@ public class MovieDetailFragment extends Fragment {
         if (getArguments().containsKey(ARG_MOVIE_ID)) {
             mMovie = DummyContent.MOVIES.get(getArguments().getInt(ARG_MOVIE_ID, -1));
         }
+
+        if (getArguments().containsKey(ARG_SCREEN_TYPE)) {
+            mTwoPane = getArguments().getBoolean(ARG_SCREEN_TYPE);
+        }
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView: ");
-        View view = inflater.inflate(R.layout.movie_detail, container, false);
+        View view;
 
-//        TextView movieTitleTV = (TextView)view.findViewById(R.id.movie_detail_title);
-//        ImageView moviePosterIV = (ImageView)view.findViewById(R.id.movie_detail_poster);
-//        ImageView moviePosterBackIV = (ImageView)view.findViewById(R.id.movie_detail_back_poster);
-//
-//        if (mMovie != null) {
-//            movieTitleTV.setText(mMovie.getTitle());
-//
-//            switch (mMovie.getMovieId()) {
-//                case 1 :
-//                    moviePosterIV.setImageResource(R.drawable.dummyposter1);
-//                    moviePosterBackIV.setImageResource(R.drawable.dummyback1);
-//                    break;
-//                case 2 :
-//                    moviePosterIV.setImageResource(R.drawable.dummyposter2);
-//                    moviePosterBackIV.setImageResource(R.drawable.dummyback2);
-//                    break;
-//                case 3 :
-//                    moviePosterIV.setImageResource(R.drawable.dummyposter3);
-//                    moviePosterBackIV.setImageResource(R.drawable.dummyback3);
-//                    break;
-//                case 4 :
-//                    moviePosterIV.setImageResource(R.drawable.dummyposter4);
-//                    moviePosterBackIV.setImageResource(R.drawable.dummyback4);
-//                    break;
-//                default:
-//                    break;
-//            }
-//        }
+        if (mTwoPane) {
+            view = inflater.inflate(R.layout.movie_detail_twopane, container, false);
+
+            AppBarLayout appBarLayout = (AppBarLayout) view.findViewById(R.id.app_bar);
+            appBarLayout.addOnOffsetChangedListener(this);
+
+            mFab = (FloatingActionButton) view.findViewById(R.id.fab);
+            mFab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Snackbar.make(view, "Replace with your own action Tablet", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
+            });
+
+            mMovieTitleTVExpanded = (TextView)view.findViewById(R.id.text_movie_title_expanded);
+            mMoviePosterIV = (ImageView)view.findViewById(R.id.image_movie_poster);
+            mMoviePosterBackIV = (ImageView)view.findViewById(R.id.image_movie_back_poster);
+
+            if (mMovie != null) {
+                mMovieTitleTVExpanded.setText(mMovie.getTitle());
+
+                switch (mMovie.getMovieId()) {
+                    case 1 :
+                        mMoviePosterIV.setImageResource(R.drawable.dummyposter1);
+                        mMoviePosterBackIV.setImageResource(R.drawable.dummyback1);
+                        break;
+                    case 2 :
+                        mMoviePosterIV.setImageResource(R.drawable.dummyposter2);
+                        mMoviePosterBackIV.setImageResource(R.drawable.dummyback2);
+                        break;
+                    case 3 :
+                        mMoviePosterIV.setImageResource(R.drawable.dummyposter3);
+                        mMoviePosterBackIV.setImageResource(R.drawable.dummyback3);
+                        break;
+                    case 4 :
+                        mMoviePosterIV.setImageResource(R.drawable.dummyposter4);
+                        mMoviePosterBackIV.setImageResource(R.drawable.dummyback4);
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+        } else {
+            view = inflater.inflate(R.layout.movie_detail, container, false);
+        }
 
         return view;
     }
@@ -123,5 +157,28 @@ public class MovieDetailFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         Log.d(TAG, "onDetach: ");
+    }
+
+    @Override
+    public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+        int maxScroll = appBarLayout.getTotalScrollRange();
+        float percentage = (float) Math.abs(verticalOffset) / (float) maxScroll;
+        Log.d(TAG, "onOffsetChanged: percentage = " + percentage);
+
+        if (percentage >= 0.8f) {
+            if (isHeaderVisible) {
+                mMoviePosterIV.setVisibility(View.GONE);
+                mMovieTitleTVExpanded.setVisibility(View.GONE);
+                mFab.setVisibility(View.GONE);
+                isHeaderVisible = !isHeaderVisible;
+            }
+        } else if (percentage < 0.8f) {
+            if (!isHeaderVisible) {
+                mMoviePosterIV.setVisibility(View.VISIBLE);
+                mMovieTitleTVExpanded.setVisibility(View.VISIBLE);
+                mFab.setVisibility(View.VISIBLE);
+                isHeaderVisible = !isHeaderVisible;
+            }
+        }
     }
 }

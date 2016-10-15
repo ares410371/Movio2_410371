@@ -2,9 +2,14 @@ package cz.muni.fi.pv256.movio2.uco_410371;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,9 +21,17 @@ import cz.muni.fi.pv256.movio2.uco_410371.model.Movie;
  * Created by Benjamin Varga on 6.10.2016.
  */
 
-public class MovieDetailActivity extends AppCompatActivity {
+public class MovieDetailActivity extends AppCompatActivity
+        implements AppBarLayout.OnOffsetChangedListener {
 
     public static final String TAG = MovieDetailActivity.class.getName();
+
+    private ImageView mMoviePosterIV;
+    private TextView mMovieTitleTVExpanded;
+    private TextView mMovieTitleTVCollapsed;
+    private ImageView mMoviePosterBackIV;
+    private boolean isHeaderVisible;
+    private FloatingActionButton mFab;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -26,49 +39,71 @@ public class MovieDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_movie_detail);
         Log.d(TAG, "onCreate: ");
 
-        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar_detail);
+        AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
+        appBarLayout.addOnOffsetChangedListener(this);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_detail);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        TextView movieTitleTV = (TextView)findViewById(R.id.movie_detail_title);
-        ImageView moviePosterIV = (ImageView)findViewById(R.id.movie_detail_poster);
-        ImageView moviePosterBackIV = (ImageView)findViewById(R.id.movie_detail_back_poster);
+        mFab = (FloatingActionButton) findViewById(R.id.fab);
+        mFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+
+        initView();
 
         Movie movie = DummyContent.MOVIES.get(getIntent().getIntExtra(MovieDetailFragment.ARG_MOVIE_ID, -1));
-        if (movie != null) {
-            movieTitleTV.setText(movie.getTitle());
-
-            switch (movie.getMovieId()) {
-                case 1 :
-                    moviePosterIV.setImageResource(R.drawable.dummyposter1);
-                    moviePosterBackIV.setImageResource(R.drawable.dummyback1);
-                    break;
-                case 2 :
-                    moviePosterIV.setImageResource(R.drawable.dummyposter2);
-                    moviePosterBackIV.setImageResource(R.drawable.dummyback2);
-                    break;
-                case 3 :
-                    moviePosterIV.setImageResource(R.drawable.dummyposter3);
-                    moviePosterBackIV.setImageResource(R.drawable.dummyback3);
-                    break;
-                case 4 :
-                    moviePosterIV.setImageResource(R.drawable.dummyposter4);
-                    moviePosterBackIV.setImageResource(R.drawable.dummyback4);
-                    break;
-                default:
-                    break;
-            }
-        }
+        if (movie != null) setMovieDetail(movie);
 
         if (savedInstanceState == null) {
             Bundle args = new Bundle();
             args.putInt(MovieDetailFragment.ARG_MOVIE_ID,
                     getIntent().getIntExtra(MovieDetailFragment.ARG_MOVIE_ID, -1));
+            args.putBoolean(MovieDetailFragment.ARG_SCREEN_TYPE,
+                    getIntent().getBooleanExtra(MovieDetailFragment.ARG_SCREEN_TYPE, false));
             MovieDetailFragment fragment = new MovieDetailFragment();
             fragment.setArguments(args);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.movie_detail_container, fragment)
                     .commit();
+        }
+    }
+
+    private void initView() {
+        mMovieTitleTVExpanded = (TextView) findViewById(R.id.text_movie_title_expanded);
+        mMovieTitleTVCollapsed = (TextView) findViewById(R.id.text_movie_title_collapsed);
+        mMoviePosterIV = (ImageView) findViewById(R.id.image_movie_poster);
+        mMoviePosterBackIV = (ImageView) findViewById(R.id.image_movie_back_poster);
+    }
+
+    private void setMovieDetail(Movie movie) {
+        mMovieTitleTVExpanded.setText(movie.getTitle());
+        mMovieTitleTVCollapsed.setText(movie.getTitle());
+        switch (movie.getMovieId()) {
+            case 1:
+                mMoviePosterIV.setImageResource(R.drawable.dummyposter1);
+                mMoviePosterBackIV.setImageResource(R.drawable.dummyback1);
+                break;
+            case 2:
+                mMoviePosterIV.setImageResource(R.drawable.dummyposter2);
+                mMoviePosterBackIV.setImageResource(R.drawable.dummyback2);
+                break;
+            case 3:
+                mMoviePosterIV.setImageResource(R.drawable.dummyposter3);
+                mMoviePosterBackIV.setImageResource(R.drawable.dummyback3);
+                break;
+            case 4:
+                mMoviePosterIV.setImageResource(R.drawable.dummyposter4);
+                mMoviePosterBackIV.setImageResource(R.drawable.dummyback4);
+                break;
+            default:
+                Log.e(TAG, "setMovieDetail: Wrong movie ID.");
+                break;
         }
     }
 
@@ -100,6 +135,31 @@ public class MovieDetailActivity extends AppCompatActivity {
     protected void onRestart() {
         super.onRestart();
         Log.d(TAG, "onRestart: ");
+    }
+
+    @Override
+    public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+        int maxScroll = appBarLayout.getTotalScrollRange();
+        float percentage = (float) Math.abs(verticalOffset) / (float) maxScroll;
+        Log.d(TAG, "onOffsetChanged: percentage = " + percentage);
+
+        if (percentage >= 0.8f) {
+            if (isHeaderVisible) {
+                mMoviePosterIV.setVisibility(View.GONE);
+                mMovieTitleTVExpanded.setVisibility(View.GONE);
+                mMovieTitleTVCollapsed.setVisibility(View.VISIBLE);
+                mFab.setVisibility(View.GONE);
+                isHeaderVisible = !isHeaderVisible;
+            }
+        } else if (percentage < 0.8f) {
+            if (!isHeaderVisible) {
+                mMoviePosterIV.setVisibility(View.VISIBLE);
+                mMovieTitleTVExpanded.setVisibility(View.VISIBLE);
+                mMovieTitleTVCollapsed.setVisibility(View.GONE);
+                mFab.setVisibility(View.VISIBLE);
+                isHeaderVisible = !isHeaderVisible;
+            }
+        }
     }
 
 }

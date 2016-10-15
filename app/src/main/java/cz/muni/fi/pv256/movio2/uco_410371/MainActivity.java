@@ -12,40 +12,30 @@ import android.util.Log;
  */
 public class MainActivity extends AppCompatActivity {
 
-    private static final String MOVIE_DB_API_KEY = BuildConfig.MOVIE_DB_API_KEY;
-    public static final String TAG  = MainActivity.class.getName();
+//    private static final String MOVIE_DB_API_KEY = BuildConfig.MOVIE_DB_API_KEY;
+    private static final String TAG  = MainActivity.class.getName();
+    public static final String PREF_CONFIG_THEME = "PREF_CONFIG_THEME";
+    public static final String PREF_THEME = "PREF_THEME";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate: ");
-        SharedPreferences sharedPreferences = getSharedPreferences("ConfigTheme", Context.MODE_PRIVATE);
-        if (sharedPreferences.getBoolean("theme", false)){
+        SharedPreferences sharedPreferences = getSharedPreferences(PREF_CONFIG_THEME, Context.MODE_PRIVATE);
+        if (sharedPreferences.getBoolean(PREF_THEME, false)){
             setTheme(R.style.AppTheme_Inverse);
         } else {
             setTheme(R.style.AppTheme);
         }
         setContentView(R.layout.activity_main);
 
-        //Log.i("API_KEY", MOVIE_DB_API_KEY);
+//        Log.d(TAG, "onCreate: API_KEY = " + MOVIE_DB_API_KEY);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         Log.d(TAG, "onStart: ");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.d(TAG, "onStop: ");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.d(TAG, "onDestroy: ");
     }
 
     @Override
@@ -58,6 +48,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onRestart() {
         super.onRestart();
         Log.d(TAG, "onRestart: ");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG, "onStop: ");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy: ");
     }
 
 }

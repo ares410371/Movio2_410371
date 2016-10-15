@@ -16,13 +16,24 @@ import android.view.ViewGroup;
  * Created by Benjamin Varga on 6.10.2016.
  */
 
-public class MainFragment extends Fragment implements View.OnClickListener{
+public class MainFragment extends Fragment implements View.OnClickListener {
 
-    public static final String TAG = MainFragment.class.getName();
+    private static final String TAG = MainFragment.class.getName();
 
     private boolean mTwoPane;
 
-    public MainFragment() {
+    public MainFragment() {}
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Log.d(TAG, "onAttach: ");
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate: ");
     }
 
     @Nullable
@@ -45,15 +56,53 @@ public class MainFragment extends Fragment implements View.OnClickListener{
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        Log.d(TAG, "onStart: ");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume: ");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPause: ");
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.d(TAG, "onStop: ");
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.d(TAG, "onDestroyView: ");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy: ");
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        Log.d(TAG, "onDetach: ");
+    }
+
+    @Override
     public void onClick(View view) {
 
         switch (view.getId()) {
             case R.id.button_theme :
-                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("ConfigTheme", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean("theme", !sharedPreferences.getBoolean("theme", false));
-                editor.apply();
-                getActivity().recreate();
+                selectTheme();
                 break;
             case R.id.button_movie1 :
                 selectDetail(0);
@@ -68,14 +117,25 @@ public class MainFragment extends Fragment implements View.OnClickListener{
                 selectDetail(3);
                 break;
             default:
+                Log.e(TAG, "onClick: Bad view id.");
                 break;
         }
+    }
+
+    private void selectTheme() {
+        SharedPreferences sharedPreferences = getActivity()
+                .getSharedPreferences(MainActivity.PREF_CONFIG_THEME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(MainActivity.PREF_THEME, !sharedPreferences.getBoolean(MainActivity.PREF_THEME, false));
+        editor.apply();
+        getActivity().recreate();
     }
 
     private void selectDetail(int id) {
         if (mTwoPane) {
             Bundle args = new Bundle();
             args.putInt(MovieDetailFragment.ARG_MOVIE_ID, id);
+            args.putBoolean(MovieDetailFragment.ARG_SCREEN_TYPE, true);
             MovieDetailFragment fragment = new MovieDetailFragment();
             fragment.setArguments(args);
             getActivity().getSupportFragmentManager().beginTransaction()
@@ -84,62 +144,15 @@ public class MainFragment extends Fragment implements View.OnClickListener{
         } else {
             Intent intent = new Intent(getActivity(), MovieDetailActivity.class);
             intent.putExtra(MovieDetailFragment.ARG_MOVIE_ID, id);
+            intent.putExtra(MovieDetailFragment.ARG_SCREEN_TYPE, false);
             getActivity().startActivity(intent);
         }
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        Log.d(TAG, "onDetach: ");
-    }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.d(TAG, "onDestroy: ");
-    }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        Log.d(TAG, "onStop: ");
-    }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        Log.d(TAG, "onPause: ");
-    }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        Log.d(TAG, "onDestroyView: ");
-    }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        Log.d(TAG, "onResume: ");
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        Log.d(TAG, "onStart: ");
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Log.d(TAG, "onCreate: ");
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        Log.d(TAG, "onAttach: ");
-    }
 
 }

@@ -13,11 +13,19 @@ import cz.muni.fi.pv256.movio2.uco_410371.model.Movie;
 public class DummyContent {
 
     public static final List<Movie> MOVIES = new ArrayList<>();
+    public static final List<Object> ITEMS = new ArrayList<>();
 
     static {
-        MOVIES.add(new Movie(1, 69465600000L, "/d4KNaTrltq6bpkFS01pYtyXa09m.jpg", "The Godfather", "/6xKCYgH16UuwEGAyroLU6p8HLIn.jpg", 5.451023f));
-        MOVIES.add(new Movie(2, 1216166400000L, "/1hRoyzDtpgMU7Dz4JF22RANzQO7.jpg", "The Dark Knight", "/nnMC0BM6XbjIIrT4miYmMtPGcQV.jpg", 8.071095f));
-        MOVIES.add(new Movie(3, 773452800000L, "/z4ROnCrL77ZMzT0MsNXY5j25wS2.jpg", "Forrest Gump", "/ctOEhQiFIHWkiaYp7b0ibSTe5IL.jpg", 4.236889f));
-        MOVIES.add(new Movie(4, 1473811200000L, "/z6BP8yLwck8mN9dtdYKkZ4XGa3D.jpg", "The Magnificent Seven", "/g54J9MnNLe7WJYVIvdWTeTIygAH.jpg", 39.203549f));
+        MOVIES.add(new Movie(1, 1477395448L, "/xfWac8MTYDxujaxgPVcRD9yZaul.jpg", "Doctor Strange", "/yqyZLEfSiSeqmn5oRahbOUTUHd9.jpg", 0f));
+        MOVIES.add(new Movie(2, 1477568248L, "/ueu1Mo2XRZ2C2aBisP30e1d5SmA.jpg", "Rings", "/91WPDonXsxRzi7AcfedKM3p3NFU.jpg", 0f));
+        MOVIES.add(new Movie(3, 1473853048L, "/z6BP8yLwck8mN9dtdYKkZ4XGa3D.jpg", "The Magnificent Seven", "/T3LrH6bnV74llVbFpQsCBrGaU9.jpg", 4.59f));
+        MOVIES.add(new Movie(4, 1461757048L, "/5N20rQURev5CNDcMjHVUZhpoCNC.jpg", "Captain America: Civil War", "/m5O3SZvQ6EgD5XXXLPIP1wLppeW.jpg", 6.78f));
+
+        ITEMS.add("Upcoming Movies");
+        ITEMS.add(new Movie(1, 1477395448L, "/xfWac8MTYDxujaxgPVcRD9yZaul.jpg", "Doctor Strange", "/yqyZLEfSiSeqmn5oRahbOUTUHd9.jpg", 0f));
+        ITEMS.add(new Movie(2, 1477568248L, "/ueu1Mo2XRZ2C2aBisP30e1d5SmA.jpg", "Rings", "/91WPDonXsxRzi7AcfedKM3p3NFU.jpg", 0f));
+        ITEMS.add("Popular Movies");
+        ITEMS.add(new Movie(3, 1473853048L, "/z6BP8yLwck8mN9dtdYKkZ4XGa3D.jpg", "The Magnificent Seven", "/T3LrH6bnV74llVbFpQsCBrGaU9.jpg", 4.59f));
+        ITEMS.add(new Movie(4, 1461757048L, "/5N20rQURev5CNDcMjHVUZhpoCNC.jpg", "Captain America: Civil War", "/m5O3SZvQ6EgD5XXXLPIP1wLppeW.jpg", 6.78f));
     }
 }

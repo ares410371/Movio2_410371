@@ -6,10 +6,15 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import cz.muni.fi.pv256.movio2.uco_410371.adapter.MovieRecyclerViewAdapter;
+import cz.muni.fi.pv256.movio2.uco_410371.dummy.DummyContent;
 
 /**
  * Main Fragment
@@ -46,11 +51,12 @@ public class MainFragment extends Fragment implements View.OnClickListener {
             mTwoPane = true;
         }
 
-        view.findViewById(R.id.button_theme).setOnClickListener(this);
-        view.findViewById(R.id.button_movie1).setOnClickListener(this);
-        view.findViewById(R.id.button_movie2).setOnClickListener(this);
-        view.findViewById(R.id.button_movie3).setOnClickListener(this);
-        view.findViewById(R.id.button_movie4).setOnClickListener(this);
+        RecyclerView recyclerView = (RecyclerView)view.findViewById(R.id.recyclerView_main);
+
+        MovieRecyclerViewAdapter movieRecyclerViewAdapter = new MovieRecyclerViewAdapter(getContext(), DummyContent.ITEMS, mTwoPane);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setAdapter(movieRecyclerViewAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         return view;
     }
@@ -100,26 +106,26 @@ public class MainFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
 
-        switch (view.getId()) {
-            case R.id.button_theme :
-                selectTheme();
-                break;
-            case R.id.button_movie1 :
-                selectDetail(0);
-                break;
-            case R.id.button_movie2 :
-                selectDetail(1);
-                break;
-            case R.id.button_movie3 :
-                selectDetail(2);
-                break;
-            case R.id.button_movie4 :
-                selectDetail(3);
-                break;
-            default:
-                Log.e(TAG, "onClick: Bad view id.");
-                break;
-        }
+//        switch (view.getId()) {
+//            case R.id.button_theme :
+//                selectTheme();
+//                break;
+//            case R.id.button_movie1 :
+//                selectDetail(0);
+//                break;
+//            case R.id.button_movie2 :
+//                selectDetail(1);
+//                break;
+//            case R.id.button_movie3 :
+//                selectDetail(2);
+//                break;
+//            case R.id.button_movie4 :
+//                selectDetail(3);
+//                break;
+//            default:
+//                Log.e(TAG, "onClick: Bad view id.");
+//                break;
+//        }
     }
 
     private void selectTheme() {

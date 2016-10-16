@@ -13,6 +13,8 @@ import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import cz.muni.fi.pv256.movio2.uco_410371.dummy.DummyContent;
 import cz.muni.fi.pv256.movio2.uco_410371.model.Movie;
 
@@ -86,20 +88,20 @@ public class MovieDetailActivity extends AppCompatActivity
         mMovieTitleTVCollapsed.setText(movie.getTitle());
         switch (movie.getMovieId()) {
             case 1:
-                mMoviePosterIV.setImageResource(R.drawable.dummyposter1);
-                mMoviePosterBackIV.setImageResource(R.drawable.dummyback1);
+                Picasso.with(this).load(R.drawable.dummyposter1).into(mMoviePosterIV);
+                Picasso.with(this).load(R.drawable.dummyback1).into(mMoviePosterBackIV);
                 break;
             case 2:
-                mMoviePosterIV.setImageResource(R.drawable.dummyposter2);
-                mMoviePosterBackIV.setImageResource(R.drawable.dummyback2);
+                Picasso.with(this).load(R.drawable.dummyposter2).into(mMoviePosterIV);
+                Picasso.with(this).load(R.drawable.dummyback2).into(mMoviePosterBackIV);
                 break;
             case 3:
-                mMoviePosterIV.setImageResource(R.drawable.dummyposter3);
-                mMoviePosterBackIV.setImageResource(R.drawable.dummyback3);
+                Picasso.with(this).load(R.drawable.dummyposter3).into(mMoviePosterIV);
+                Picasso.with(this).load(R.drawable.dummyback3).into(mMoviePosterBackIV);
                 break;
             case 4:
-                mMoviePosterIV.setImageResource(R.drawable.dummyposter4);
-                mMoviePosterBackIV.setImageResource(R.drawable.dummyback4);
+                Picasso.with(this).load(R.drawable.dummyposter4).into(mMoviePosterIV);
+                Picasso.with(this).load(R.drawable.dummyback4).into(mMoviePosterBackIV);
                 break;
             default:
                 Log.e(TAG, "setMovieDetail: Wrong movie ID.");

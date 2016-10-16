@@ -8,43 +8,8 @@
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:id="@+id/recyclerView_main"/>
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/button_theme"
-        android:text="Change Theme"
-        android:layout_below="@id/recyclerView_main"/>
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/button_movie1"
-        android:text="Movie1"
-        android:layout_below="@id/button_theme"/>
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/button_movie2"
-        android:text="Movie2"
-        android:layout_below="@id/button_movie1"/>
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/button_movie3"
-        android:text="Movie3"
-        android:layout_below="@id/button_movie2"/>
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/button_movie4"
-        android:text="Movie4"
-        android:layout_below="@id/button_movie3"/>
 
 </LinearLayout>
 

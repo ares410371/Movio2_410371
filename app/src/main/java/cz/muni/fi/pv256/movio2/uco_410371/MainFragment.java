@@ -13,7 +13,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import cz.muni.fi.pv256.movio2.uco_410371.adapter.MovieRecyclerViewAdapter;
+import java.util.List;
+
+import cz.muni.fi.pv256.movio2.uco_410371.adapters.EmptyRecyclerViewAdapter;
+import cz.muni.fi.pv256.movio2.uco_410371.adapters.MovieRecyclerViewAdapter;
 import cz.muni.fi.pv256.movio2.uco_410371.dummy.DummyContent;
 
 /**
@@ -52,11 +55,21 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         }
 
         RecyclerView recyclerView = (RecyclerView)view.findViewById(R.id.recyclerView_main);
-
-        MovieRecyclerViewAdapter movieRecyclerViewAdapter = new MovieRecyclerViewAdapter(getContext(), DummyContent.ITEMS, mTwoPane);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(movieRecyclerViewAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        List<Object> list = DummyContent.ITEMS;
+
+        if (list == null || list.size() == 0) {
+            EmptyRecyclerViewAdapter emptyRecyclerViewAdapter = new EmptyRecyclerViewAdapter("NO DATA");
+            recyclerView.setAdapter(emptyRecyclerViewAdapter);
+//        } else if (/*NO INTERNET*/) {
+//            EmptyRecyclerViewAdapter emptyRecyclerViewAdapter = new EmptyRecyclerViewAdapter("NO INTERNET");
+//            recyclerView.setAdapter(emptyRecyclerViewAdapter);
+        } else {
+            MovieRecyclerViewAdapter movieRecyclerViewAdapter = new MovieRecyclerViewAdapter(getContext(), list, mTwoPane);
+            recyclerView.setAdapter(movieRecyclerViewAdapter);
+        }
 
         return view;
     }

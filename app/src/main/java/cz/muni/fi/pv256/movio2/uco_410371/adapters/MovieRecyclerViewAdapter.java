@@ -1,15 +1,13 @@
-package cz.muni.fi.pv256.movio2.uco_410371.adapter;
+package cz.muni.fi.pv256.movio2.uco_410371.adapters;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,7 +18,8 @@ import java.util.List;
 import cz.muni.fi.pv256.movio2.uco_410371.MovieDetailActivity;
 import cz.muni.fi.pv256.movio2.uco_410371.MovieDetailFragment;
 import cz.muni.fi.pv256.movio2.uco_410371.R;
-import cz.muni.fi.pv256.movio2.uco_410371.model.Movie;
+import cz.muni.fi.pv256.movio2.uco_410371.interfaces.ItemClickListener;
+import cz.muni.fi.pv256.movio2.uco_410371.models.Movie;
 
 /**
  * Movie RecyclerView Adapter
@@ -35,7 +34,7 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
     private Context mContext;
     private boolean mTwoPane;
 
-    private final int CATEGORY = 0, MOVIE = 1;
+    private final int CATEGORY = 0, MOVIE = 1, EMPTY = 2;
 
     public MovieRecyclerViewAdapter(Context context, List<Object> items, boolean twoPane) {
         mContext = context;
@@ -60,35 +59,27 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        RecyclerView.ViewHolder viewHolder;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-
         switch (viewType) {
-            case CATEGORY :
+            case CATEGORY:
                 View view1 = inflater.inflate(R.layout.view_holder_category, parent, false);
-                viewHolder = new CategoryViewHolder(view1);
-                break;
-            case MOVIE :
+                return new CategoryViewHolder(view1);
+            case MOVIE:
                 View view2 = inflater.inflate(R.layout.view_holder_movie, parent, false);
-                viewHolder = new MovieViewHolder(view2);
-                break;
+                return new MovieViewHolder(view2);
             default:
-                View view = inflater.inflate(android.R.layout.simple_list_item_1, parent, false);
-//                viewHolder = new RecyclerViewSimpleTextViewHolder(view);
-                viewHolder = null;
-                break;
+                return null;
         }
-        return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         switch (viewHolder.getItemViewType()) {
-            case CATEGORY :
+            case CATEGORY:
                 CategoryViewHolder categoryViewHolder = (CategoryViewHolder)viewHolder;
                 configureCategoryViewHolder(categoryViewHolder, position);
                 break;
-            case MOVIE :
+            case MOVIE:
                 MovieViewHolder movieViewHolder = (MovieViewHolder)viewHolder;
                 configureMovieViewHolder(movieViewHolder, position);
                 break;
@@ -116,26 +107,20 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
             switch (position) {
                 case 1 :
                     movieViewHolder.getItemPoster().setImageResource(R.drawable.dummyback1);
-                    movieViewHolder.getItemTitle().setText(movie.getTitle());
-                    movieViewHolder.getItemRating().setText((new DecimalFormat("#.##")).format(movie.getPopularity()));
                     break;
                 case 2 :
                     movieViewHolder.getItemPoster().setImageResource(R.drawable.dummyback2);
-                    movieViewHolder.getItemTitle().setText(movie.getTitle());
-                    movieViewHolder.getItemRating().setText((new DecimalFormat("#.##")).format(movie.getPopularity()));
                     break;
                 case 4 :
                     movieViewHolder.getItemPoster().setImageResource(R.drawable.dummyback3);
-                    movieViewHolder.getItemTitle().setText(movie.getTitle());
-                    movieViewHolder.getItemRating().setText((new DecimalFormat("#.##")).format(movie.getPopularity()));
                     break;
                 case 5 :
                     movieViewHolder.getItemPoster().setImageResource(R.drawable.dummyback4);
-                    movieViewHolder.getItemTitle().setText(movie.getTitle());
-                    movieViewHolder.getItemRating().setText((new DecimalFormat("#.##")).format(movie.getPopularity()));
                     break;
                 default:
             }
+            movieViewHolder.getItemTitle().setText(movie.getTitle());
+            movieViewHolder.getItemRating().setText((new DecimalFormat("#.##")).format(movie.getPopularity()));
         }
     }
 
@@ -143,6 +128,24 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
         String str = (String) mItems.get(position);
         if (str != null) {
             categoryViewHolder.getItemCategory().setText(str);
+        }
+    }
+
+    private void selectDetail(int id) {
+        if (mTwoPane) {
+            Bundle args = new Bundle();
+            args.putInt(MovieDetailFragment.ARG_MOVIE_ID, id);
+            args.putBoolean(MovieDetailFragment.ARG_SCREEN_TYPE, true);
+            MovieDetailFragment fragment = new MovieDetailFragment();
+            fragment.setArguments(args);
+            ((AppCompatActivity)mContext).getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.movie_detail_container, fragment)
+                    .commit();
+        } else {
+            Intent intent = new Intent(mContext, MovieDetailActivity.class);
+            intent.putExtra(MovieDetailFragment.ARG_MOVIE_ID, id);
+            intent.putExtra(MovieDetailFragment.ARG_SCREEN_TYPE, false);
+            mContext.startActivity(intent);
         }
     }
 
@@ -224,25 +227,7 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
         }
     }
 
-    public interface ItemClickListener {
-        void onClick(View view, int position, boolean isLongClick);
-    }
 
-    private void selectDetail(int id) {
-        if (mTwoPane) {
-            Bundle args = new Bundle();
-            args.putInt(MovieDetailFragment.ARG_MOVIE_ID, id);
-            args.putBoolean(MovieDetailFragment.ARG_SCREEN_TYPE, true);
-            MovieDetailFragment fragment = new MovieDetailFragment();
-            fragment.setArguments(args);
-            ((AppCompatActivity)mContext).getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.movie_detail_container, fragment)
-                    .commit();
-        } else {
-            Intent intent = new Intent(mContext, MovieDetailActivity.class);
-            intent.putExtra(MovieDetailFragment.ARG_MOVIE_ID, id);
-            intent.putExtra(MovieDetailFragment.ARG_SCREEN_TYPE, false);
-            mContext.startActivity(intent);
-        }
-    }
+
+
 }

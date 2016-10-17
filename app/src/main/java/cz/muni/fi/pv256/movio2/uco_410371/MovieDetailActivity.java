@@ -9,14 +9,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
 import cz.muni.fi.pv256.movio2.uco_410371.dummy.DummyContent;
-import cz.muni.fi.pv256.movio2.uco_410371.model.Movie;
+import cz.muni.fi.pv256.movio2.uco_410371.models.Movie;
 
 /**
  * MovieDetail Activity

@@ -15,7 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import cz.muni.fi.pv256.movio2.uco_410371.dummy.DummyContent;
-import cz.muni.fi.pv256.movio2.uco_410371.model.Movie;
+import cz.muni.fi.pv256.movio2.uco_410371.models.Movie;
 
 /**
  * MovieDetail Fragment

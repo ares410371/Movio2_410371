@@ -5,7 +5,6 @@ a) vypište si do logu, kdy se inflatuje nové View pro řádek a kdy se v něm 
    (volá se pro danou pozici bindView nebo i createView? - vypisujte do Logu)
 
 b) Vytvořte layout, který se zobrazí, pokud RecyclerView nemá žádná data (nemá žádné filmy)
-   1) zobrazí se jenom text "žádná data"
    2) když je zařízení offline, text by měl obsahovat tuto informaci ("žádné připojení") -
       tzn. není připojení na Wifi ani Cellular (ak nemáte sprovozněné cachování,
       je vhodné upozornit uživatele, proč nevidí žádný obsah)

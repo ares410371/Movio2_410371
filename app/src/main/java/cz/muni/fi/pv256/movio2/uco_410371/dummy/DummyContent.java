@@ -3,7 +3,7 @@ package cz.muni.fi.pv256.movio2.uco_410371.dummy;
 import java.util.ArrayList;
 import java.util.List;
 
-import cz.muni.fi.pv256.movio2.uco_410371.model.Movie;
+import cz.muni.fi.pv256.movio2.uco_410371.models.Movie;
 
 /**
  * Dummy data
@@ -14,6 +14,7 @@ public class DummyContent {
 
     public static final List<Movie> MOVIES = new ArrayList<>();
     public static final List<Object> ITEMS = new ArrayList<>();
+    public static final List<Object> EMPTY = new ArrayList<>();
 
     static {
         MOVIES.add(new Movie(1, 1477395448L, "/xfWac8MTYDxujaxgPVcRD9yZaul.jpg", "Doctor Strange", "/yqyZLEfSiSeqmn5oRahbOUTUHd9.jpg", 0f));

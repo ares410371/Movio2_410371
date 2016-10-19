@@ -12,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 import java.text.DecimalFormat;
 import java.util.List;
 
@@ -20,6 +22,7 @@ import cz.muni.fi.pv256.movio2.uco_410371.MovieDetailFragment;
 import cz.muni.fi.pv256.movio2.uco_410371.R;
 import cz.muni.fi.pv256.movio2.uco_410371.interfaces.ItemClickListener;
 import cz.muni.fi.pv256.movio2.uco_410371.models.Movie;
+import cz.muni.fi.pv256.movio2.uco_410371.network.Singleton;
 
 /**
  * Movie RecyclerView Adapter
@@ -34,12 +37,13 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
     private Context mContext;
     private boolean mTwoPane;
 
-    private final int CATEGORY = 0, MOVIE = 1, EMPTY = 2;
+    private final int CATEGORY = 0, MOVIE = 1;
 
     public MovieRecyclerViewAdapter(Context context, List<Object> items, boolean twoPane) {
         mContext = context;
         mItems = items;
         mTwoPane = twoPane;
+        Singleton.getInstance().setList(mItems);
     }
 
     @Override
@@ -99,26 +103,18 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
                     if (isLongClick) {
                         Toast.makeText(mContext, "Long click on " + movie.getTitle(), Toast.LENGTH_SHORT).show();
                     } else {
-                        selectDetail(movie.getMovieId()-1);
+                        selectDetail(position);
                     }
                 }
             });
 
-            switch (position) {
-                case 1 :
-                    movieViewHolder.getItemPoster().setImageResource(R.drawable.dummyback1);
-                    break;
-                case 2 :
-                    movieViewHolder.getItemPoster().setImageResource(R.drawable.dummyback2);
-                    break;
-                case 4 :
-                    movieViewHolder.getItemPoster().setImageResource(R.drawable.dummyback3);
-                    break;
-                case 5 :
-                    movieViewHolder.getItemPoster().setImageResource(R.drawable.dummyback4);
-                    break;
-                default:
-            }
+            Picasso.with(mContext).setIndicatorsEnabled(true);
+
+            Picasso.with(mContext)
+                    .load("https://image.tmdb.org/t/p/w300" + movie.getBackdropPath())
+                    .placeholder(R.drawable.placeholder)
+                    .into(movieViewHolder.getItemPoster());
+
             movieViewHolder.getItemTitle().setText(movie.getTitle());
             movieViewHolder.getItemRating().setText((new DecimalFormat("#.##")).format(movie.getPopularity()));
         }
@@ -227,7 +223,10 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
         }
     }
 
-
-
+    public void addItems(List<Object> items) {
+        mItems.addAll(items);
+        notifyItemInserted(items.size()-1);
+        Singleton.getInstance().setList(mItems);
+    }
 
 }

@@ -14,8 +14,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import cz.muni.fi.pv256.movio2.uco_410371.dummy.DummyContent;
+import com.squareup.picasso.Picasso;
+
+import java.util.List;
+
 import cz.muni.fi.pv256.movio2.uco_410371.models.Movie;
+import cz.muni.fi.pv256.movio2.uco_410371.network.Singleton;
 
 /**
  * MovieDetail Fragment
@@ -46,7 +50,10 @@ public class MovieDetailFragment extends Fragment
         Log.d(TAG, "onCreate: ");
 
         if (getArguments().containsKey(ARG_MOVIE_ID)) {
-            mMovie = DummyContent.MOVIES.get(getArguments().getInt(ARG_MOVIE_ID, -1));
+            //mMovie = DummyContent.MOVIES.get(getArguments().getInt(ARG_MOVIE_ID, -1));
+            List<Object> list = Singleton.getInstance().getList();
+            int id = getArguments().getInt(ARG_MOVIE_ID, -1);
+            mMovie = (Movie) list.get(id);
         }
 
         if (getArguments().containsKey(ARG_SCREEN_TYPE)) {
@@ -82,26 +89,14 @@ public class MovieDetailFragment extends Fragment
             if (mMovie != null) {
                 mMovieTitleTVExpanded.setText(mMovie.getTitle());
 
-                switch (mMovie.getMovieId()) {
-                    case 1 :
-                        mMoviePosterIV.setImageResource(R.drawable.dummyposter1);
-                        mMoviePosterBackIV.setImageResource(R.drawable.dummyback1);
-                        break;
-                    case 2 :
-                        mMoviePosterIV.setImageResource(R.drawable.dummyposter2);
-                        mMoviePosterBackIV.setImageResource(R.drawable.dummyback2);
-                        break;
-                    case 3 :
-                        mMoviePosterIV.setImageResource(R.drawable.dummyposter3);
-                        mMoviePosterBackIV.setImageResource(R.drawable.dummyback3);
-                        break;
-                    case 4 :
-                        mMoviePosterIV.setImageResource(R.drawable.dummyposter4);
-                        mMoviePosterBackIV.setImageResource(R.drawable.dummyback4);
-                        break;
-                    default:
-                        break;
-                }
+                Picasso.with(getContext())
+                        .load("https://image.tmdb.org/t/p/w300" + mMovie.getBackdropPath())
+                        .placeholder(R.drawable.placeholder)
+                        .into(mMoviePosterBackIV);
+                Picasso.with(getContext())
+                        .load("https://image.tmdb.org/t/p/w500" + mMovie.getPosterPath())
+                        .placeholder(R.drawable.placeholder)
+                        .into(mMoviePosterIV);
             }
 
         } else {

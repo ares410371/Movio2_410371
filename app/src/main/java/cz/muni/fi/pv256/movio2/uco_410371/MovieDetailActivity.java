@@ -14,8 +14,10 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import cz.muni.fi.pv256.movio2.uco_410371.dummy.DummyContent;
+import java.util.List;
+
 import cz.muni.fi.pv256.movio2.uco_410371.models.Movie;
+import cz.muni.fi.pv256.movio2.uco_410371.network.Singleton;
 
 /**
  * MovieDetail Activity
@@ -58,7 +60,10 @@ public class MovieDetailActivity extends AppCompatActivity
 
         initView();
 
-        Movie movie = DummyContent.MOVIES.get(getIntent().getIntExtra(MovieDetailFragment.ARG_MOVIE_ID, -1));
+        //Movie movie = DummyContent.MOVIES.get(getIntent().getIntExtra(MovieDetailFragment.ARG_MOVIE_ID, -1));
+        List<Object> list = Singleton.getInstance().getList();
+        int id = getIntent().getIntExtra(MovieDetailFragment.ARG_MOVIE_ID, -1);
+        Movie movie = (Movie) list.get(id);
         if (movie != null) setMovieDetail(movie);
 
         if (savedInstanceState == null) {
@@ -85,27 +90,14 @@ public class MovieDetailActivity extends AppCompatActivity
     private void setMovieDetail(Movie movie) {
         mMovieTitleTVExpanded.setText(movie.getTitle());
         mMovieTitleTVCollapsed.setText(movie.getTitle());
-        switch (movie.getMovieId()) {
-            case 1:
-                Picasso.with(this).load(R.drawable.dummyposter1).into(mMoviePosterIV);
-                Picasso.with(this).load(R.drawable.dummyback1).into(mMoviePosterBackIV);
-                break;
-            case 2:
-                Picasso.with(this).load(R.drawable.dummyposter2).into(mMoviePosterIV);
-                Picasso.with(this).load(R.drawable.dummyback2).into(mMoviePosterBackIV);
-                break;
-            case 3:
-                Picasso.with(this).load(R.drawable.dummyposter3).into(mMoviePosterIV);
-                Picasso.with(this).load(R.drawable.dummyback3).into(mMoviePosterBackIV);
-                break;
-            case 4:
-                Picasso.with(this).load(R.drawable.dummyposter4).into(mMoviePosterIV);
-                Picasso.with(this).load(R.drawable.dummyback4).into(mMoviePosterBackIV);
-                break;
-            default:
-                Log.e(TAG, "setMovieDetail: Wrong movie ID.");
-                break;
-        }
+        Picasso.with(this)
+                .load("https://image.tmdb.org/t/p/w300" + movie.getBackdropPath())
+                .placeholder(R.drawable.placeholder)
+                .into(mMoviePosterBackIV);
+        Picasso.with(this)
+                .load("https://image.tmdb.org/t/p/w500" + movie.getPosterPath())
+                .placeholder(R.drawable.placeholder)
+                .into(mMoviePosterIV);
     }
 
     @Override

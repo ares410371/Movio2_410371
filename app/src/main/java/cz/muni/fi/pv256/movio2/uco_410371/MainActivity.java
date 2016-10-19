@@ -12,7 +12,6 @@ import android.util.Log;
  */
 public class MainActivity extends AppCompatActivity {
 
-//    private static final String MOVIE_DB_API_KEY = BuildConfig.MOVIE_DB_API_KEY;
     private static final String TAG  = MainActivity.class.getName();
     public static final String PREF_CONFIG_THEME = "PREF_CONFIG_THEME";
     public static final String PREF_THEME = "PREF_THEME";
@@ -28,8 +27,6 @@ public class MainActivity extends AppCompatActivity {
             setTheme(R.style.AppTheme);
         }
         setContentView(R.layout.activity_main);
-
-//        Log.d(TAG, "onCreate: API_KEY = " + MOVIE_DB_API_KEY);
     }
 
     @Override
@@ -61,5 +58,4 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         Log.d(TAG, "onDestroy: ");
     }
-
 }

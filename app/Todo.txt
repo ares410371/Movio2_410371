@@ -1,6 +1,6 @@
 1) Ak je zobrazeni portrait režim na tablete tak po rotacii sa detail nezmeni na TwoPane
 
-Ukol 4 (dorobiť):
+Ukol 4:
 a) vypište si do logu, kdy se inflatuje nové View pro řádek a kdy se v něm jenom mění hodnoty a pozorujte
    (volá se pro danou pozici bindView nebo i createView? - vypisujte do Logu)
 
@@ -15,3 +15,37 @@ c) Chcete víc?
       vás horory, nemusejí se vám přeci horory zobrazovat)
         a) je potřeba udělat do každého řádku checkbox a implementovat klikání na filtry
         b) později se vytáhnou zakliknuté žánry a přidají do volání API
+
+Ukol 5:
+a) Implementujte stahování a parsování dat pomocí OkHttpClient (http://square.github.io/okhttp/)
+   1) Pro stahování použijte AsyncTask
+   2) Implementujte akce pro správné stahování dat, nedostupnost internetu nebo nemožnost parsování dat
+   3) Zacházejte s AsyncTaskem správně - nesmí leakovat, když aktivita ukončí svůj cyklus
+   ​    a) pozor na otočení obrazovky
+
+b) Nahraďte mock data za reálná z API z druhého úkolu
+   1) Data držte zatím v paměti - singleton, případně worker fragment
+   2) Použijte discover api http://docs.themoviedb.apiary.io/#reference/discover/get
+        a) Např. si nechte zobrazovat filmy s nejlepším hodnocením navrchu (?sort_by=avg_rating.desc)
+        b) Příklady možných prohledávání filmů https://www.themoviedb.org/documentation/api/discover
+        c) Použijte svou kreativitu na seznam filmů, které by ste chtěli mít zobrazeny na úvodní obrazovce
+        d) Kdo nemá kreativitu, zobrazte filmy, které vycházejí od "dnes" do 7 dnů a
+           v druhé sekci filmy, které běží momentálně v kinách
+        e) RecyclerView musí obsahovat minimálně dvě sekce
+   3) Na parsování použijte Gson parser
+        a) Vytvořte k němu všechny potřebné modely a použijte anotace
+        b) Stačí definovat jenom potřebné atributy, které chceme použít. Ostatní atributy
+           z JSONu budou parserem ignorovány
+
+c) Na stahování obrázků použijte Picasso nebo Glide (nebo UniversalImageLoader - umí toho víc)
+   1) ​Můžete zkusit všechny a na hodině poté přednést, který byl lepší z hlediska použití, paměti,
+      rychlosti, možností...
+   2) Nezapomeňte na cachování do paměti anebo i na disk
+        a) sledujte, kdy se tahá obrázek z cache, kdy z disku, kdy ze servru
+           (v Picassu na to jsou debugIndicators)
+
+
+
+//Ked bude databaza mozem to rozsirit pre
+// /movie/{movie_id}/credits
+//

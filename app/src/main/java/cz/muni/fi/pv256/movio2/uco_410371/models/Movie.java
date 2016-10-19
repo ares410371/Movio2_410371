@@ -3,35 +3,39 @@ package cz.muni.fi.pv256.movio2.uco_410371.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.bluelinelabs.logansquare.annotation.JsonField;
+import com.bluelinelabs.logansquare.annotation.JsonObject;
+
 /**
  * Movie model
  * Created by Benjamin Varga on 6.10.2016.
  */
-
+@JsonObject
 public class Movie implements Parcelable {
 
-    private int mMovieId;
+    @JsonField(name = "release_date")
     private long mReleaseDate;
-    private String mCoverPath;
+
+    @JsonField(name = "poster_path")
+    private String mPosterPath;
+
+    @JsonField(name = "title")
     private String mTitle;
-    private String mBackdrop;
+
+    @JsonField(name = "backdrop_path")
+    private String mBackdropPath;
+
+    @JsonField(name = "popularity")
     private float mPopularity;
 
-    public Movie(int movieId, long releaseDate, String coverPath, String title, String backdrop, float popularity) {
-        mMovieId = movieId;
+    public Movie() {}
+
+    public Movie(long releaseDate, String posterPath, String title, String backdropPath, float popularity) {
         mReleaseDate = releaseDate;
-        mCoverPath = coverPath;
+        mPosterPath = posterPath;
         mTitle = title;
-        mBackdrop = backdrop;
+        mBackdropPath = backdropPath;
         mPopularity = popularity;
-    }
-
-    public int getMovieId() {
-        return mMovieId;
-    }
-
-    public void setMovieId(int movieId) {
-        mMovieId = movieId;
     }
 
     public long getReleaseDate() {
@@ -42,12 +46,12 @@ public class Movie implements Parcelable {
         mReleaseDate = releaseDate;
     }
 
-    public String getCoverPath() {
-        return mCoverPath;
+    public String getPosterPath() {
+        return mPosterPath;
     }
 
-    public void setCoverPath(String coverPath) {
-        mCoverPath = coverPath;
+    public void setPosterPath(String posterPath) {
+        mPosterPath = posterPath;
     }
 
     public String getTitle() {
@@ -58,12 +62,12 @@ public class Movie implements Parcelable {
         mTitle = title;
     }
 
-    public String getBackdrop() {
-        return mBackdrop;
+    public String getBackdropPath() {
+        return mBackdropPath;
     }
 
-    public void setBackdrop(String backdrop) {
-        mBackdrop = backdrop;
+    public void setBackdropPath(String backdropPath) {
+        mBackdropPath = backdropPath;
     }
 
     public float getPopularity() {
@@ -80,21 +84,19 @@ public class Movie implements Parcelable {
     }
 
     public Movie(Parcel in) {
-        mMovieId = in.readInt();
         mReleaseDate = in.readLong();
-        mCoverPath = in.readString();
+        mPosterPath = in.readString();
         mTitle = in.readString();
-        mBackdrop = in.readString();
+        mBackdropPath = in.readString();
         mPopularity = in.readFloat();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(mMovieId);
         dest.writeLong(mReleaseDate);
-        dest.writeString(mCoverPath);
+        dest.writeString(mPosterPath);
         dest.writeString(mTitle);
-        dest.writeString(mBackdrop);
+        dest.writeString(mBackdropPath);
         dest.writeFloat(mPopularity);
     }
 

@@ -5,9 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SnapHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,8 +15,8 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+import cz.muni.fi.pv256.movio2.uco_410371.adapters.CombineRecyclerViewAdapter;
 import cz.muni.fi.pv256.movio2.uco_410371.adapters.EmptyRecyclerViewAdapter;
-import cz.muni.fi.pv256.movio2.uco_410371.adapters.MovieRecyclerViewAdapter;
 import cz.muni.fi.pv256.movio2.uco_410371.network.DownloadManager;
 import cz.muni.fi.pv256.movio2.uco_410371.network.Singleton;
 
@@ -64,21 +62,20 @@ public class MainFragment extends Fragment implements OnClickListener {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        //List<Object> list = DummyContent.ITEMS;
-        List<Object> list = new ArrayList<>();
-        list.add("Upcoming Movies2");
 
-        if (list == null || list.size() == 0) {
-            EmptyRecyclerViewAdapter emptyRecyclerViewAdapter = new EmptyRecyclerViewAdapter("NO DATA");
-            recyclerView.setAdapter(emptyRecyclerViewAdapter);
-//        } else if (/*NO INTERNET*/) {
-//            EmptyRecyclerViewAdapter emptyRecyclerViewAdapter = new EmptyRecyclerViewAdapter("NO INTERNET");
+        List<Object> list = new ArrayList<>();
+
+//        if (list.size() == 0) {
+//            EmptyRecyclerViewAdapter emptyRecyclerViewAdapter = new EmptyRecyclerViewAdapter("NO DATA");
 //            recyclerView.setAdapter(emptyRecyclerViewAdapter);
-        } else {
-            MovieRecyclerViewAdapter movieRecyclerViewAdapter = new MovieRecyclerViewAdapter(getContext(), list, mTwoPane);
-            Singleton.getInstance().setMovieRecyclerViewAdapter(movieRecyclerViewAdapter);
-            recyclerView.setAdapter(movieRecyclerViewAdapter);
-        }
+////        } else if (/*NO INTERNET*/) {
+////            EmptyRecyclerViewAdapter emptyRecyclerViewAdapter = new EmptyRecyclerViewAdapter("NO INTERNET");
+////            recyclerView.setAdapter(emptyRecyclerViewAdapter);
+//        } else {
+            CombineRecyclerViewAdapter combineRecyclerViewAdapter = new CombineRecyclerViewAdapter(getContext(), list, mTwoPane);
+            Singleton.getInstance().setCombineRecyclerViewAdapter(combineRecyclerViewAdapter);
+            recyclerView.setAdapter(combineRecyclerViewAdapter);
+//        }
 
         return view;
     }

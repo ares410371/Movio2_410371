@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
-import java.text.DecimalFormat;
 import java.util.List;
 
 import cz.muni.fi.pv256.movio2.uco_410371.MovieDetailActivity;
@@ -22,78 +21,42 @@ import cz.muni.fi.pv256.movio2.uco_410371.MovieDetailFragment;
 import cz.muni.fi.pv256.movio2.uco_410371.R;
 import cz.muni.fi.pv256.movio2.uco_410371.interfaces.ItemClickListener;
 import cz.muni.fi.pv256.movio2.uco_410371.models.Movie;
-import cz.muni.fi.pv256.movio2.uco_410371.network.Singleton;
 
 /**
- * Movie RecyclerView Adapter
- * Created by Benjamin Varga on 12.10.2016.
+ * Created by Benjamin Varga on 19.10.2016.
  */
 
-public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecyclerViewAdapter.MovieViewHolder> {
 
-    public static final String TAG = MovieRecyclerViewAdapter.class.getName();
-
-    private List<Object> mItems;
+    private List<Movie> mMovies;
     private Context mContext;
     private boolean mTwoPane;
 
-    private final int CATEGORY = 0, MOVIE = 1;
-
-    public MovieRecyclerViewAdapter(Context context, List<Object> items, boolean twoPane) {
+    public MovieRecyclerViewAdapter(List<Movie> movies, Context context, boolean twoPane) {
+        mMovies = movies;
         mContext = context;
-        mItems = items;
         mTwoPane = twoPane;
-        Singleton.getInstance().setList(mItems);
     }
 
     @Override
     public int getItemCount() {
-        return this.mItems.size();
+        return mMovies.size();
     }
 
     @Override
-    public int getItemViewType(int position) {
-        if (mItems.get(position) instanceof String) {
-            return CATEGORY;
-        } else if (mItems.get(position) instanceof Movie) {
-            return MOVIE;
-        }
-        return -1;
-    }
-
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        switch (viewType) {
-            case CATEGORY:
-                View view1 = inflater.inflate(R.layout.view_holder_category, parent, false);
-                return new CategoryViewHolder(view1);
-            case MOVIE:
-                View view2 = inflater.inflate(R.layout.view_holder_movie, parent, false);
-                return new MovieViewHolder(view2);
-            default:
-                return null;
-        }
+        View view = inflater.inflate(R.layout.view_holder_movie, parent, false);
+        return new MovieViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
-        switch (viewHolder.getItemViewType()) {
-            case CATEGORY:
-                CategoryViewHolder categoryViewHolder = (CategoryViewHolder)viewHolder;
-                configureCategoryViewHolder(categoryViewHolder, position);
-                break;
-            case MOVIE:
-                MovieViewHolder movieViewHolder = (MovieViewHolder)viewHolder;
-                configureMovieViewHolder(movieViewHolder, position);
-                break;
-            default:
-                break;
-        }
+    public void onBindViewHolder(MovieViewHolder holder, int position) {
+        configureMovieViewHolder(holder, position);
     }
 
     private void configureMovieViewHolder(MovieViewHolder movieViewHolder, int position) {
-        final Movie movie = (Movie) mItems.get(position);
+        final Movie movie = mMovies.get(position);
 
         if (movie != null) {
 
@@ -103,7 +66,7 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
                     if (isLongClick) {
                         Toast.makeText(mContext, "Long click on " + movie.getTitle(), Toast.LENGTH_SHORT).show();
                     } else {
-                        selectDetail(position);
+                        selectDetail(position, movie);
                     }
                 }
             });
@@ -111,26 +74,19 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
             Picasso.with(mContext).setIndicatorsEnabled(true);
 
             Picasso.with(mContext)
-                    .load("https://image.tmdb.org/t/p/w300" + movie.getBackdropPath())
+                    .load("https://image.tmdb.org/t/p/w500" + movie.getPosterPath())
                     .placeholder(R.drawable.placeholder)
                     .into(movieViewHolder.getItemPoster());
 
             movieViewHolder.getItemTitle().setText(movie.getTitle());
-            movieViewHolder.getItemRating().setText((new DecimalFormat("#.##")).format(movie.getPopularity()));
+//            movieViewHolder.getItemRating().setText((new DecimalFormat("#.##")).format(movie.getPopularity()));
         }
     }
 
-    private void configureCategoryViewHolder(CategoryViewHolder categoryViewHolder, int position) {
-        String str = (String) mItems.get(position);
-        if (str != null) {
-            categoryViewHolder.getItemCategory().setText(str);
-        }
-    }
-
-    private void selectDetail(int id) {
+    private void selectDetail(int id, Movie movie) {
         if (mTwoPane) {
             Bundle args = new Bundle();
-            args.putInt(MovieDetailFragment.ARG_MOVIE_ID, id);
+            args.putParcelable(MovieDetailFragment.ARG_MOVIE, movie);
             args.putBoolean(MovieDetailFragment.ARG_SCREEN_TYPE, true);
             MovieDetailFragment fragment = new MovieDetailFragment();
             fragment.setArguments(args);
@@ -139,7 +95,7 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
                     .commit();
         } else {
             Intent intent = new Intent(mContext, MovieDetailActivity.class);
-            intent.putExtra(MovieDetailFragment.ARG_MOVIE_ID, id);
+            intent.putExtra(MovieDetailFragment.ARG_MOVIE, movie);
             intent.putExtra(MovieDetailFragment.ARG_SCREEN_TYPE, false);
             mContext.startActivity(intent);
         }
@@ -150,7 +106,7 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
 
         private ImageView mItemPoster;
         private TextView mItemTitle;
-        private TextView mItemRating;
+//        private TextView mItemRating;
 
         private ItemClickListener mItemClickListener;
 
@@ -158,7 +114,7 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
             super(itemView);
             mItemPoster = (ImageView)itemView.findViewById(R.id.image_item_movie_poster);
             mItemTitle = (TextView)itemView.findViewById(R.id.text_movie_title);
-            mItemRating = (TextView)itemView.findViewById(R.id.text_movie_rating);
+//            mItemRating = (TextView)itemView.findViewById(R.id.text_movie_rating);
 
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
@@ -180,13 +136,13 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
             mItemTitle = itemTitle;
         }
 
-        public TextView getItemRating() {
-            return mItemRating;
-        }
-
-        public void setItemRating(TextView itemRating) {
-            mItemRating = itemRating;
-        }
+//        public TextView getItemRating() {
+//            return mItemRating;
+//        }
+//
+//        public void setItemRating(TextView itemRating) {
+//            mItemRating = itemRating;
+//        }
 
         public void setItemClickListener(ItemClickListener itemClickListener) {
             mItemClickListener = itemClickListener;
@@ -203,30 +159,4 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
             return true;
         }
     }
-
-    public static class CategoryViewHolder extends RecyclerView.ViewHolder {
-
-        private TextView mItemCategory;
-
-        public CategoryViewHolder(View itemView) {
-            super(itemView);
-
-            mItemCategory = (TextView)itemView.findViewById(R.id.text_category);
-        }
-
-        public TextView getItemCategory() {
-            return mItemCategory;
-        }
-
-        public void setItemCategory(TextView itemCategory) {
-            mItemCategory = itemCategory;
-        }
-    }
-
-    public void addItems(List<Object> items) {
-        mItems.addAll(items);
-        notifyItemInserted(items.size()-1);
-        Singleton.getInstance().setList(mItems);
-    }
-
 }

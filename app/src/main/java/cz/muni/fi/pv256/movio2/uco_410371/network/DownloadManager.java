@@ -35,12 +35,13 @@ public class DownloadManager {
         mMovies = movies;
     }
 
-    private static class DownloadTask extends AsyncTask<String, Void, List<Movie>> {
+    private static class DownloadTask extends AsyncTask<String, Void, List<Object>> {
 
         private static final String MOVIE_DB_API_KEY = BuildConfig.MOVIE_DB_API_KEY;
-        private static final String QUERY_API_KEY = "?api_key=";
+        private static final String QUERY_API_KEY = "?api_key=" + MOVIE_DB_API_KEY;
         private static final String BASE_URL = "https://api.themoviedb.org/3/";
         private static final String UPCOMING_URL = "movie/upcoming";
+        private static final String POPULAR_URL = "movie/popular";
 
         private final OkHttpClient mOkHttpClient = new OkHttpClient();
 
@@ -51,47 +52,60 @@ public class DownloadManager {
         }
 
         @Override
-        protected List<Movie> doInBackground(String... urls) {
+        protected List<Object> doInBackground(String... urls) {
             Log.d(TAG, "doInBackground: ");
-            Request request = new Request.Builder()
-                    .url(BASE_URL + UPCOMING_URL + QUERY_API_KEY + MOVIE_DB_API_KEY)
-                    .get()
-                    .addHeader("content-type", "application/json")
-                    .build();
+            List<Object> objects = new ArrayList<>();
 
-            try {
-                Response response = mOkHttpClient.newCall(request).execute();
-                if (response.isSuccessful()) {
-                    return parseJson(response.body().string());
+            for (String url : urls) {
+                Request request = new Request.Builder()
+                        .url(BASE_URL + getUrl(url) + QUERY_API_KEY)
+                        .get()
+                        .addHeader("content-type", "application/json")
+                        .build();
+
+                try {
+                    Response response = mOkHttpClient.newCall(request).execute();
+                    if (response.isSuccessful()) {
+                        List<Movie> movies = parseJson(response.body().string());
+                        objects.add(url);
+                        objects.add(movies);
+                    }
+                } catch (IOException ioe) {
+                    Log.e(TAG, "doInBackground: response exception", ioe);
                 }
-            } catch (IOException ioe) {
-                Log.e(TAG, "doInBackground: response exception", ioe);
             }
 
-            return null;
+            return objects;
+        }
+
+        private String getUrl(String url) {
+            if (url.startsWith("Upcoming")) {
+                return UPCOMING_URL;
+            } else if (url.startsWith("Popular")) {
+                return POPULAR_URL;
+            } else {
+                return "";
+            }
         }
 
         @Override
-        protected void onPostExecute(List<Movie> movies) {
+        protected void onPostExecute(List<Object> objects) {
             Log.d(TAG, "onPostExecute: ");
-            super.onPostExecute(movies);
-            Singleton.getInstance().getMovieRecyclerViewAdapter().addItems(new ArrayList<Object>(movies));
-            for (Movie movie: movies) {
-                Log.d(TAG, movie.getTitle());
-            }
+            super.onPostExecute(objects);
+            Singleton.getInstance().getCombineRecyclerViewAdapter().addItems(objects);
         }
 
         @Override
-        protected void onCancelled(List<Movie> movies) {
+        protected void onCancelled(List<Object> objects) {
             Log.d(TAG, "onCancelled: ");
-            super.onCancelled(movies);
+            super.onCancelled(objects);
         }
     }
 
     public void startDownloadTask() {
         if (!isTaskExecuting) {
             mDownloadTask = new DownloadTask();
-            mDownloadTask.execute();
+            mDownloadTask.execute("Upcoming Movies", "Popular Movies");
             isTaskExecuting = true;
         }
     }

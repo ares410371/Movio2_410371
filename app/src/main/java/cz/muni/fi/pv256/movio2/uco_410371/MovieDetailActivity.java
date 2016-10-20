@@ -60,16 +60,13 @@ public class MovieDetailActivity extends AppCompatActivity
 
         initView();
 
-        //Movie movie = DummyContent.MOVIES.get(getIntent().getIntExtra(MovieDetailFragment.ARG_MOVIE_ID, -1));
-        List<Object> list = Singleton.getInstance().getList();
-        int id = getIntent().getIntExtra(MovieDetailFragment.ARG_MOVIE_ID, -1);
-        Movie movie = (Movie) list.get(id);
+        Movie movie = getIntent().getParcelableExtra(MovieDetailFragment.ARG_MOVIE);
         if (movie != null) setMovieDetail(movie);
 
         if (savedInstanceState == null) {
             Bundle args = new Bundle();
-            args.putInt(MovieDetailFragment.ARG_MOVIE_ID,
-                    getIntent().getIntExtra(MovieDetailFragment.ARG_MOVIE_ID, -1));
+            args.putParcelable(MovieDetailFragment.ARG_MOVIE,
+                    getIntent().getParcelableExtra(MovieDetailFragment.ARG_MOVIE));
             args.putBoolean(MovieDetailFragment.ARG_SCREEN_TYPE,
                     getIntent().getBooleanExtra(MovieDetailFragment.ARG_SCREEN_TYPE, false));
             MovieDetailFragment fragment = new MovieDetailFragment();

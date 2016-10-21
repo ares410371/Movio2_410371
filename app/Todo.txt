@@ -23,23 +23,7 @@ a) Implementujte stahování a parsování dat pomocí OkHttpClient (http://squa
    3) Zacházejte s AsyncTaskem správně - nesmí leakovat, když aktivita ukončí svůj cyklus
    ​    a) pozor na otočení obrazovky
 
-b) Nahraďte mock data za reálná z API z druhého úkolu
-   1) Data držte zatím v paměti - singleton, případně worker fragment
-   2) Použijte discover api http://docs.themoviedb.apiary.io/#reference/discover/get
-        a) Např. si nechte zobrazovat filmy s nejlepším hodnocením navrchu (?sort_by=avg_rating.desc)
-        b) Příklady možných prohledávání filmů https://www.themoviedb.org/documentation/api/discover
-        c) Použijte svou kreativitu na seznam filmů, které by ste chtěli mít zobrazeny na úvodní obrazovce
-        d) Kdo nemá kreativitu, zobrazte filmy, které vycházejí od "dnes" do 7 dnů a
-           v druhé sekci filmy, které běží momentálně v kinách
-        e) RecyclerView musí obsahovat minimálně dvě sekce
-   3) Na parsování použijte Gson parser
-        a) Vytvořte k němu všechny potřebné modely a použijte anotace
-        b) Stačí definovat jenom potřebné atributy, které chceme použít. Ostatní atributy
-           z JSONu budou parserem ignorovány
-
 c) Na stahování obrázků použijte Picasso nebo Glide (nebo UniversalImageLoader - umí toho víc)
-   1) ​Můžete zkusit všechny a na hodině poté přednést, který byl lepší z hlediska použití, paměti,
-      rychlosti, možností...
    2) Nezapomeňte na cachování do paměti anebo i na disk
         a) sledujte, kdy se tahá obrázek z cache, kdy z disku, kdy ze servru
            (v Picassu na to jsou debugIndicators)

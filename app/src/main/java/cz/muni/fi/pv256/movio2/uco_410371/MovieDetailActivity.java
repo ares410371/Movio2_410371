@@ -14,10 +14,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.List;
-
 import cz.muni.fi.pv256.movio2.uco_410371.models.Movie;
-import cz.muni.fi.pv256.movio2.uco_410371.network.Singleton;
 
 /**
  * MovieDetail Activity
@@ -89,11 +86,11 @@ public class MovieDetailActivity extends AppCompatActivity
         mMovieTitleTVCollapsed.setText(movie.getTitle());
         Picasso.with(this)
                 .load("https://image.tmdb.org/t/p/w300" + movie.getBackdropPath())
-                .placeholder(R.drawable.placeholder)
+                .placeholder(R.drawable.placeholder_poster)
                 .into(mMoviePosterBackIV);
         Picasso.with(this)
                 .load("https://image.tmdb.org/t/p/w500" + movie.getPosterPath())
-                .placeholder(R.drawable.placeholder)
+                .placeholder(R.drawable.placeholder_poster)
                 .into(mMoviePosterIV);
     }
 

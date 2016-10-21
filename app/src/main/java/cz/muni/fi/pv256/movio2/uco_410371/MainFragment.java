@@ -15,8 +15,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-import cz.muni.fi.pv256.movio2.uco_410371.adapters.CombineRecyclerViewAdapter;
-import cz.muni.fi.pv256.movio2.uco_410371.adapters.EmptyRecyclerViewAdapter;
+import cz.muni.fi.pv256.movio2.uco_410371.adapters.HorizontalRecyclerViewAdapter;
 import cz.muni.fi.pv256.movio2.uco_410371.network.DownloadManager;
 import cz.muni.fi.pv256.movio2.uco_410371.network.Singleton;
 
@@ -44,7 +43,7 @@ public class MainFragment extends Fragment implements OnClickListener {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate: ");
 
-        DownloadManager downloadManager = new DownloadManager();
+        DownloadManager downloadManager = new DownloadManager(getContext());
         downloadManager.startDownloadTask();
     }
 
@@ -72,9 +71,9 @@ public class MainFragment extends Fragment implements OnClickListener {
 ////            EmptyRecyclerViewAdapter emptyRecyclerViewAdapter = new EmptyRecyclerViewAdapter("NO INTERNET");
 ////            recyclerView.setAdapter(emptyRecyclerViewAdapter);
 //        } else {
-            CombineRecyclerViewAdapter combineRecyclerViewAdapter = new CombineRecyclerViewAdapter(getContext(), list, mTwoPane);
-            Singleton.getInstance().setCombineRecyclerViewAdapter(combineRecyclerViewAdapter);
-            recyclerView.setAdapter(combineRecyclerViewAdapter);
+            HorizontalRecyclerViewAdapter horizontalRecyclerViewAdapter = new HorizontalRecyclerViewAdapter(getContext(), list, mTwoPane);
+            Singleton.getInstance().setHorizontalRecyclerViewAdapter(horizontalRecyclerViewAdapter);
+            recyclerView.setAdapter(horizontalRecyclerViewAdapter);
 //        }
 
         return view;
@@ -114,7 +113,7 @@ public class MainFragment extends Fragment implements OnClickListener {
     public void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "onDestroy: ");
-        DownloadManager downloadManager = new DownloadManager();
+        DownloadManager downloadManager = new DownloadManager(getContext());
         downloadManager.cancelDownloadTask();
     }
 

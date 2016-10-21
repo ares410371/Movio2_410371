@@ -1,5 +1,8 @@
 package cz.muni.fi.pv256.movio2.uco_410371.network;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -25,6 +28,7 @@ public class DownloadManager {
     private static final String TAG = DownloadManager.class.getName();
     private boolean isTaskExecuting;
     private DownloadTask mDownloadTask;
+    private Context mContext;
     private List<Movie> mMovies;
 
     public List<Movie> getMovies() {
@@ -33,6 +37,10 @@ public class DownloadManager {
 
     public void setMovies(List<Movie> movies) {
         mMovies = movies;
+    }
+
+    public DownloadManager(Context context) {
+        mContext = context;
     }
 
     private static class DownloadTask extends AsyncTask<String, Void, List<Object>> {
@@ -92,7 +100,7 @@ public class DownloadManager {
         protected void onPostExecute(List<Object> objects) {
             Log.d(TAG, "onPostExecute: ");
             super.onPostExecute(objects);
-            Singleton.getInstance().getCombineRecyclerViewAdapter().addItems(objects);
+            Singleton.getInstance().getHorizontalRecyclerViewAdapter().addItems(objects);
         }
 
         @Override
@@ -115,6 +123,13 @@ public class DownloadManager {
             mDownloadTask.cancel(true);
             isTaskExecuting = false;
         }
+    }
+
+    private boolean isInternetConnection() {
+        ConnectivityManager manager =
+                (ConnectivityManager)mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = manager.getActiveNetworkInfo();
+        return (networkInfo != null) && (networkInfo.isConnectedOrConnecting());
     }
 
     private static List<Movie> parseJson(String json) {

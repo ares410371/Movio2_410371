@@ -32,7 +32,7 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
     private Context mContext;
     private boolean mTwoPane;
 
-    public MovieRecyclerViewAdapter(List<Movie> movies, Context context, boolean twoPane) {
+    public MovieRecyclerViewAdapter(Context context, List<Movie> movies, boolean twoPane) {
         mMovies = movies;
         mContext = context;
         mTwoPane = twoPane;
@@ -59,31 +59,29 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
         final Movie movie = mMovies.get(position);
 
         if (movie != null) {
-
             movieViewHolder.setItemClickListener(new ItemClickListener() {
                 @Override
                 public void onClick(View view, int position, boolean isLongClick) {
                     if (isLongClick) {
                         Toast.makeText(mContext, "Long click on " + movie.getTitle(), Toast.LENGTH_SHORT).show();
                     } else {
-                        selectDetail(position, movie);
+                        selectDetail(movie);
                     }
                 }
             });
 
-            Picasso.with(mContext).setIndicatorsEnabled(true);
+            Picasso.with(mContext).setIndicatorsEnabled(true); //todo zmazat
 
             Picasso.with(mContext)
                     .load("https://image.tmdb.org/t/p/w500" + movie.getPosterPath())
-                    .placeholder(R.drawable.placeholder)
+                    .placeholder(R.drawable.placeholder_poster)
                     .into(movieViewHolder.getItemPoster());
 
             movieViewHolder.getItemTitle().setText(movie.getTitle());
-//            movieViewHolder.getItemRating().setText((new DecimalFormat("#.##")).format(movie.getPopularity()));
         }
     }
 
-    private void selectDetail(int id, Movie movie) {
+    private void selectDetail(Movie movie) {
         if (mTwoPane) {
             Bundle args = new Bundle();
             args.putParcelable(MovieDetailFragment.ARG_MOVIE, movie);
@@ -106,7 +104,6 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
 
         private ImageView mItemPoster;
         private TextView mItemTitle;
-//        private TextView mItemRating;
 
         private ItemClickListener mItemClickListener;
 
@@ -114,7 +111,6 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
             super(itemView);
             mItemPoster = (ImageView)itemView.findViewById(R.id.image_item_movie_poster);
             mItemTitle = (TextView)itemView.findViewById(R.id.text_movie_title);
-//            mItemRating = (TextView)itemView.findViewById(R.id.text_movie_rating);
 
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
@@ -135,14 +131,6 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
         public void setItemTitle(TextView itemTitle) {
             mItemTitle = itemTitle;
         }
-
-//        public TextView getItemRating() {
-//            return mItemRating;
-//        }
-//
-//        public void setItemRating(TextView itemRating) {
-//            mItemRating = itemRating;
-//        }
 
         public void setItemClickListener(ItemClickListener itemClickListener) {
             mItemClickListener = itemClickListener;

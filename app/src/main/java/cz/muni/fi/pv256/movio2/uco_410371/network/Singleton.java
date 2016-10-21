@@ -1,6 +1,6 @@
 package cz.muni.fi.pv256.movio2.uco_410371.network;
 
-import cz.muni.fi.pv256.movio2.uco_410371.adapters.CombineRecyclerViewAdapter;
+import cz.muni.fi.pv256.movio2.uco_410371.adapters.HorizontalRecyclerViewAdapter;
 
 /**
  * Created by Benjamin Varga on 19.10.2016.
@@ -9,7 +9,7 @@ public class Singleton {
 
     private static Singleton mInstance = null;
 
-    private CombineRecyclerViewAdapter mCombineRecyclerViewAdapter;
+    private HorizontalRecyclerViewAdapter mHorizontalRecyclerViewAdapter;
 
     public static Singleton getInstance() {
         if (mInstance == null) {
@@ -18,11 +18,11 @@ public class Singleton {
         return mInstance;
     }
 
-    public CombineRecyclerViewAdapter getCombineRecyclerViewAdapter() {
-        return mCombineRecyclerViewAdapter;
+    public HorizontalRecyclerViewAdapter getHorizontalRecyclerViewAdapter() {
+        return mHorizontalRecyclerViewAdapter;
     }
 
-    public void setCombineRecyclerViewAdapter(CombineRecyclerViewAdapter combineRecyclerViewAdapter) {
-        mCombineRecyclerViewAdapter = combineRecyclerViewAdapter;
+    public void setHorizontalRecyclerViewAdapter(HorizontalRecyclerViewAdapter horizontalRecyclerViewAdapter) {
+        mHorizontalRecyclerViewAdapter = horizontalRecyclerViewAdapter;
     }
 }

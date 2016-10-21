@@ -85,11 +85,11 @@ public class MovieDetailFragment extends Fragment
 
                 Picasso.with(getContext())
                         .load("https://image.tmdb.org/t/p/w300" + mMovie.getBackdropPath())
-                        .placeholder(R.drawable.placeholder)
+                        .placeholder(R.drawable.placeholder_poster)
                         .into(mMoviePosterBackIV);
                 Picasso.with(getContext())
                         .load("https://image.tmdb.org/t/p/w500" + mMovie.getPosterPath())
-                        .placeholder(R.drawable.placeholder)
+                        .placeholder(R.drawable.placeholder_poster)
                         .into(mMoviePosterIV);
             }
 

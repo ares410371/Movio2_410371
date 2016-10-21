@@ -15,13 +15,12 @@ import java.util.List;
 
 import cz.muni.fi.pv256.movio2.uco_410371.R;
 import cz.muni.fi.pv256.movio2.uco_410371.models.Movie;
-import cz.muni.fi.pv256.movio2.uco_410371.network.Singleton;
 
 /**
  * Created by Benjamin Varga on 20.10.2016.
  */
 
-public class CombineRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class HorizontalRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context mContext;
     private List<Object> mItems;
@@ -29,7 +28,7 @@ public class CombineRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
 
     private final int MOVIE = 1, CATEGORY = 2;
 
-    public CombineRecyclerViewAdapter(Context context, List<Object> items, boolean twoPane) {
+    public HorizontalRecyclerViewAdapter(Context context, List<Object> items, boolean twoPane) {
         mContext = context;
         mItems = items;
         mTwoPane = twoPane;
@@ -53,7 +52,6 @@ public class CombineRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-
         switch (viewType) {
             case MOVIE: {
                 View view1 = inflater.inflate(R.layout.view_holder_horizontal, parent, false);
@@ -69,7 +67,6 @@ public class CombineRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
         switch (holder.getItemViewType()) {
             case MOVIE: {
                 HorizontalRVViewHolder horizontalRVViewHolder = (HorizontalRVViewHolder) holder;
@@ -79,6 +76,7 @@ public class CombineRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
             case CATEGORY: {
                 CategoryViewHolder categoryViewHolder = (CategoryViewHolder) holder;
                 configureCategoryViewHolder(position, categoryViewHolder);
+                break;
             }
         }
     }
@@ -86,18 +84,20 @@ public class CombineRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     private void configureCategoryViewHolder(int position, CategoryViewHolder categoryViewHolder) {
         String str = (String) mItems.get(position);
         if (str != null) {
-            categoryViewHolder.getItemCategory().setText(str);
+            categoryViewHolder.getCategoryTitle().setText(str);
         }
     }
 
-    private void configureHorizontalRVViewHolder(HorizontalRVViewHolder horizontalRVViewHolder, int position) {
-        RecyclerView horizontalRV = horizontalRVViewHolder.getRecyclerView();
-        horizontalRV.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
+    private void configureHorizontalRVViewHolder(HorizontalRVViewHolder viewHolder, int position) {
+        RecyclerView horizontalRV = viewHolder.getRecyclerView();
+        horizontalRV.setLayoutManager(
+                new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
         horizontalRV.setHasFixedSize(true);
 
         List<Movie> movies = (List<Movie>) mItems.get(position);
 
-        MovieRecyclerViewAdapter movieRecyclerViewAdapter = new MovieRecyclerViewAdapter(movies, mContext, mTwoPane);
+        MovieRecyclerViewAdapter movieRecyclerViewAdapter =
+                new MovieRecyclerViewAdapter(mContext, movies, mTwoPane);
         horizontalRV.setAdapter(movieRecyclerViewAdapter);
         SnapHelper snapHelper = new LinearSnapHelper();
         snapHelper.attachToRecyclerView(horizontalRV);
@@ -105,14 +105,10 @@ public class CombineRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
 
     public static class HorizontalRVViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView mCategoryTitle;
-        private Button mCategoryButton;
         private RecyclerView mRecyclerView;
 
         public HorizontalRVViewHolder(View itemView) {
             super(itemView);
-            mCategoryTitle = (TextView)itemView.findViewById(R.id.category_title);
-            mCategoryButton = (Button)itemView.findViewById(R.id.category_button);
             mRecyclerView = (RecyclerView)itemView.findViewById(R.id.horizontal_recycler_view);
         }
 
@@ -122,6 +118,19 @@ public class CombineRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
 
         public void setRecyclerView(RecyclerView recyclerView) {
             mRecyclerView = recyclerView;
+        }
+
+    }
+
+    public static class CategoryViewHolder extends RecyclerView.ViewHolder {
+
+        private TextView mCategoryTitle;
+        private Button mCategoryButton;
+
+        public CategoryViewHolder(View itemView) {
+            super(itemView);
+            mCategoryTitle = (TextView)itemView.findViewById(R.id.category_title);
+            mCategoryButton = (Button)itemView.findViewById(R.id.category_button);
         }
 
         public TextView getCategoryTitle() {
@@ -138,26 +147,6 @@ public class CombineRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
 
         public void setCategoryButton(Button categoryButton) {
             mCategoryButton = categoryButton;
-        }
-
-    }
-
-    public static class CategoryViewHolder extends RecyclerView.ViewHolder {
-
-        private TextView mItemCategory;
-
-        public CategoryViewHolder(View itemView) {
-            super(itemView);
-
-            mItemCategory = (TextView)itemView.findViewById(R.id.category_title);
-        }
-
-        public TextView getItemCategory() {
-            return mItemCategory;
-        }
-
-        public void setItemCategory(TextView itemCategory) {
-            mItemCategory = itemCategory;
         }
     }
 

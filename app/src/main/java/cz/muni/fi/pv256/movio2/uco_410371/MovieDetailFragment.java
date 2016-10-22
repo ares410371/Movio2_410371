@@ -16,10 +16,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.List;
-
 import cz.muni.fi.pv256.movio2.uco_410371.models.Movie;
-import cz.muni.fi.pv256.movio2.uco_410371.network.Singleton;
 
 /**
  * MovieDetail Fragment
@@ -30,7 +27,7 @@ public class MovieDetailFragment extends Fragment
         implements AppBarLayout.OnOffsetChangedListener{
 
     private static final String TAG = MovieDetailFragment.class.getName();
-    public static final String ARG_MOVIE_ID = "movie_id";
+    public static final String ARG_MOVIE = "movie";
     public static final String ARG_SCREEN_TYPE = "screen_type";
 
     private Movie mMovie;
@@ -49,11 +46,8 @@ public class MovieDetailFragment extends Fragment
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate: ");
 
-        if (getArguments().containsKey(ARG_MOVIE_ID)) {
-            //mMovie = DummyContent.MOVIES.get(getArguments().getInt(ARG_MOVIE_ID, -1));
-            List<Object> list = Singleton.getInstance().getList();
-            int id = getArguments().getInt(ARG_MOVIE_ID, -1);
-            mMovie = (Movie) list.get(id);
+        if (getArguments().containsKey(ARG_MOVIE)) {
+            mMovie = getArguments().getParcelable(ARG_MOVIE);
         }
 
         if (getArguments().containsKey(ARG_SCREEN_TYPE)) {
@@ -91,11 +85,11 @@ public class MovieDetailFragment extends Fragment
 
                 Picasso.with(getContext())
                         .load("https://image.tmdb.org/t/p/w300" + mMovie.getBackdropPath())
-                        .placeholder(R.drawable.placeholder)
+                        .placeholder(R.drawable.placeholder_poster)
                         .into(mMoviePosterBackIV);
                 Picasso.with(getContext())
                         .load("https://image.tmdb.org/t/p/w500" + mMovie.getPosterPath())
-                        .placeholder(R.drawable.placeholder)
+                        .placeholder(R.drawable.placeholder_poster)
                         .into(mMoviePosterIV);
             }
 

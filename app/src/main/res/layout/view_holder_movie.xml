@@ -1,54 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_width="96dp"
+    android:layout_height="240dp"
+    android:layout_marginLeft="4dp"
+    android:layout_marginRight="4dp">
 
     <ImageView
         android:id="@+id/image_item_movie_poster"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:src="@drawable/dummyposter4"
         android:adjustViewBounds="true"/>
 
-    <RelativeLayout
-        android:id="@+id/bottom_bar"
+    <TextView
+        android:id="@+id/text_movie_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="#88888888">
-
-        <TextView
-            android:id="@+id/text_movie_rating"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="4.5"
-            android:textColor="@android:color/white"
-            android:textSize="20sp"
-            android:gravity="center_vertical"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"/>
-
-        <ImageView
-            android:id="@+id/image_rating_star"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:adjustViewBounds="true"
-            android:src="@android:drawable/btn_star_big_on"
-            android:layout_toLeftOf="@id/text_movie_rating"
-            android:layout_toStartOf="@id/text_movie_rating"/>
-
-        <TextView
-            android:id="@+id/text_movie_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/image_rating_star"
-            android:layout_toStartOf="@id/image_rating_star"
-            android:text="HaHaHaHa"
-            android:textColor="@android:color/white"
-            android:textSize="20sp"
-            android:gravity="center_vertical"/>
-
-    </RelativeLayout>
-
+        android:layout_height="64dp"
+        android:text="HaHaHaHaHaHaHaHa"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        android:background="#FFF"
+        android:layout_below="@id/image_item_movie_poster"/>
 
 </RelativeLayout>

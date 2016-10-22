@@ -14,10 +14,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.List;
-
 import cz.muni.fi.pv256.movio2.uco_410371.models.Movie;
-import cz.muni.fi.pv256.movio2.uco_410371.network.Singleton;
 
 /**
  * MovieDetail Activity
@@ -60,16 +57,13 @@ public class MovieDetailActivity extends AppCompatActivity
 
         initView();
 
-        //Movie movie = DummyContent.MOVIES.get(getIntent().getIntExtra(MovieDetailFragment.ARG_MOVIE_ID, -1));
-        List<Object> list = Singleton.getInstance().getList();
-        int id = getIntent().getIntExtra(MovieDetailFragment.ARG_MOVIE_ID, -1);
-        Movie movie = (Movie) list.get(id);
+        Movie movie = getIntent().getParcelableExtra(MovieDetailFragment.ARG_MOVIE);
         if (movie != null) setMovieDetail(movie);
 
         if (savedInstanceState == null) {
             Bundle args = new Bundle();
-            args.putInt(MovieDetailFragment.ARG_MOVIE_ID,
-                    getIntent().getIntExtra(MovieDetailFragment.ARG_MOVIE_ID, -1));
+            args.putParcelable(MovieDetailFragment.ARG_MOVIE,
+                    getIntent().getParcelableExtra(MovieDetailFragment.ARG_MOVIE));
             args.putBoolean(MovieDetailFragment.ARG_SCREEN_TYPE,
                     getIntent().getBooleanExtra(MovieDetailFragment.ARG_SCREEN_TYPE, false));
             MovieDetailFragment fragment = new MovieDetailFragment();
@@ -92,11 +86,11 @@ public class MovieDetailActivity extends AppCompatActivity
         mMovieTitleTVCollapsed.setText(movie.getTitle());
         Picasso.with(this)
                 .load("https://image.tmdb.org/t/p/w300" + movie.getBackdropPath())
-                .placeholder(R.drawable.placeholder)
+                .placeholder(R.drawable.placeholder_poster)
                 .into(mMoviePosterBackIV);
         Picasso.with(this)
                 .load("https://image.tmdb.org/t/p/w500" + movie.getPosterPath())
-                .placeholder(R.drawable.placeholder)
+                .placeholder(R.drawable.placeholder_poster)
                 .into(mMoviePosterIV);
     }
 

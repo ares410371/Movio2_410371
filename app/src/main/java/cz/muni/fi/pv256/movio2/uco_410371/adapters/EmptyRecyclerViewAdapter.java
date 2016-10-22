@@ -13,7 +13,7 @@ import cz.muni.fi.pv256.movio2.uco_410371.R;
  * Created by Benjamin Varga on 17.10.2016.
  */
 
-public class EmptyRecyclerViewAdapter extends RecyclerView.Adapter<EmptyRecyclerViewAdapter.ViewHolder>{
+public class EmptyRecyclerViewAdapter extends RecyclerView.Adapter<EmptyRecyclerViewAdapter.EmptyViewHolder>{
 
     private String mMessage;
 
@@ -22,32 +22,30 @@ public class EmptyRecyclerViewAdapter extends RecyclerView.Adapter<EmptyRecycler
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public EmptyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.view_holder_empty, parent, false);
-
-        ViewHolder viewHolder = new ViewHolder(view);
-
-        if (mMessage != null) {
-            viewHolder.getMessageView().setText(mMessage);
-        }
-        return viewHolder;
+        return new EmptyViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {}
+    public void onBindViewHolder(EmptyViewHolder viewHolder, int position) {
+        if (mMessage != null) {
+            viewHolder.getMessageView().setText(mMessage);
+        }
+    }
 
     @Override
     public int getItemCount() {
         return 1;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class EmptyViewHolder extends RecyclerView.ViewHolder {
 
         private View mView;
         private TextView mMessageView;
 
-        public ViewHolder(View itemView) {
+        public EmptyViewHolder(View itemView) {
             super(itemView);
 
             mView = itemView;

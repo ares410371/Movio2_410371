@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
@@ -24,11 +23,12 @@ import cz.muni.fi.pv256.movio2.uco_410371.network.Singleton;
  * Created by Benjamin Varga on 6.10.2016.
  */
 
-public class MainFragment extends Fragment implements OnClickListener {
+public class MainFragment extends Fragment {
 
     private static final String TAG = MainFragment.class.getName();
 
     private boolean mTwoPane;
+    private DownloadManager downloadManager;
 
     public MainFragment() {}
 
@@ -36,6 +36,9 @@ public class MainFragment extends Fragment implements OnClickListener {
     public void onAttach(Context context) {
         super.onAttach(context);
         Log.d(TAG, "onAttach: ");
+
+        downloadManager = new DownloadManager(getContext());
+        downloadManager.startDownloadTask();
     }
 
     @Override
@@ -43,8 +46,7 @@ public class MainFragment extends Fragment implements OnClickListener {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate: ");
 
-        DownloadManager downloadManager = new DownloadManager(getContext());
-        downloadManager.startDownloadTask();
+        setRetainInstance(true);
     }
 
     @Nullable
@@ -113,36 +115,14 @@ public class MainFragment extends Fragment implements OnClickListener {
     public void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "onDestroy: ");
-        DownloadManager downloadManager = new DownloadManager(getContext());
-        downloadManager.cancelDownloadTask();
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
         Log.d(TAG, "onDetach: ");
+
+        downloadManager.cancelDownloadTask();
+        downloadManager = null;
     }
-
-    @Override
-    public void onClick(View view) {
-
-//        switch (view.getId()) {
-//            case R.id.button_theme :
-//                selectTheme();
-//                break;
-//            default:
-//                Log.e(TAG, "onClick: Bad view id.");
-//                break;
-//        }
-    }
-
-//    private void selectTheme() {
-//        SharedPreferences sharedPreferences = getActivity()
-//                .getSharedPreferences(MainActivity.PREF_CONFIG_THEME, Context.MODE_PRIVATE);
-//        SharedPreferences.Editor editor = sharedPreferences.edit();
-//        editor.putBoolean(MainActivity.PREF_THEME, !sharedPreferences.getBoolean(MainActivity.PREF_THEME, false));
-//        editor.apply();
-//        getActivity().recreate();
-//    }
-
 }

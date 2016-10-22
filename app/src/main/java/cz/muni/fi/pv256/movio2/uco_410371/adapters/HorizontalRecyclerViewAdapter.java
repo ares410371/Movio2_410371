@@ -99,8 +99,8 @@ public class HorizontalRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
         MovieRecyclerViewAdapter movieRecyclerViewAdapter =
                 new MovieRecyclerViewAdapter(mContext, movies, mTwoPane);
         horizontalRV.setAdapter(movieRecyclerViewAdapter);
-        SnapHelper snapHelper = new LinearSnapHelper();
-        snapHelper.attachToRecyclerView(horizontalRV);
+//        SnapHelper snapHelper = new LinearSnapHelper();
+//        snapHelper.attachToRecyclerView(horizontalRV);
     }
 
     public static class HorizontalRVViewHolder extends RecyclerView.ViewHolder {

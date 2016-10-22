@@ -18,7 +18,6 @@ c) Chcete víc?
 
 Ukol 5:
 a) Implementujte stahování a parsování dat pomocí OkHttpClient (http://square.github.io/okhttp/)
-   1) Pro stahování použijte AsyncTask
    2) Implementujte akce pro správné stahování dat, nedostupnost internetu nebo nemožnost parsování dat
    3) Zacházejte s AsyncTaskem správně - nesmí leakovat, když aktivita ukončí svůj cyklus
    ​    a) pozor na otočení obrazovky

@@ -13,6 +13,9 @@ import com.bluelinelabs.logansquare.annotation.JsonObject;
 @JsonObject
 public class Movie implements Parcelable {
 
+    @JsonField(name = "id")
+    private int mId;
+
     @JsonField(name = "release_date")
     private long mReleaseDate;
 
@@ -30,12 +33,21 @@ public class Movie implements Parcelable {
 
     public Movie() {}
 
-    public Movie(long releaseDate, String posterPath, String title, String backdropPath, float popularity) {
+    public Movie(int id, long releaseDate, String posterPath, String title, String backdropPath, float popularity) {
+        mId = id;
         mReleaseDate = releaseDate;
         mPosterPath = posterPath;
         mTitle = title;
         mBackdropPath = backdropPath;
         mPopularity = popularity;
+    }
+
+    public int getId() {
+        return mId;
+    }
+
+    public void setId(int id) {
+        mId = id;
     }
 
     public long getReleaseDate() {
@@ -84,6 +96,7 @@ public class Movie implements Parcelable {
     }
 
     public Movie(Parcel in) {
+        mId = in.readInt();
         mReleaseDate = in.readLong();
         mPosterPath = in.readString();
         mTitle = in.readString();
@@ -93,6 +106,7 @@ public class Movie implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(mId);
         dest.writeLong(mReleaseDate);
         dest.writeString(mPosterPath);
         dest.writeString(mTitle);

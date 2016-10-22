@@ -29,15 +29,6 @@ public class DownloadManager {
     private boolean isTaskExecuting;
     private DownloadTask mDownloadTask;
     private Context mContext;
-    private List<Movie> mMovies;
-
-    public List<Movie> getMovies() {
-        return mMovies;
-    }
-
-    public void setMovies(List<Movie> movies) {
-        mMovies = movies;
-    }
 
     public DownloadManager(Context context) {
         mContext = context;
@@ -50,6 +41,8 @@ public class DownloadManager {
         private static final String BASE_URL = "https://api.themoviedb.org/3/";
         private static final String UPCOMING_URL = "movie/upcoming";
         private static final String POPULAR_URL = "movie/popular";
+        private static final String TOP_RATED_URL = "movie/top_rated";
+        private static final String NOW_PLAYING_URL = "movie/now_playing";
 
         private final OkHttpClient mOkHttpClient = new OkHttpClient();
 
@@ -91,6 +84,10 @@ public class DownloadManager {
                 return UPCOMING_URL;
             } else if (url.startsWith("Popular")) {
                 return POPULAR_URL;
+            } else if (url.startsWith("Top Rated")) {
+                return TOP_RATED_URL;
+            } else if (url.startsWith("Now Playing")) {
+                return NOW_PLAYING_URL;
             } else {
                 return "";
             }
@@ -113,7 +110,7 @@ public class DownloadManager {
     public void startDownloadTask() {
         if (!isTaskExecuting) {
             mDownloadTask = new DownloadTask();
-            mDownloadTask.execute("Upcoming Movies", "Popular Movies");
+            mDownloadTask.execute("Upcoming Movies", "Popular Movies", "Top Rated Movies", "Now Playing Movies");
             isTaskExecuting = true;
         }
     }
@@ -129,7 +126,8 @@ public class DownloadManager {
         ConnectivityManager manager =
                 (ConnectivityManager)mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = manager.getActiveNetworkInfo();
-        return (networkInfo != null) && (networkInfo.isConnectedOrConnecting());
+        boolean activeInternet = (networkInfo != null) && (networkInfo.isConnectedOrConnecting());
+        return activeInternet;
     }
 
     private static List<Movie> parseJson(String json) {

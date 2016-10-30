@@ -22,13 +22,4 @@ a) Implementujte stahování a parsování dat pomocí OkHttpClient (http://squa
    3) Zacházejte s AsyncTaskem správně - nesmí leakovat, když aktivita ukončí svůj cyklus
    ​    a) pozor na otočení obrazovky
 
-c) Na stahování obrázků použijte Picasso nebo Glide (nebo UniversalImageLoader - umí toho víc)
-   2) Nezapomeňte na cachování do paměti anebo i na disk
-        a) sledujte, kdy se tahá obrázek z cache, kdy z disku, kdy ze servru
-           (v Picassu na to jsou debugIndicators)
-
-
-
-//Ked bude databaza mozem to rozsirit pre
-// /movie/{movie_id}/credits
-//
+Ukol 6: Complete

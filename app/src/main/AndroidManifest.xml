@@ -31,6 +31,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity"/>
         </activity>
+        <service
+            android:name=".network.DownloadService"
+            android:enabled="true"
+            android:exported="true"/>
     </application>
 
 </manifest>

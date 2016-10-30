@@ -1,9 +1,14 @@
 package cz.muni.fi.pv256.movio2.uco_410371;
 
+import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,20 +20,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cz.muni.fi.pv256.movio2.uco_410371.adapters.HorizontalRecyclerViewAdapter;
-import cz.muni.fi.pv256.movio2.uco_410371.network.DownloadManager;
+import cz.muni.fi.pv256.movio2.uco_410371.network.DownloadService;
 import cz.muni.fi.pv256.movio2.uco_410371.network.Singleton;
-
-/**
- * Main Fragment
- * Created by Benjamin Varga on 6.10.2016.
- */
 
 public class MainFragment extends Fragment {
 
-    private static final String TAG = MainFragment.class.getName();
+    //*****CONSTANT*****
+    public static final String MESSAGE = "message";
+    public static final String TAG = MainFragment.class.getName();
 
     private boolean mTwoPane;
-    private DownloadManager downloadManager;
+    private LocalBroadcastManager mBroadcastManager;
 
     public MainFragment() {}
 
@@ -36,9 +38,8 @@ public class MainFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         Log.d(TAG, "onAttach: ");
-
-        downloadManager = new DownloadManager(getContext());
-        downloadManager.startDownloadTask();
+        mBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
+        startService();
     }
 
     @Override
@@ -91,12 +92,14 @@ public class MainFragment extends Fragment {
     public void onResume() {
         super.onResume();
         Log.d(TAG, "onResume: ");
+        registerReceiver();
     }
 
     @Override
     public void onPause() {
         super.onPause();
         Log.d(TAG, "onPause: ");
+        unregisterReceiver();
     }
 
     @Override
@@ -121,8 +124,34 @@ public class MainFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         Log.d(TAG, "onDetach: ");
-
-        downloadManager.cancelDownloadTask();
-        downloadManager = null;
     }
+
+    //*****PRIVATE METHODS*****
+
+    private void startService() {
+        Intent intent = new Intent(getActivity(), DownloadService.class);
+        getActivity().startService(intent);
+    }
+
+    private void registerReceiver() {
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(MESSAGE);
+        mBroadcastManager.registerReceiver(mBroadcastReceiver, intentFilter);
+    }
+
+    private void unregisterReceiver() {
+        mBroadcastManager.unregisterReceiver(mBroadcastReceiver);
+    }
+
+    private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            int resultCode = intent.getIntExtra(DownloadService.RESULT_CODE, Activity.RESULT_CANCELED);
+            if (resultCode == Activity.RESULT_OK && intent.getAction().equals(MESSAGE)) {
+                //get extra from intent
+                boolean isData = intent.getBooleanExtra(DownloadService.RESULT_VALUE, false);
+                Log.d(TAG, "onReceive: is Data on Singleton? " + (isData ? "Yes" : "No"));
+            }
+        }
+    };
 }

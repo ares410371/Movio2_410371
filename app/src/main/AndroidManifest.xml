@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    package="cz.muni.fi.pv256.movio2.uco_410371"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest package="cz.muni.fi.pv256.movio2.uco_410371"
+          xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET"/>
 
@@ -31,10 +30,12 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity"/>
         </activity>
+
         <service
             android:name=".network.DownloadService"
             android:enabled="true"
             android:exported="true"/>
+
     </application>
 
 </manifest>

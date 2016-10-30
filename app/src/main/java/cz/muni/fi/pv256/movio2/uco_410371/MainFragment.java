@@ -64,20 +64,9 @@ public class MainFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-
-        List<Object> list = new ArrayList<>();
-
-//        if (list.size() == 0) {
-//            EmptyRecyclerViewAdapter emptyRecyclerViewAdapter = new EmptyRecyclerViewAdapter("NO DATA");
-//            recyclerView.setAdapter(emptyRecyclerViewAdapter);
-////        } else if (/*NO INTERNET*/) {
-////            EmptyRecyclerViewAdapter emptyRecyclerViewAdapter = new EmptyRecyclerViewAdapter("NO INTERNET");
-////            recyclerView.setAdapter(emptyRecyclerViewAdapter);
-//        } else {
-            HorizontalRecyclerViewAdapter horizontalRecyclerViewAdapter = new HorizontalRecyclerViewAdapter(getContext(), list, mTwoPane);
-            Singleton.getInstance().setHorizontalRecyclerViewAdapter(horizontalRecyclerViewAdapter);
-            recyclerView.setAdapter(horizontalRecyclerViewAdapter);
-//        }
+        HorizontalRecyclerViewAdapter horizontalRecyclerViewAdapter = new HorizontalRecyclerViewAdapter(getContext(), mTwoPane);
+        Singleton.getInstance().setHorizontalRecyclerViewAdapter(horizontalRecyclerViewAdapter);
+        recyclerView.setAdapter(horizontalRecyclerViewAdapter);
 
         return view;
     }

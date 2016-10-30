@@ -93,5 +93,6 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="movie_detail_poster_picture">Poster Picture</string>
+    <string name="empty_no_data">NO DATA</string>
 
 </resources>

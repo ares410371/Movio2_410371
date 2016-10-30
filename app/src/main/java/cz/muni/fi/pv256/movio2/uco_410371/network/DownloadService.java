@@ -17,6 +17,7 @@ import java.util.List;
 import cz.muni.fi.pv256.movio2.uco_410371.BuildConfig;
 import cz.muni.fi.pv256.movio2.uco_410371.MainFragment;
 import cz.muni.fi.pv256.movio2.uco_410371.R;
+import cz.muni.fi.pv256.movio2.uco_410371.interfaces.RetrofitInterface;
 import cz.muni.fi.pv256.movio2.uco_410371.models.Movie;
 import cz.muni.fi.pv256.movio2.uco_410371.models.MoviesResponse;
 import retrofit2.Call;
@@ -30,11 +31,11 @@ public class DownloadService extends IntentService {
     public static final String RESULT_CODE = "resultCode";
     public static final String RESULT_VALUE = "resultValue";
 
-    private final String MOVIE_DB_API_KEY = BuildConfig.MOVIE_DB_API_KEY;
-    private final String BASE_URL = "https://api.themoviedb.org/3/";
-    private final int DOWNLOAD_NOTIFICATION_ID = 100;
-    private final int DONE_NOTIFICATION_ID = 101;
-    private final int ERROR_NOTIFICATION_ID = 102;
+    private static final String MOVIE_DB_API_KEY = BuildConfig.MOVIE_DB_API_KEY;
+    private static final String BASE_URL = "https://api.themoviedb.org/3/";
+    private static final int DOWNLOAD_NOTIFICATION_ID = 100;
+    private static final int DONE_NOTIFICATION_ID = 101;
+    private static final int ERROR_NOTIFICATION_ID = 102;
 
     private NotificationManager mNotificationManager;
 

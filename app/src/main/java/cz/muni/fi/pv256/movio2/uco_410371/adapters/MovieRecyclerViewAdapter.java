@@ -22,10 +22,6 @@ import cz.muni.fi.pv256.movio2.uco_410371.R;
 import cz.muni.fi.pv256.movio2.uco_410371.interfaces.ItemClickListener;
 import cz.muni.fi.pv256.movio2.uco_410371.models.Movie;
 
-/**
- * Created by Benjamin Varga on 19.10.2016.
- */
-
 public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecyclerViewAdapter.MovieViewHolder> {
 
     private List<Movie> mMovies;
@@ -70,8 +66,7 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
                 }
             });
 
-            Picasso.with(mContext).setIndicatorsEnabled(true); //todo zmazat
-
+//            Picasso.with(mContext).setIndicatorsEnabled(true); //todo zmazat
             Picasso.with(mContext)
                     .load("https://image.tmdb.org/t/p/w500" + movie.getPosterPath())
                     .placeholder(R.drawable.placeholder_poster)

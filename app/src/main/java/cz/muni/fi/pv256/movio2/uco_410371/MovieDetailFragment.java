@@ -18,15 +18,10 @@ import com.squareup.picasso.Picasso;
 
 import cz.muni.fi.pv256.movio2.uco_410371.models.Movie;
 
-/**
- * MovieDetail Fragment
- * Created by Benjamin Varga on 6.10.2016.
- */
-
 public class MovieDetailFragment extends Fragment
         implements AppBarLayout.OnOffsetChangedListener{
 
-    private static final String TAG = MovieDetailFragment.class.getName();
+    public static final String TAG = MovieDetailFragment.class.getName();
     public static final String ARG_MOVIE = "movie";
     public static final String ARG_SCREEN_TYPE = "screen_type";
 
@@ -161,13 +156,11 @@ public class MovieDetailFragment extends Fragment
                 mFab.setVisibility(View.GONE);
                 isHeaderVisible = !isHeaderVisible;
             }
-        } else if (percentage < 0.8f) {
-            if (!isHeaderVisible) {
-                mMoviePosterIV.setVisibility(View.VISIBLE);
-                mMovieTitleTVExpanded.setVisibility(View.VISIBLE);
-                mFab.setVisibility(View.VISIBLE);
-                isHeaderVisible = !isHeaderVisible;
-            }
+        } else if (!isHeaderVisible) {
+            mMoviePosterIV.setVisibility(View.VISIBLE);
+            mMovieTitleTVExpanded.setVisibility(View.VISIBLE);
+            mFab.setVisibility(View.VISIBLE);
+            isHeaderVisible = !isHeaderVisible;
         }
     }
 }

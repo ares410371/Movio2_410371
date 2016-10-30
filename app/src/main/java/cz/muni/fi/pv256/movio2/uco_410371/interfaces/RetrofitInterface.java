@@ -1,8 +1,7 @@
-package cz.muni.fi.pv256.movio2.uco_410371.network;
+package cz.muni.fi.pv256.movio2.uco_410371.interfaces;
 
 import cz.muni.fi.pv256.movio2.uco_410371.models.MovieCredits;
 import cz.muni.fi.pv256.movio2.uco_410371.models.MoviesResponse;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;

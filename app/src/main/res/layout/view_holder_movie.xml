@@ -10,14 +10,12 @@
         android:id="@+id/image_item_movie_poster"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/dummyposter4"
         android:adjustViewBounds="true"/>
 
     <TextView
         android:id="@+id/text_movie_title"
         android:layout_width="match_parent"
         android:layout_height="64dp"
-        android:text="HaHaHaHaHaHaHaHa"
         android:textColor="@android:color/black"
         android:textSize="16sp"
         android:background="#FFF"

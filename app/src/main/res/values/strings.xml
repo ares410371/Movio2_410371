@@ -94,5 +94,8 @@
     </string>
     <string name="movie_detail_poster_picture">Poster Picture</string>
     <string name="empty_no_data">NO DATA</string>
+    <string name="title_activity_genres">Genres</string>
+    <string name="action_settings">Settings</string>
+
 
 </resources>

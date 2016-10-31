@@ -1,10 +1,16 @@
 package cz.muni.fi.pv256.movio2.uco_410371;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+
+import java.util.Set;
 
 /**
  * MainActivity
@@ -27,6 +33,30 @@ public class MainActivity extends AppCompatActivity {
             setTheme(R.style.AppTheme);
         }
         setContentView(R.layout.activity_main);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_settings) {
+            startActivity(new Intent(MainActivity.this, MainPreferences.class));
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+            Set<String> set = preferences.getStringSet("pref_genres", null);
+            if (set != null) {
+                for (String s : set) {
+                    Log.d(MainActivity.class.getName(), "onOptionsItemSelected: " + s);
+                }
+            }
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

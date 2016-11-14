@@ -2,7 +2,7 @@ package cz.muni.fi.pv256.movio2.uco_410371.db.models;
 
 public class Movie {
 
-    private int mId;
+    private long mId;
     private String mTitle;
     private int mCategoryId;
     private int mTMDId;
@@ -11,7 +11,7 @@ public class Movie {
     private String mReleaseDate;
     private double mPopularity ;
 
-    public Movie(int id, String title, int categoryId, int TMDId, String posterPath,
+    public Movie(long id, String title, int categoryId, int TMDId, String posterPath,
                  String backdropPath, String releaseDate, double popularity) {
         mId = id;
         mTitle = title;
@@ -23,11 +23,11 @@ public class Movie {
         mPopularity = popularity;
     }
 
-    public int getId() {
+    public long getId() {
         return mId;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         mId = id;
     }
 
@@ -111,7 +111,7 @@ public class Movie {
     public int hashCode() {
         int result;
         long temp;
-        result = mId;
+        result = (int) (mId ^ (mId >>> 32));
         result = 31 * result + mTitle.hashCode();
         result = 31 * result + mCategoryId;
         result = 31 * result + mTMDId;

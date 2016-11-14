@@ -17,7 +17,7 @@ public class Movie implements Parcelable {
     private int mId;
 
     @JsonField(name = "release_date")
-    private long mReleaseDate;
+    private String mReleaseDate;
 
     @JsonField(name = "poster_path")
     private String mPosterPath;
@@ -33,7 +33,7 @@ public class Movie implements Parcelable {
 
     public Movie() {}
 
-    public Movie(int id, long releaseDate, String posterPath, String title, String backdropPath, float popularity) {
+    public Movie(int id, String releaseDate, String posterPath, String title, String backdropPath, float popularity) {
         mId = id;
         mReleaseDate = releaseDate;
         mPosterPath = posterPath;
@@ -50,11 +50,11 @@ public class Movie implements Parcelable {
         mId = id;
     }
 
-    public long getReleaseDate() {
+    public String getReleaseDate() {
         return mReleaseDate;
     }
 
-    public void setReleaseDate(long releaseDate) {
+    public void setReleaseDate(String releaseDate) {
         mReleaseDate = releaseDate;
     }
 
@@ -97,7 +97,7 @@ public class Movie implements Parcelable {
 
     public Movie(Parcel in) {
         mId = in.readInt();
-        mReleaseDate = in.readLong();
+        mReleaseDate = in.readString();
         mPosterPath = in.readString();
         mTitle = in.readString();
         mBackdropPath = in.readString();
@@ -107,7 +107,7 @@ public class Movie implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(mId);
-        dest.writeLong(mReleaseDate);
+        dest.writeString(mReleaseDate);
         dest.writeString(mPosterPath);
         dest.writeString(mTitle);
         dest.writeString(mBackdropPath);

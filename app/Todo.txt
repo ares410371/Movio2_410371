@@ -1,6 +1,8 @@
 1) Ak je zobrazeni portrait režim na tablete tak po rotacii sa detail nezmeni na TwoPane
 
-Ukol 6: Complete
-
-
 //radenie categorii pri volani treba upravit aby vždy sa rovnako zobrazovali
+
+Ukol 7:
+- Doplnit do detailu cely datum
+- Vytvorit testy na databazu
+- vyriesit TODO

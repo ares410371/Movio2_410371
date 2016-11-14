@@ -122,6 +122,8 @@ public class DownloadService extends IntentService {
     }
 
     private void onDownloadComplete(List<Movie> movies, String type) {
+        Log.d(TAG, "onDownloadComplete: releaseDate = " + movies.get(0).getReleaseDate());
+
         mNotificationManager.cancel(DOWNLOAD_NOTIFICATION_ID);
         mNotificationManager.notify(DONE_NOTIFICATION_ID, getDoneNotification().build());
         sendIntent(movies, type);

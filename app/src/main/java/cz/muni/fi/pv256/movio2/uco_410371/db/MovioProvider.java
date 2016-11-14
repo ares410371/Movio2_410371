@@ -5,6 +5,7 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.Nullable;
@@ -22,8 +23,6 @@ public class MovioProvider extends ContentProvider {
     private static final int MOVIE = 200;
     private static final int MOVIE_ID = 201;
     private static final String CONTENT_AUTHORITY = "cz.muni.fi.pv256.movio2.uco_410371";
-    private static final Uri CONTENT_URI_CATEGORY = Uri.parse("content://" + CONTENT_AUTHORITY + "/" + CATEGORY_PATH);
-    private static final Uri CONTENT_URI_MOVIE = Uri.parse("content://" + CONTENT_AUTHORITY + "/" + MOVIE_PATH);
     private static final UriMatcher sUriMatcher = getUriMatcher();
 
     private static UriMatcher getUriMatcher() {
@@ -36,6 +35,10 @@ public class MovioProvider extends ContentProvider {
 
         return matcher;
     }
+
+    public static final Uri CONTENT_URI_CATEGORY = Uri.parse("content://" + CONTENT_AUTHORITY + "/" + CATEGORY_PATH);
+    public static final Uri CONTENT_URI_MOVIE = Uri.parse("content://" + CONTENT_AUTHORITY + "/" + MOVIE_PATH);
+
 
     private MovioDbHelper mMovioDbHelper;
 

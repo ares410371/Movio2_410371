@@ -17,12 +17,13 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import cz.muni.fi.pv256.movio2.uco_410371.models.Movie;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
-/**
- * MovieDetail Activity
- * Created by Benjamin Varga on 6.10.2016.
- */
+import cz.muni.fi.pv256.movio2.uco_410371.db.MovioManager;
+import cz.muni.fi.pv256.movio2.uco_410371.models.Movie;
 
 public class MovieDetailActivity extends AppCompatActivity
         implements AppBarLayout.OnOffsetChangedListener, View.OnClickListener {
@@ -57,7 +58,7 @@ public class MovieDetailActivity extends AppCompatActivity
         initView();
 
         //// TODO: 14.11.2016 nefunguje po zmene sa nezovola setmovie
-        mFab.setImageResource(isInDB ? android.R.drawable.ic_input_delete : android.R.drawable.ic_input_add);
+
 
 
         mMovie = getIntent().getParcelableExtra(MovieDetailFragment.ARG_MOVIE);
@@ -135,24 +136,23 @@ public class MovieDetailActivity extends AppCompatActivity
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.fab_detail) {
-            Snackbar.make(view, "Replace with your own action " + isInDB, Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
-            // TODO: 13.11.2016 save or remove to/from database
-
+            MovioManager manager = new MovioManager(this);
             if (isInDB) {
                 // TODO: 13.11.2016 remove
+                // TODO: 14.11.2016 opravit mazanie nefunguje
+                mFab.setImageResource(R.mipmap.ic_add_circle);
 
-                isInDB = false;
-            } else {
-                // TODO: 13.11.2016 add
                 if (mMovie != null) {
-                    ContentValues contentValues = new ContentValues();
-                    contentValues.put("tmd_id", mMovie.getId());
-                    contentValues.put("title", mMovie.getTitle());
-                    contentValues.put("poster_path", mMovie.getPosterPath());
-                    Uri uri = getContentResolver().insert(Uri.parse("content://cz.muni.fi.pv256.movio2.uco_410371/movie"), contentValues);
-                    Log.d(TAG, uri.toString());
+                    manager.deleteMovie(convertMovieToDB(mMovie));
+                    isInDB = false;
+                } else {
+                    throw new NullPointerException("mMovie is null. Doesn't saved to database.");
+                }
+            } else {
+                mFab.setImageResource(R.mipmap.ic_delete);
 
+                if (mMovie != null /*&& ifNotExists(manager, mMovie)*/) { //// TODO: 14.11.2016 vyriesit duplikaty
+                    manager.createMovie(convertMovieToDB(mMovie));
                     isInDB = true;
                 } else {
                     throw new NullPointerException("mMovie is null. Doesn't saved to database.");
@@ -160,6 +160,7 @@ public class MovieDetailActivity extends AppCompatActivity
             }
         }
     }
+
 
     //*************************
     //*****Private Methods*****
@@ -185,5 +186,29 @@ public class MovieDetailActivity extends AppCompatActivity
                 .placeholder(R.drawable.placeholder_poster)
                 .into(mMoviePosterIV);
     }
+
+    private cz.muni.fi.pv256.movio2.uco_410371.db.models.Movie convertMovieToDB(Movie movie) {
+        Log.d(TAG, "convertMovieToDB: string= " + movie.getReleaseDate());
+
+        return new cz.muni.fi.pv256.movio2.uco_410371.db.models.Movie(
+                0,
+                movie.getTitle(),
+                0,
+                movie.getId(),
+                movie.getPosterPath(),
+                movie.getBackdropPath(),
+                movie.getReleaseDate(),
+                movie.getPopularity()
+        );
+    }
+
+//    private boolean ifNotExists(MovioManager manager, Movie movie) {
+//        List<cz.muni.fi.pv256.movio2.uco_410371.db.models.Movie> allMovies = manager.getAllMovies();
+//        for (cz.muni.fi.pv256.movio2.uco_410371.db.models.Movie m: allMovies) {
+//            if (m.getTMDId() == movie.getId())
+//                return false;
+//        }
+//        return true;
+//    }
 
 }

@@ -7,24 +7,24 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class MovioDbHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "movioDB.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 4;
 
     //KEY_+TABLE_+COLUMN_NAME
     //*****CATEGORY TABLE******
     public static final String TABLE_CATEGORY = "category";
-    private static final String KEY_CATEGORY_ID = "id";
-    private static final String KEY_CATEGORY_NAME = "name";
+    public static final String KEY_CATEGORY_ID = "id";
+    public static final String KEY_CATEGORY_NAME = "name";
 
     //*****MOVIE TABLE******
     public static final String TABLE_MOVIE = "movie";
-    private static final String KEY_MOVIE_ID = "id";
-    private static final String KEY_MOVIE_CATEGORY_ID = "category_id";
-    private static final String KEY_MOVIE_TMD_ID = "tmd_id";
-    private static final String KEY_MOVIE_TITLE = "title";
-    private static final String KEY_MOVIE_POSTER_PATH = "poster_path";
-    private static final String KEY_MOVIE_BACKDROP_PATH = "backdrop_path";
-    private static final String KEY_MOVIE_RELEASE_DATE = "release_date";
-    private static final String KEY_MOVIE_POPULARITY = "popularity";
+    public static final String KEY_MOVIE_ID = "id";
+    public static final String KEY_MOVIE_CATEGORY_ID = "category_id";
+    public static final String KEY_MOVIE_TMD_ID = "tmd_id";
+    public static final String KEY_MOVIE_TITLE = "title";
+    public static final String KEY_MOVIE_POSTER_PATH = "poster_path";
+    public static final String KEY_MOVIE_BACKDROP_PATH = "backdrop_path";
+    public static final String KEY_MOVIE_RELEASE_DATE = "release_date";
+    public static final String KEY_MOVIE_POPULARITY = "popularity";
 
 
     public MovioDbHelper(Context context) {

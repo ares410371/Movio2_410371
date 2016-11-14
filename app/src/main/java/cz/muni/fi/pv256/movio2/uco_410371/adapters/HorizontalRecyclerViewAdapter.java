@@ -25,13 +25,15 @@ public class HorizontalRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
     // mItems contains Title (String) and Movies(List<Movie>)
     private List<Object> mItems;
     private boolean mTwoPane;
+    private String mType; // TODO: 13.11.2016  
 
-    private static final int EMPTY = 0, MOVIE = 1, CATEGORY = 2;
+    private static final int EMPTY = 0, MOVIES = 1, CATEGORY = 2;
 
-    public HorizontalRecyclerViewAdapter(Context context, boolean twoPane) {
+    public HorizontalRecyclerViewAdapter(Context context, boolean twoPane, String type) {
         mContext = context;
         mItems = new ArrayList<>();
         mTwoPane = twoPane;
+        mType = type;
     }
 
     @Override
@@ -46,8 +48,8 @@ public class HorizontalRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
         }
         if (mItems.get(position) instanceof String) {
             return CATEGORY;
-        } else if (mItems.get(position) instanceof List) {
-            return MOVIE;
+        } else if (isListOfMovies(mItems.get(position))) {
+            return MOVIES;
         }
         return -1;
     }
@@ -56,7 +58,7 @@ public class HorizontalRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         switch (viewType) {
-            case MOVIE: {
+            case MOVIES: {
                 View view1 = inflater.inflate(R.layout.view_holder_horizontal_rv, parent, false);
                 return new HorizontalRVViewHolder(view1);
             }
@@ -75,7 +77,7 @@ public class HorizontalRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         switch (holder.getItemViewType()) {
-            case MOVIE: {
+            case MOVIES: {
                 HorizontalRVViewHolder horizontalRVViewHolder = (HorizontalRVViewHolder) holder;
                 configureHorizontalRVViewHolder(horizontalRVViewHolder, position);
                 break;
@@ -143,8 +145,28 @@ public class HorizontalRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
     }
 
     public void addItems(List<Object> items) {
-        mItems.addAll(items);
-        notifyItemInserted(items.size()-1);
+        int size = 0;
+        for (Object obj : items) {
+            if (obj instanceof String || isListOfMovies(obj)) {
+                mItems.add(obj);
+                size++;
+            }
+        }
+        notifyItemInserted(size - 1);
+//        mItems.addAll(items);
+//        notifyItemInserted(items.size()-1);
+    }
+
+    private boolean isListOfMovies(Object obj) {
+        if (obj instanceof List) {
+            for (Object o : (List)obj) {
+                if (!(o instanceof Movie)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
     }
 
     private void configureCategoryViewHolder(final int position, CategoryViewHolder categoryViewHolder) {
@@ -152,24 +174,31 @@ public class HorizontalRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
         if (str != null) {
             categoryViewHolder.getCategoryTitle().setText(str);
         }
+        // todo
         // Implement soon
         // Show only one category in vertical recyclerView
         categoryViewHolder.getCategoryButton().setVisibility(View.INVISIBLE);
     }
 
+    @SuppressWarnings("unchecked")
     private void configureHorizontalRVViewHolder(HorizontalRVViewHolder viewHolder, int position) {
         RecyclerView horizontalRV = viewHolder.getRecyclerView();
         horizontalRV.setLayoutManager(
                 new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
         horizontalRV.setHasFixedSize(true);
 
-        List<Movie> movies = (List<Movie>) mItems.get(position);
+        List<Movie> movies = new ArrayList<>();
+        if (isListOfMovies(mItems.get(position))) {
+            movies = (List) mItems.get(position);
+        }
 
         MovieRecyclerViewAdapter movieRecyclerViewAdapter =
                 new MovieRecyclerViewAdapter(mContext, movies, mTwoPane);
         horizontalRV.setAdapter(movieRecyclerViewAdapter);
-        // TODO: 30.10.2016 raz za čas padne
-        SnapHelper snapHelperStart = new GravitySnapHelper(Gravity.START);
-        snapHelperStart.attachToRecyclerView(horizontalRV);
+
+//        SnapHelper snapHelperStart = new GravitySnapHelper(Gravity.START);
+//        java.lang.IllegalStateException: An instance of OnFlingListener already set.
+//        snapHelperStart.attachToRecyclerView(horizontalRV);
+//        horizontalRV.setOnFlingListener(snapHelperStart);
     }
 }

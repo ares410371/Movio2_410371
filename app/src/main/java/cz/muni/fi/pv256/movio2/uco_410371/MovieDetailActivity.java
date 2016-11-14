@@ -1,5 +1,7 @@
 package cz.muni.fi.pv256.movio2.uco_410371;
 
+import android.content.ContentValues;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -23,7 +25,7 @@ import cz.muni.fi.pv256.movio2.uco_410371.models.Movie;
  */
 
 public class MovieDetailActivity extends AppCompatActivity
-        implements AppBarLayout.OnOffsetChangedListener {
+        implements AppBarLayout.OnOffsetChangedListener, View.OnClickListener {
 
     public static final String TAG = MovieDetailActivity.class.getName();
 
@@ -33,6 +35,8 @@ public class MovieDetailActivity extends AppCompatActivity
     private ImageView mMoviePosterBackIV;
     private boolean isHeaderVisible;
     private FloatingActionButton mFab;
+    private boolean isInDB;
+    private Movie mMovie;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,19 +54,14 @@ public class MovieDetailActivity extends AppCompatActivity
             actionBar.setDisplayShowTitleEnabled(false);
         }
 
-        mFab = (FloatingActionButton) findViewById(R.id.fab);
-        mFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
         initView();
 
-        Movie movie = getIntent().getParcelableExtra(MovieDetailFragment.ARG_MOVIE);
-        if (movie != null) setMovieDetail(movie);
+        //// TODO: 14.11.2016 nefunguje po zmene sa nezovola setmovie
+        mFab.setImageResource(isInDB ? android.R.drawable.ic_input_delete : android.R.drawable.ic_input_add);
+
+
+        mMovie = getIntent().getParcelableExtra(MovieDetailFragment.ARG_MOVIE);
+        if (mMovie != null) setMovieDetail(mMovie);
 
         if (savedInstanceState == null) {
             Bundle args = new Bundle();
@@ -77,27 +76,7 @@ public class MovieDetailActivity extends AppCompatActivity
                     .commit();
         }
     }
-
-    private void initView() {
-        mMovieTitleTVExpanded = (TextView) findViewById(R.id.text_movie_title_expanded);
-        mMovieTitleTVCollapsed = (TextView) findViewById(R.id.text_movie_title_collapsed);
-        mMoviePosterIV = (ImageView) findViewById(R.id.image_movie_poster);
-        mMoviePosterBackIV = (ImageView) findViewById(R.id.image_movie_back_poster);
-    }
-
-    private void setMovieDetail(Movie movie) {
-        mMovieTitleTVExpanded.setText(movie.getTitle());
-        mMovieTitleTVCollapsed.setText(movie.getTitle());
-        Picasso.with(this)
-                .load("https://image.tmdb.org/t/p/w300" + movie.getBackdropPath())
-                .placeholder(R.drawable.placeholder_poster)
-                .into(mMoviePosterBackIV);
-        Picasso.with(this)
-                .load("https://image.tmdb.org/t/p/w500" + movie.getPosterPath())
-                .placeholder(R.drawable.placeholder_poster)
-                .into(mMoviePosterIV);
-    }
-
+    
     @Override
     protected void onStart() {
         super.onStart();
@@ -151,6 +130,60 @@ public class MovieDetailActivity extends AppCompatActivity
                 isHeaderVisible = !isHeaderVisible;
             }
         }
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.fab_detail) {
+            Snackbar.make(view, "Replace with your own action " + isInDB, Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+            // TODO: 13.11.2016 save or remove to/from database
+
+            if (isInDB) {
+                // TODO: 13.11.2016 remove
+
+                isInDB = false;
+            } else {
+                // TODO: 13.11.2016 add
+                if (mMovie != null) {
+                    ContentValues contentValues = new ContentValues();
+                    contentValues.put("tmd_id", mMovie.getId());
+                    contentValues.put("title", mMovie.getTitle());
+                    contentValues.put("poster_path", mMovie.getPosterPath());
+                    Uri uri = getContentResolver().insert(Uri.parse("content://cz.muni.fi.pv256.movio2.uco_410371/movie"), contentValues);
+                    Log.d(TAG, uri.toString());
+
+                    isInDB = true;
+                } else {
+                    throw new NullPointerException("mMovie is null. Doesn't saved to database.");
+                }
+            }
+        }
+    }
+
+    //*************************
+    //*****Private Methods*****
+
+    private void initView() {
+        mMovieTitleTVExpanded = (TextView) findViewById(R.id.text_movie_title_expanded);
+        mMovieTitleTVCollapsed = (TextView) findViewById(R.id.text_movie_title_collapsed);
+        mMoviePosterIV = (ImageView) findViewById(R.id.image_movie_poster);
+        mMoviePosterBackIV = (ImageView) findViewById(R.id.image_movie_back_poster);
+        mFab = (FloatingActionButton) findViewById(R.id.fab_detail);
+        mFab.setOnClickListener(this);
+    }
+
+    private void setMovieDetail(Movie movie) {
+        mMovieTitleTVExpanded.setText(movie.getTitle());
+        mMovieTitleTVCollapsed.setText(movie.getTitle());
+        Picasso.with(this)
+                .load("https://image.tmdb.org/t/p/w300" + movie.getBackdropPath())
+                .placeholder(R.drawable.placeholder_poster)
+                .into(mMoviePosterBackIV);
+        Picasso.with(this)
+                .load("https://image.tmdb.org/t/p/w500" + movie.getPosterPath())
+                .placeholder(R.drawable.placeholder_poster)
+                .into(mMoviePosterIV);
     }
 
 }

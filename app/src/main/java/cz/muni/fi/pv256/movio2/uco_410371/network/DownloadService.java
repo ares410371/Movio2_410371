@@ -11,8 +11,12 @@ import android.util.Log;
 
 import com.github.aurae.retrofit2.LoganSquareConverterFactory;
 
+import java.net.HttpURLConnection;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import cz.muni.fi.pv256.movio2.uco_410371.BuildConfig;
 import cz.muni.fi.pv256.movio2.uco_410371.MainFragment;
@@ -29,7 +33,8 @@ public class DownloadService extends IntentService {
 
     public static final String TAG = DownloadService.class.getName();
     public static final String RESULT_CODE = "resultCode";
-    public static final String RESULT_VALUE = "resultValue";
+    public static final String RESULT_TYPE = "resultType";
+    public static final String RESULT_MOVIES = "resultMovies";
 
     private static final String MOVIE_DB_API_KEY = BuildConfig.MOVIE_DB_API_KEY;
     private static final String BASE_URL = "https://api.themoviedb.org/3/";
@@ -57,6 +62,9 @@ public class DownloadService extends IntentService {
         mNotificationManager.cancel(DONE_NOTIFICATION_ID);
     }
 
+    //*************************
+    //*****Private Methods*****
+
     private void initialize() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -65,11 +73,21 @@ public class DownloadService extends IntentService {
 
         RetrofitInterface retrofitInterface = retrofit.create(RetrofitInterface.class);
 
-        requestCall(retrofitInterface.getMovies("upcoming", MOVIE_DB_API_KEY), "Upcoming Movies");
-        requestCall(retrofitInterface.getMovies("popular", MOVIE_DB_API_KEY), "Popular Movies");
-        requestCall(retrofitInterface.getMovies("top_rated", MOVIE_DB_API_KEY), "Top Rated Movies");
-        requestCall(retrofitInterface.getMovies("now_playing", MOVIE_DB_API_KEY), "Now Playing Movies");
+        requestCall(retrofitInterface.getDiscoverMovies(MOVIE_DB_API_KEY, null, getDate(7), getDate(28)), "Upcoming Movies2");
+        requestCall(retrofitInterface.getDiscoverMovies(MOVIE_DB_API_KEY, "popularity.desc", null, null), "Popular Movies2");
+        requestCall(retrofitInterface.getDiscoverMovies(MOVIE_DB_API_KEY, null, getDate(-7), getDate(7)), "Now Playing Movies2");
 
+        // TODO: 14.11.2016 prerobit na discover a vymysliet dalsie kategorie
+        requestCall(retrofitInterface.getMovies("top_rated", MOVIE_DB_API_KEY), "Top Rated Movies");
+//        requestCall(retrofitInterface.getMovies("now_playing", MOVIE_DB_API_KEY), "Now Playing Movies");
+
+    }
+
+    private String getDate(int days) {
+        final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        Calendar today = Calendar.getInstance();
+        today.add(Calendar.DAY_OF_YEAR, days);
+        return dateFormat.format(today.getTime());
     }
 
     private void requestCall(Call<MoviesResponse> moviesResponse, final String type) {
@@ -81,17 +99,16 @@ public class DownloadService extends IntentService {
                 } else {
                     Log.e(TAG, "onResponse: code = " + response.code());
                     switch (response.code()) {
-                        case 401: {
+                        case HttpURLConnection.HTTP_UNAUTHORIZED: {
                             mNotificationManager.notify(ERROR_NOTIFICATION_ID, getErrorNotification("Invalid API key").build());
                             break;
                         }
-                        case 404: {
+                        case HttpURLConnection.HTTP_NOT_FOUND: {
                             mNotificationManager.notify(ERROR_NOTIFICATION_ID, getErrorNotification("Resource not found").build());
                             break;
                         }
-                        default: {
+                        default:
                             mNotificationManager.notify(ERROR_NOTIFICATION_ID, getErrorNotification(String.valueOf(response.code())).build());
-                        }
                     }
                 }
             }
@@ -105,20 +122,16 @@ public class DownloadService extends IntentService {
     }
 
     private void onDownloadComplete(List<Movie> movies, String type) {
-        List<Object> list = new ArrayList<>();
-        list.add(type);
-        list.add(movies);
-        Singleton.getInstance().getHorizontalRecyclerViewAdapter().addItems(list);
-
         mNotificationManager.cancel(DOWNLOAD_NOTIFICATION_ID);
         mNotificationManager.notify(DONE_NOTIFICATION_ID, getDoneNotification().build());
-        sendIntent();
+        sendIntent(movies, type);
     }
 
-    private void sendIntent(){
+    private void sendIntent(List<Movie> movies, String type){
         Intent intent = new Intent(MainFragment.MESSAGE);
         intent.putExtra(RESULT_CODE, Activity.RESULT_OK);
-        intent.putExtra(RESULT_VALUE, true); // if true data pridané do singletonu
+        intent.putExtra(RESULT_TYPE, type);
+        intent.putParcelableArrayListExtra(RESULT_MOVIES, (ArrayList<Movie>) movies);
         LocalBroadcastManager.getInstance(DownloadService.this).sendBroadcast(intent);
     }
 

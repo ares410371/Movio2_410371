@@ -66,7 +66,6 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
                 }
             });
 
-//            Picasso.with(mContext).setIndicatorsEnabled(true); //todo zmazat
             Picasso.with(mContext)
                     .load("https://image.tmdb.org/t/p/w500" + movie.getPosterPath())
                     .placeholder(R.drawable.placeholder_poster)

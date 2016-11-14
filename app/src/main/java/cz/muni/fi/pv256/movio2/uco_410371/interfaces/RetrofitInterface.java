@@ -18,4 +18,11 @@ public interface RetrofitInterface {
 
     @GET("/movie/{movie_id}/credits")
     Call<MovieCredits> getMovieCredits(@Path("movie_id") int movieId, @Query("api_key") String apiKey);
+
+    @GET("discover/movie")
+    Call<MoviesResponse> getDiscoverMovies(
+            @Query("api_key") String apiKey,
+            @Query("sort_by") String sortBy,
+            @Query("primary_release_date.gte") String minimumDate,
+            @Query("primary_release_date.lte") String maximumDate);
 }

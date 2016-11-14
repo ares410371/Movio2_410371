@@ -20,8 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cz.muni.fi.pv256.movio2.uco_410371.adapters.HorizontalRecyclerViewAdapter;
+import cz.muni.fi.pv256.movio2.uco_410371.models.Movie;
 import cz.muni.fi.pv256.movio2.uco_410371.network.DownloadService;
-import cz.muni.fi.pv256.movio2.uco_410371.network.Singleton;
 
 public class MainFragment extends Fragment {
 
@@ -31,6 +31,7 @@ public class MainFragment extends Fragment {
 
     private boolean mTwoPane;
     private LocalBroadcastManager mBroadcastManager;
+    private HorizontalRecyclerViewAdapter mRecyclerViewAdapter;
 
     public MainFragment() {}
 
@@ -46,7 +47,6 @@ public class MainFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate: ");
-
         setRetainInstance(true);
     }
 
@@ -64,9 +64,8 @@ public class MainFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        HorizontalRecyclerViewAdapter horizontalRecyclerViewAdapter = new HorizontalRecyclerViewAdapter(getContext(), mTwoPane);
-        Singleton.getInstance().setHorizontalRecyclerViewAdapter(horizontalRecyclerViewAdapter);
-        recyclerView.setAdapter(horizontalRecyclerViewAdapter);
+        mRecyclerViewAdapter = new HorizontalRecyclerViewAdapter(getContext(), mTwoPane, "net");
+        recyclerView.setAdapter(mRecyclerViewAdapter);
 
         return view;
     }
@@ -137,9 +136,12 @@ public class MainFragment extends Fragment {
         public void onReceive(Context context, Intent intent) {
             int resultCode = intent.getIntExtra(DownloadService.RESULT_CODE, Activity.RESULT_CANCELED);
             if (resultCode == Activity.RESULT_OK && intent.getAction().equals(MESSAGE)) {
-                //get extra from intent
-                boolean isData = intent.getBooleanExtra(DownloadService.RESULT_VALUE, false);
-                Log.d(TAG, "onReceive: is Data on Singleton? " + (isData ? "Yes" : "No"));
+                String type = intent.getStringExtra(DownloadService.RESULT_TYPE);
+                ArrayList<Movie> movies = intent.getParcelableArrayListExtra(DownloadService.RESULT_MOVIES);
+                List<Object> list = new ArrayList<>();
+                list.add(type);
+                list.add(movies);
+                mRecyclerViewAdapter.addItems(list);
             }
         }
     };

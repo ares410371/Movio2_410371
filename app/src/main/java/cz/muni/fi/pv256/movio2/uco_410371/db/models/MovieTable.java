@@ -1,6 +1,6 @@
 package cz.muni.fi.pv256.movio2.uco_410371.db.models;
 
-public class Movie {
+public class MovieTable {
 
     private long mId;
     private String mTitle;
@@ -11,8 +11,8 @@ public class Movie {
     private String mReleaseDate;
     private double mPopularity ;
 
-    public Movie(long id, String title, int categoryId, int TMDId, String posterPath,
-                 String backdropPath, String releaseDate, double popularity) {
+    public MovieTable(long id, String title, int categoryId, int TMDId, String posterPath,
+                      String backdropPath, String releaseDate, double popularity) {
         mId = id;
         mTitle = title;
         mCategoryId = categoryId;
@@ -92,7 +92,7 @@ public class Movie {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Movie movie = (Movie) o;
+        MovieTable movie = (MovieTable) o;
 
         if (mId != movie.mId) return false;
         if (mCategoryId != movie.mCategoryId) return false;
@@ -125,7 +125,7 @@ public class Movie {
 
     @Override
     public String toString() {
-        return "Movie{" +
+        return "MovieTable{" +
                 "mId=" + mId +
                 ", mTitle='" + mTitle + '\'' +
                 ", mCategoryId=" + mCategoryId +

@@ -30,6 +30,7 @@ public class MovieDetailFragment extends Fragment
     private TextView mMovieTitleTVExpanded;
     private ImageView mMoviePosterIV;
     private ImageView mMoviePosterBackIV;
+    private TextView mMovieDateTV;
     private boolean isHeaderVisible;
     private FloatingActionButton mFab;
 
@@ -70,10 +71,11 @@ public class MovieDetailFragment extends Fragment
                             .setAction("Action", null).show();
                 }
             });
-
+// TODO: 19.11.2016 Doriesit vo fragmente zorazovanie z databaze
             mMovieTitleTVExpanded = (TextView)view.findViewById(R.id.text_movie_title_expanded);
             mMoviePosterIV = (ImageView)view.findViewById(R.id.image_movie_poster);
             mMoviePosterBackIV = (ImageView)view.findViewById(R.id.image_movie_back_poster);
+            mMovieDateTV = (TextView)view.findViewById(R.id.text_movie_year);
 
             if (mMovie != null) {
                 mMovieTitleTVExpanded.setText(mMovie.getTitle());
@@ -86,6 +88,7 @@ public class MovieDetailFragment extends Fragment
                         .load("https://image.tmdb.org/t/p/w500" + mMovie.getPosterPath())
                         .placeholder(R.drawable.placeholder_poster)
                         .into(mMoviePosterIV);
+                mMovieDateTV.setText(mMovie.getReleaseDate());
             }
 
         } else {

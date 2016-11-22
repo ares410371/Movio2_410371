@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class MovioDbHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "movioDB.db";
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 1;
 
     //KEY_+TABLE_+COLUMN_NAME
     //*****CATEGORY TABLE******

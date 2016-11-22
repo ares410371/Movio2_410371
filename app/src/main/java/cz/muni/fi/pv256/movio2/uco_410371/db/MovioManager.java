@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import cz.muni.fi.pv256.movio2.uco_410371.db.models.Movie;
+import cz.muni.fi.pv256.movio2.uco_410371.db.models.MovieTable;
 
 public class MovioManager {
 
@@ -31,28 +31,28 @@ public class MovioManager {
         mContext = context.getApplicationContext();
     }
 
-    public void createMovie(Movie movie) {
+    public void createMovie(MovieTable movie) {
         if (movie == null) throw new NullPointerException("movie is null.");
 
         movie.setId((int) ContentUris.parseId(mContext.getContentResolver().insert(MovioProvider.CONTENT_URI_MOVIE, prepareValues(movie))));
     }
 
-    public void updateMovie(Movie movie) {
+    public void updateMovie(MovieTable movie) {
         if (movie == null) throw new NullPointerException("movie is null.");
 
         mContext.getContentResolver().update(MovioProvider.CONTENT_URI_MOVIE, prepareValues(movie), WHERE_ID, new String[]{String.valueOf(movie.getId())});
     }
 
-    public void deleteMovie(Movie movie) {
+    public void deleteMovie(MovieTable movie) {
         if (movie == null) throw new NullPointerException("movie is null.");
 
         mContext.getContentResolver().delete(MovioProvider.CONTENT_URI_MOVIE, WHERE_ID, new String[]{String.valueOf(movie.getId())});
     }
 
-    public List<Movie> getAllMovies() {
+    public List<MovieTable> getAllMovies() {
         Cursor cursor = mContext.getContentResolver().query(MovioProvider.CONTENT_URI_MOVIE, MOVIE_COLUMS, null, null, null);
         if (cursor != null && cursor.moveToFirst()) {
-            List<Movie> movies = new ArrayList<>(cursor.getCount());
+            List<MovieTable> movies = new ArrayList<>(cursor.getCount());
             try {
                 while (!cursor.isAfterLast()) {
                     movies.add(getMovie(cursor));
@@ -67,27 +67,36 @@ public class MovioManager {
         return Collections.emptyList();
     };
 
-//    public List<Movie> getMoviesByCategory(int categoryId) {
+    public MovieTable getMovieByTitle(String title) {
+        for (MovieTable movie : getAllMovies()) {
+            if (movie.getTitle().equals(title)) {
+                return movie;
+            }
+        }
+        return null;
+    }
+
+//    public List<MovieTable> getMoviesByCategory(int categoryId) {
 //
 //    }
 
     //*************************
     //*****Private Methods*****
 
-    private ContentValues prepareValues(Movie movie) {
+    private ContentValues prepareValues(MovieTable movieTable) {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(MovioDbHelper.KEY_MOVIE_TMD_ID, movie.getTMDId());
-        contentValues.put(MovioDbHelper.KEY_MOVIE_POSTER_PATH, movie.getPosterPath());
-        contentValues.put(MovioDbHelper.KEY_MOVIE_BACKDROP_PATH, movie.getBackdropPath());
-        contentValues.put(MovioDbHelper.KEY_MOVIE_TITLE, movie.getTitle());
-        contentValues.put(MovioDbHelper.KEY_MOVIE_RELEASE_DATE, movie.getReleaseDate());
-        contentValues.put(MovioDbHelper.KEY_MOVIE_POPULARITY, movie.getPopularity());
+        contentValues.put(MovioDbHelper.KEY_MOVIE_TMD_ID, movieTable.getTMDId());
+        contentValues.put(MovioDbHelper.KEY_MOVIE_POSTER_PATH, movieTable.getPosterPath());
+        contentValues.put(MovioDbHelper.KEY_MOVIE_BACKDROP_PATH, movieTable.getBackdropPath());
+        contentValues.put(MovioDbHelper.KEY_MOVIE_TITLE, movieTable.getTitle());
+        contentValues.put(MovioDbHelper.KEY_MOVIE_RELEASE_DATE, movieTable.getReleaseDate());
+        contentValues.put(MovioDbHelper.KEY_MOVIE_POPULARITY, movieTable.getPopularity());
         //// TODO: 14.11.2016 doplnit category id
         return contentValues;
     }
 
-    private Movie getMovie(Cursor cursor) {
-        Movie movie = new Movie(
+    private MovieTable getMovie(Cursor cursor) {
+        return new MovieTable(
                 cursor.getLong(0),
                 cursor.getString(1),
                 cursor.getInt(2),
@@ -97,6 +106,5 @@ public class MovioManager {
                 cursor.getString(6),
                 cursor.getDouble(7)
         );
-        return movie;
     }
 }

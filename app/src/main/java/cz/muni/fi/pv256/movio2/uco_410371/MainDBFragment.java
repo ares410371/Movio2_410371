@@ -12,12 +12,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import cz.muni.fi.pv256.movio2.uco_410371.adapters.HorizontalRecyclerViewAdapter;
+import cz.muni.fi.pv256.movio2.uco_410371.adapters.MovieVERTRecyclerViewAdapter;
+import cz.muni.fi.pv256.movio2.uco_410371.db.MovioManager;
+import cz.muni.fi.pv256.movio2.uco_410371.db.models.MovieTable;
+import cz.muni.fi.pv256.movio2.uco_410371.models.Movie;
 
 public class MainDBFragment extends Fragment {
 
     //*****CONSTANT*****
     public static final String TAG = MainDBFragment.class.getName();
+    public static final String TYPE_DB = "db";
 
     private boolean mTwoPane;
 
@@ -51,8 +59,15 @@ public class MainDBFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        HorizontalRecyclerViewAdapter horizontalRecyclerViewAdapter = new HorizontalRecyclerViewAdapter(getContext(), mTwoPane, "db");
-        recyclerView.setAdapter(horizontalRecyclerViewAdapter);
+//        HorizontalRecyclerViewAdapter horizontalRecyclerViewAdapter = new HorizontalRecyclerViewAdapter(getContext(), mTwoPane, TYPE_DB);
+//
+        List<MovieTable> movieTables = new MovioManager(getContext()).getAllMovies();
+//        horizontalRecyclerViewAdapter.addItemDB("From DB", movieTables);
+//
+//        recyclerView.setAdapter(horizontalRecyclerViewAdapter);
+
+        MovieVERTRecyclerViewAdapter movieVERTRecyclerViewAdapter = new MovieVERTRecyclerViewAdapter(getContext(), convertMovieTableToMovie(movieTables), mTwoPane);
+        recyclerView.setAdapter(movieVERTRecyclerViewAdapter);
 
         return view;
     }
@@ -99,4 +114,12 @@ public class MainDBFragment extends Fragment {
         Log.d(TAG, "onDetach: ");
     }
 
+    private List<Movie> convertMovieTableToMovie(List<MovieTable> movieTables) {
+        List<Movie> converted = new ArrayList<>();
+        for (MovieTable mt : movieTables) {
+            converted.add(new Movie(mt.getTMDId(), mt.getReleaseDate(), mt.getPosterPath(),
+                    mt.getTitle(), mt.getBackdropPath(), (float)mt.getPopularity()));
+        }
+        return converted;
+    }
 }

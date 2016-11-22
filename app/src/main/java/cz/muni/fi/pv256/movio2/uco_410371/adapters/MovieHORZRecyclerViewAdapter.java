@@ -22,13 +22,13 @@ import cz.muni.fi.pv256.movio2.uco_410371.R;
 import cz.muni.fi.pv256.movio2.uco_410371.interfaces.ItemClickListener;
 import cz.muni.fi.pv256.movio2.uco_410371.models.Movie;
 
-public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecyclerViewAdapter.MovieViewHolder> {
+public class MovieHORZRecyclerViewAdapter extends RecyclerView.Adapter<MovieHORZRecyclerViewAdapter.MovieViewHolder> {
 
     private List<Movie> mMovies;
     private Context mContext;
     private boolean mTwoPane;
 
-    public MovieRecyclerViewAdapter(Context context, List<Movie> movies, boolean twoPane) {
+    public MovieHORZRecyclerViewAdapter(Context context, List<Movie> movies, boolean twoPane) {
         mMovies = movies;
         mContext = context;
         mTwoPane = twoPane;

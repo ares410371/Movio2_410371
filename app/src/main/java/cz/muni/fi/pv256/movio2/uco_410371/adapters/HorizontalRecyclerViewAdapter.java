@@ -3,27 +3,26 @@ package cz.muni.fi.pv256.movio2.uco_410371.adapters;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SnapHelper;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.github.rubensousa.gravitysnaphelper.GravitySnapHelper;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import cz.muni.fi.pv256.movio2.uco_410371.MainDBFragment;
 import cz.muni.fi.pv256.movio2.uco_410371.R;
+import cz.muni.fi.pv256.movio2.uco_410371.db.models.MovieTable;
 import cz.muni.fi.pv256.movio2.uco_410371.models.Movie;
 
 public class HorizontalRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context mContext;
-    // mItems contains Title (String) and Movies(List<Movie>)
+    // mItems contains Title (String) and Movies(List<MovieTable>)
     private List<Object> mItems;
+    private List<Object> mItemsDB;
     private boolean mTwoPane;
     private String mType; // TODO: 13.11.2016  
 
@@ -32,24 +31,39 @@ public class HorizontalRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
     public HorizontalRecyclerViewAdapter(Context context, boolean twoPane, String type) {
         mContext = context;
         mItems = new ArrayList<>();
+        mItemsDB = new ArrayList<>();
         mTwoPane = twoPane;
         mType = type;
     }
 
     @Override
     public int getItemCount() {
+        if (mType.equals(MainDBFragment.TYPE_DB)) {
+            return (mItemsDB.size() > 0) ? mItemsDB.size() : 1;
+        }
         return (mItems.size() > 0) ? mItems.size() : 1;
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (mItems.size() == 0) {
-            return EMPTY;
-        }
-        if (mItems.get(position) instanceof String) {
-            return CATEGORY;
-        } else if (isListOfMovies(mItems.get(position))) {
-            return MOVIES;
+        if (mType.equals(MainDBFragment.TYPE_DB)) {
+            if (mItemsDB.size() == 0) {
+                return EMPTY;
+            }
+            if (mItemsDB.get(position) instanceof String) {
+                return CATEGORY;
+            } else if (isListOfMovies(mItemsDB.get(position))) {
+                return MOVIES;
+            }
+        } else {
+            if (mItems.size() == 0) {
+                return EMPTY;
+            }
+            if (mItems.get(position) instanceof String) {
+                return CATEGORY;
+            } else if (isListOfMovies(mItems.get(position))) {
+                return MOVIES;
+            }
         }
         return -1;
     }
@@ -153,8 +167,14 @@ public class HorizontalRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
             }
         }
         notifyItemInserted(size - 1);
-//        mItems.addAll(items);
-//        notifyItemInserted(items.size()-1);
+    }
+
+    public void addItemDB(String type, List<MovieTable> itemsDB) {
+        mItemsDB.add(type);
+        List<Movie> movies = convertMovieTableToMovie(itemsDB);
+        mItemsDB.add(movies);
+
+        notifyItemInserted(1);
     }
 
     private boolean isListOfMovies(Object obj) {
@@ -169,8 +189,22 @@ public class HorizontalRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
         return false;
     }
 
+    private List<Movie> convertMovieTableToMovie(List<MovieTable> movieTables) {
+        List<Movie> converted = new ArrayList<>();
+        for (MovieTable mt : movieTables) {
+            converted.add(new Movie(mt.getTMDId(), mt.getReleaseDate(), mt.getPosterPath(),
+                    mt.getTitle(), mt.getBackdropPath(), (float)mt.getPopularity()));
+        }
+        return converted;
+    }
+
     private void configureCategoryViewHolder(final int position, CategoryViewHolder categoryViewHolder) {
-        final String str = (String) mItems.get(position);
+        String str;
+        if (mType.equals(MainDBFragment.TYPE_DB)) {
+            str = (String) mItemsDB.get(position);
+        } else {
+            str = (String) mItems.get(position);
+        }
         if (str != null) {
             categoryViewHolder.getCategoryTitle().setText(str);
         }
@@ -188,13 +222,20 @@ public class HorizontalRecyclerViewAdapter extends RecyclerView.Adapter<Recycler
         horizontalRV.setHasFixedSize(true);
 
         List<Movie> movies = new ArrayList<>();
-        if (isListOfMovies(mItems.get(position))) {
-            movies = (List) mItems.get(position);
+        if (mType.equals(MainDBFragment.TYPE_DB)) {
+            if (isListOfMovies(mItemsDB.get(position))) {
+                movies = (List) mItemsDB.get(position);
+            }
+        } else {
+            if (isListOfMovies(mItems.get(position))) {
+                movies = (List) mItems.get(position);
+            }
         }
 
-        MovieRecyclerViewAdapter movieRecyclerViewAdapter =
-                new MovieRecyclerViewAdapter(mContext, movies, mTwoPane);
-        horizontalRV.setAdapter(movieRecyclerViewAdapter);
+
+        MovieHORZRecyclerViewAdapter movieHORZRecyclerViewAdapter =
+                new MovieHORZRecyclerViewAdapter(mContext, movies, mTwoPane);
+        horizontalRV.setAdapter(movieHORZRecyclerViewAdapter);
 
 //        SnapHelper snapHelperStart = new GravitySnapHelper(Gravity.START);
 //        java.lang.IllegalStateException: An instance of OnFlingListener already set.

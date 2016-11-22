@@ -3,6 +3,15 @@
 //radenie categorii pri volani treba upravit aby vždy sa rovnako zobrazovali
 
 Ukol 7:
-- Doplnit do detailu cely datum
 - Vytvorit testy na databazu
+ - doplnit dalsie testy
 - vyriesit TODO
+    - upravit fragment pre master/detail
+
+
+
+Ukol 8:
+....
+
+Ukol 9:
+....

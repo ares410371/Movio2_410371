@@ -55,7 +55,7 @@ public class MovioProvider extends ContentProvider {
         Cursor retCursor;
 
         switch (sUriMatcher.match(uri)) {
-            case CATEGORY: {
+            case CATEGORY_ID: {
                 retCursor = mMovioDbHelper.getReadableDatabase().query(
                         MovioDbHelper.TABLE_CATEGORY, projection,
                         "id" + " = '" + ContentUris.parseId(uri) + "'",
@@ -63,7 +63,7 @@ public class MovioProvider extends ContentProvider {
                 );
                 break;
             }
-            case CATEGORY_ID: {
+            case CATEGORY: {
                 retCursor = mMovioDbHelper.getReadableDatabase().query(
                         MovioDbHelper.TABLE_CATEGORY, projection,
                         selection, selectionArgs,
@@ -71,7 +71,7 @@ public class MovioProvider extends ContentProvider {
                 );
                 break;
             }
-            case MOVIE: {
+            case MOVIE_ID: {
                 retCursor = mMovioDbHelper.getReadableDatabase().query(
                         MovioDbHelper.TABLE_MOVIE, projection,
                         "id" + " = '" + ContentUris.parseId(uri) + "'",
@@ -79,7 +79,7 @@ public class MovioProvider extends ContentProvider {
                 );
                 break;
             }
-            case MOVIE_ID: {
+            case MOVIE: {
                 retCursor = mMovioDbHelper.getReadableDatabase().query(
                         MovioDbHelper.TABLE_MOVIE, projection,
                         selection, selectionArgs,

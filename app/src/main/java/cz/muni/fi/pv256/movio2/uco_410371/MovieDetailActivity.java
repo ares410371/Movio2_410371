@@ -1,12 +1,9 @@
 package cz.muni.fi.pv256.movio2.uco_410371;
 
-import android.content.ContentValues;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -17,12 +14,10 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import cz.muni.fi.pv256.movio2.uco_410371.db.MovioManager;
+import cz.muni.fi.pv256.movio2.uco_410371.db.models.MovieTable;
 import cz.muni.fi.pv256.movio2.uco_410371.models.Movie;
 
 public class MovieDetailActivity extends AppCompatActivity
@@ -31,13 +26,15 @@ public class MovieDetailActivity extends AppCompatActivity
     public static final String TAG = MovieDetailActivity.class.getName();
 
     private ImageView mMoviePosterIV;
+    private ImageView mMoviePosterBackIV;
     private TextView mMovieTitleTVExpanded;
     private TextView mMovieTitleTVCollapsed;
-    private ImageView mMoviePosterBackIV;
+    private TextView mMovieDateTV;
     private boolean isHeaderVisible;
     private FloatingActionButton mFab;
     private boolean isInDB;
-    private Movie mMovie;
+    private MovieTable mMovieTable;
+    private MovioManager mManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,26 +45,25 @@ public class MovieDetailActivity extends AppCompatActivity
         AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
         appBarLayout.addOnOffsetChangedListener(this);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_detail);
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayShowTitleEnabled(false);
-        }
-
         initView();
 
-        //// TODO: 14.11.2016 nefunguje po zmene sa nezovola setmovie
+        Movie movie = getIntent().getParcelableExtra(MovieDetailFragment.ARG_MOVIE);
+        if (movie != null) {
+            setMovieDetail(movie);
+            mMovieTable = convertMovieToDB(movie);
+        }
 
+        MovieTable movieByTitle = mManager.getMovieByTitle(mMovieTable.getTitle());
+        if (movieByTitle != null) {
+            mMovieTable = movieByTitle;
+            isInDB = true;
+            mFab.setImageResource(R.mipmap.ic_delete);
+        }
 
-
-        mMovie = getIntent().getParcelableExtra(MovieDetailFragment.ARG_MOVIE);
-        if (mMovie != null) setMovieDetail(mMovie);
 
         if (savedInstanceState == null) {
             Bundle args = new Bundle();
-            args.putParcelable(MovieDetailFragment.ARG_MOVIE,
-                    getIntent().getParcelableExtra(MovieDetailFragment.ARG_MOVIE));
+            args.putParcelable(MovieDetailFragment.ARG_MOVIE, movie);
             args.putBoolean(MovieDetailFragment.ARG_SCREEN_TYPE,
                     getIntent().getBooleanExtra(MovieDetailFragment.ARG_SCREEN_TYPE, false));
             MovieDetailFragment fragment = new MovieDetailFragment();
@@ -136,14 +132,13 @@ public class MovieDetailActivity extends AppCompatActivity
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.fab_detail) {
-            MovioManager manager = new MovioManager(this);
+
             if (isInDB) {
-                // TODO: 13.11.2016 remove
-                // TODO: 14.11.2016 opravit mazanie nefunguje
+                // // TODO: 18.11.2016 potrebujem null check??? 
                 mFab.setImageResource(R.mipmap.ic_add_circle);
 
-                if (mMovie != null) {
-                    manager.deleteMovie(convertMovieToDB(mMovie));
+                if (mMovieTable != null) {
+                    mManager.deleteMovie(mMovieTable);
                     isInDB = false;
                 } else {
                     throw new NullPointerException("mMovie is null. Doesn't saved to database.");
@@ -151,8 +146,8 @@ public class MovieDetailActivity extends AppCompatActivity
             } else {
                 mFab.setImageResource(R.mipmap.ic_delete);
 
-                if (mMovie != null /*&& ifNotExists(manager, mMovie)*/) { //// TODO: 14.11.2016 vyriesit duplikaty
-                    manager.createMovie(convertMovieToDB(mMovie));
+                if (mMovieTable != null) {
+                    mManager.createMovie(mMovieTable);
                     isInDB = true;
                 } else {
                     throw new NullPointerException("mMovie is null. Doesn't saved to database.");
@@ -166,12 +161,21 @@ public class MovieDetailActivity extends AppCompatActivity
     //*****Private Methods*****
 
     private void initView() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_detail);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayShowTitleEnabled(false);
+        }
+
         mMovieTitleTVExpanded = (TextView) findViewById(R.id.text_movie_title_expanded);
         mMovieTitleTVCollapsed = (TextView) findViewById(R.id.text_movie_title_collapsed);
         mMoviePosterIV = (ImageView) findViewById(R.id.image_movie_poster);
         mMoviePosterBackIV = (ImageView) findViewById(R.id.image_movie_back_poster);
+        mMovieDateTV = (TextView) findViewById(R.id.text_movie_year);
         mFab = (FloatingActionButton) findViewById(R.id.fab_detail);
         mFab.setOnClickListener(this);
+        mManager = new MovioManager(this);
     }
 
     private void setMovieDetail(Movie movie) {
@@ -185,12 +189,13 @@ public class MovieDetailActivity extends AppCompatActivity
                 .load("https://image.tmdb.org/t/p/w500" + movie.getPosterPath())
                 .placeholder(R.drawable.placeholder_poster)
                 .into(mMoviePosterIV);
+        mMovieDateTV.setText(movie.getReleaseDate());
     }
 
-    private cz.muni.fi.pv256.movio2.uco_410371.db.models.Movie convertMovieToDB(Movie movie) {
+    private MovieTable convertMovieToDB(Movie movie) {
         Log.d(TAG, "convertMovieToDB: string= " + movie.getReleaseDate());
 
-        return new cz.muni.fi.pv256.movio2.uco_410371.db.models.Movie(
+        return new MovieTable(
                 0,
                 movie.getTitle(),
                 0,
@@ -201,14 +206,5 @@ public class MovieDetailActivity extends AppCompatActivity
                 movie.getPopularity()
         );
     }
-
-//    private boolean ifNotExists(MovioManager manager, Movie movie) {
-//        List<cz.muni.fi.pv256.movio2.uco_410371.db.models.Movie> allMovies = manager.getAllMovies();
-//        for (cz.muni.fi.pv256.movio2.uco_410371.db.models.Movie m: allMovies) {
-//            if (m.getTMDId() == movie.getId())
-//                return false;
-//        }
-//        return true;
-//    }
 
 }

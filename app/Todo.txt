@@ -1,7 +1,8 @@
-1) Ak je zobrazeni portrait režim na tablete tak po rotacii sa detail nezmeni na TwoPane
+Ak je zobrazeni portrait režim na tablete tak po rotacii sa detail nezmeni na TwoPane
 
 //radenie categorii pri volani treba upravit aby vždy sa rovnako zobrazovali
 //upravit farby a ikonu
+//favorite => moviedetail => hide fab or disable fab button
 
 Ukol 7:
 - Vytvorit testy na databazu

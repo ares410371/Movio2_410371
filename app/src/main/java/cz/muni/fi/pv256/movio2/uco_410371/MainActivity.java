@@ -42,11 +42,6 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.fragment, new MainFragment())
                 .commit();
-
-//        ContentValues contentValues = new ContentValues();
-//        contentValues.put("name", "TestCategory");
-//        Uri uri = getContentResolver().insert(Uri.parse("content://cz.muni.fi.pv256.movio2.uco_410371/category"), contentValues);
-//        Log.d(TAG, uri.toString());
     }
 
     @Override
@@ -82,18 +77,19 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            startActivity(new Intent(MainActivity.this, MainPreferences.class));
-            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-            Set<String> set = preferences.getStringSet("pref_genres", null);
-            if (set != null) {
-                for (String s : set) {
-                    Log.d(MainActivity.class.getName(), "onOptionsItemSelected: " + s);
-                }
-            }
-            return true;
-        }
+        // TODO dorobit vyber zanrov
+//        int id = item.getItemId();
+//        if (id == R.id.action_settings) {
+//            startActivity(new Intent(MainActivity.this, MainPreferences.class));
+//            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+//            Set<String> set = preferences.getStringSet("pref_genres", null);
+//            if (set != null) {
+//                for (String s : set) {
+//                    Log.d(MainActivity.class.getName(), "onOptionsItemSelected: " + s);
+//                }
+//            }
+//            return true;
+//        }
         return super.onOptionsItemSelected(item);
     }
 

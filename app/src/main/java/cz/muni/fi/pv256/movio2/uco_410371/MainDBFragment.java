@@ -25,7 +25,6 @@ public class MainDBFragment extends Fragment {
 
     //*****CONSTANT*****
     public static final String TAG = MainDBFragment.class.getName();
-    public static final String TYPE_DB = "db";
 
     private boolean mTwoPane;
 
@@ -59,12 +58,7 @@ public class MainDBFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-//        HorizontalRecyclerViewAdapter horizontalRecyclerViewAdapter = new HorizontalRecyclerViewAdapter(getContext(), mTwoPane, TYPE_DB);
-//
         List<MovieTable> movieTables = new MovioManager(getContext()).getAllMovies();
-//        horizontalRecyclerViewAdapter.addItemDB("From DB", movieTables);
-//
-//        recyclerView.setAdapter(horizontalRecyclerViewAdapter);
 
         MovieVERTRecyclerViewAdapter movieVERTRecyclerViewAdapter = new MovieVERTRecyclerViewAdapter(getContext(), convertMovieTableToMovie(movieTables), mTwoPane);
         recyclerView.setAdapter(movieVERTRecyclerViewAdapter);

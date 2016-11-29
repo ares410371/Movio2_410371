@@ -76,7 +76,7 @@ public class MovieVERTRecyclerViewAdapter extends RecyclerView.Adapter<MovieVERT
                     .into(movieViewHolder.getItemPoster());
 
             movieViewHolder.getItemTitle().setText(movie.getTitle());
-            movieViewHolder.getItemRating().setText("" + movie.getPopularity());
+            movieViewHolder.getItemRating().setText(String.format("%.2f", movie.getPopularity()));
         }
     }
 

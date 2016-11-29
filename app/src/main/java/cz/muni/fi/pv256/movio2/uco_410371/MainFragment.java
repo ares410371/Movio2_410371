@@ -28,7 +28,6 @@ public class MainFragment extends Fragment {
     //*****CONSTANT*****
     public static final String MESSAGE = "message";
     public static final String TAG = MainFragment.class.getName();
-    public static final String TYPE_NET = "net";
 
     private boolean mTwoPane;
     private LocalBroadcastManager mBroadcastManager;
@@ -65,7 +64,7 @@ public class MainFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        mRecyclerViewAdapter = new HorizontalRecyclerViewAdapter(getContext(), mTwoPane, TYPE_NET);
+        mRecyclerViewAdapter = new HorizontalRecyclerViewAdapter(getContext(), mTwoPane);
         recyclerView.setAdapter(mRecyclerViewAdapter);
 
         return view;

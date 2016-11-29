@@ -1,6 +1,7 @@
 1) Ak je zobrazeni portrait režim na tablete tak po rotacii sa detail nezmeni na TwoPane
 
 //radenie categorii pri volani treba upravit aby vždy sa rovnako zobrazovali
+//upravit farby a ikonu
 
 Ukol 7:
 - Vytvorit testy na databazu
@@ -11,7 +12,18 @@ Ukol 7:
 
 
 Ukol 8:
-....
+- Vytvořte SyncAdapter pro update dat v databázi (movie details pro dané id)
+  - SyncAdapter bude updateovat data v databázi 1x denně
+  - Když se data změní (např. se změní releaseDate), uživatel bude notifikován
+    - otestujte s fake datami, protože tohle se nemění tak často
+  - Refresh bude možno vynutit i manuálně, z menu aplikace
+    - kód zůstává stejný, jenom se vykoná nejenom 1x denně, ale i po kliknutí na tlačítko
+  - Reštartujte telefón a zistite, či Sync stále funguje, alebo je ho treba prenastaviť (listener na BOOT_COMPLETED)
+  - Čo ak aplikáciu updatneme? Ostane Sync nastavený? A čo sa stane s alarmami?
+    - odpoveď: alarmy sa resetujú, v prípade alarmov treba nastaviť BroadcastReceiver na BOOT_COMPLETED aj
+      MY_PACKAGE_REPLACED (applikácia updatenutá) a znovu nastaviť alarmy (ktoré si napr. ukladáme v preferences)
+    - Ako zistíme, či sú alarmy stále nastavené?
+      - adb shell dumpsys
 
 Ukol 9:
 ....

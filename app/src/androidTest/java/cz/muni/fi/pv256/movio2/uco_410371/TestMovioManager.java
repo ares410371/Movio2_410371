@@ -14,14 +14,10 @@ import cz.muni.fi.pv256.movio2.uco_410371.models.Movie;
 
 import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
-/**
- * Created by Benjamin Varga on 19.11.2016.
- */
 @RunWith(AndroidJUnit4.class)
 public class TestMovioManager {
-
-    public static final String TAG = TestMovioManager.class.getName();
 
     private MovioManager mMovioManager;
 
@@ -65,6 +61,37 @@ public class TestMovioManager {
 
         MovieTable movieByTitle = mMovioManager.getMovieByTitle(movieTable.getTitle());
 
-        assertEquals("Movie doesnt created", movieTable, movieByTitle);
+        assertEquals("Movie doesn't created.", movieTable, movieByTitle);
+    }
+
+    @Test
+    public void testDeleteMovie() throws Exception {
+        Movie movie = new Movie(
+                11257,
+                "2016-11-28",
+                "posterPath",
+                "TestMovie #2",
+                "backdropPath",
+                4.42f
+        );
+
+        MovieTable movieTable = new MovieTable(
+                0,
+                movie.getTitle(),
+                0,
+                movie.getId(),
+                movie.getPosterPath(),
+                movie.getBackdropPath(),
+                movie.getReleaseDate(),
+                movie.getPopularity()
+        );
+
+        mMovioManager.createMovie(movieTable);
+
+        mMovioManager.deleteMovie(movieTable);
+
+        MovieTable movieByTitle = mMovioManager.getMovieByTitle(movieTable.getTitle());
+
+        assertNull("Movie isn't deleted.", movieByTitle);
     }
 }

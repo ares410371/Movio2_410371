@@ -12,11 +12,11 @@
     <color name="textColorSecondary">#757575</color>
 
     <!-- Colors for inverse theme-->
-    <!-- brand color: red -->
+    <!-- brand color: cyan -->
     <color name="colorPrimaryInverse">#00BCD4</color>
     <color name="colorPrimaryDarkInverse">#0097A7</color>
     <color name="colorPrimaryLightInverse">#B2EBF2</color>
-    <!-- accent color: cyan -->
+    <!-- accent color: red -->
     <color name="colorAccentInverse">#FF5252</color>
     <!-- text color -->
     <color name="textColorPrimaryInverse">#212121</color>

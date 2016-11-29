@@ -1,0 +1,1 @@
+1) Ak je zobrazeni portrait režim na tablete tak po rotacii sa detail nezmeni na TwoPane

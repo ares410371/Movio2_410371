@@ -1,22 +1,13 @@
 apply plugin: 'com.android.application'
 
 def versionMajor = 0
-def versionMinor = 1
-def versionPatch = 0
+def versionMinor = 2
+def versionPatch = 1
 
 android {
     compileSdkVersion 24
     buildToolsVersion "24.0.2"
 
-    // Build naming
-    applicationVariants.all { variant ->
-        variant.outputs.each { output ->
-            output.outputFile = new File(
-                    output.outputFile.parent,
-                    "$project.name-$variant.name-$variant.versionName-${variant.versionCode}.apk"
-            )
-        }
-    }
     defaultConfig {
         applicationId "cz.muni.fi.pv256.movio2.uco_410371"
         minSdkVersion 17
@@ -37,7 +28,9 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.android.support:recyclerview-v7:24.2.1'
+    compile 'com.android.support:support-v4:24.2.1'
+    compile 'com.android.support:design:24.2.1'
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:24.1.1'
-    compile 'com.android.support:recyclerview-v7:24.1.1'
 }

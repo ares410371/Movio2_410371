@@ -1,0 +1,17 @@
+1) Ak je zobrazeni portrait režim na tablete tak po rotacii sa detail nezmeni na TwoPane
+
+Ukol 4 (dorobiť):
+a) vypište si do logu, kdy se inflatuje nové View pro řádek a kdy se v něm jenom mění hodnoty a pozorujte
+   (volá se pro danou pozici bindView nebo i createView? - vypisujte do Logu)
+
+b) Vytvořte layout, který se zobrazí, pokud RecyclerView nemá žádná data (nemá žádné filmy)
+   2) když je zařízení offline, text by měl obsahovat tuto informaci ("žádné připojení") -
+      tzn. není připojení na Wifi ani Cellular (ak nemáte sprovozněné cachování,
+      je vhodné upozornit uživatele, proč nevidí žádný obsah)
+
+c) Chcete víc?
+   1) vytvořte NavigationDrawer k MainActivity a vložte do něj seznam žánrů, dle kterých
+      bude možné později filtrovat filmy (když si budete prohlížet, co je nového a nezajímají
+      vás horory, nemusejí se vám přeci horory zobrazovat)
+        a) je potřeba udělat do každého řádku checkbox a implementovat klikání na filtry
+        b) později se vytáhnou zakliknuté žánry a přidají do volání API

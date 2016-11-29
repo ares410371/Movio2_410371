@@ -34,7 +34,7 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
     private Context mContext;
     private boolean mTwoPane;
 
-    private final int CATEGORY = 0, MOVIE = 1, EMPTY = 2;
+    private static final int CATEGORY = 0, MOVIE = 1, EMPTY = 2;
 
     public MovieRecyclerViewAdapter(Context context, List<Object> items, boolean twoPane) {
         mContext = context;

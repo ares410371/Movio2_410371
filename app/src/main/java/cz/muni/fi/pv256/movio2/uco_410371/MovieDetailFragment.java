@@ -23,12 +23,11 @@ import cz.muni.fi.pv256.movio2.uco_410371.models.Movie;
  */
 
 public class MovieDetailFragment extends Fragment
-        implements AppBarLayout.OnOffsetChangedListener{
+        implements AppBarLayout.OnOffsetChangedListener {
 
-    private static final String TAG = MovieDetailFragment.class.getName();
     public static final String ARG_MOVIE_ID = "movie_id";
     public static final String ARG_SCREEN_TYPE = "screen_type";
-
+    private static final String TAG = MovieDetailFragment.class.getName();
     private Movie mMovie;
     private boolean mTwoPane;
     private TextView mMovieTitleTVExpanded;
@@ -75,27 +74,27 @@ public class MovieDetailFragment extends Fragment
                 }
             });
 
-            mMovieTitleTVExpanded = (TextView)view.findViewById(R.id.text_movie_title_expanded);
-            mMoviePosterIV = (ImageView)view.findViewById(R.id.image_movie_poster);
-            mMoviePosterBackIV = (ImageView)view.findViewById(R.id.image_movie_back_poster);
+            mMovieTitleTVExpanded = (TextView) view.findViewById(R.id.text_movie_title_expanded);
+            mMoviePosterIV = (ImageView) view.findViewById(R.id.image_movie_poster);
+            mMoviePosterBackIV = (ImageView) view.findViewById(R.id.image_movie_back_poster);
 
             if (mMovie != null) {
                 mMovieTitleTVExpanded.setText(mMovie.getTitle());
 
                 switch (mMovie.getMovieId()) {
-                    case 1 :
+                    case 1:
                         mMoviePosterIV.setImageResource(R.drawable.dummyposter1);
                         mMoviePosterBackIV.setImageResource(R.drawable.dummyback1);
                         break;
-                    case 2 :
+                    case 2:
                         mMoviePosterIV.setImageResource(R.drawable.dummyposter2);
                         mMoviePosterBackIV.setImageResource(R.drawable.dummyback2);
                         break;
-                    case 3 :
+                    case 3:
                         mMoviePosterIV.setImageResource(R.drawable.dummyposter3);
                         mMoviePosterBackIV.setImageResource(R.drawable.dummyback3);
                         break;
-                    case 4 :
+                    case 4:
                         mMoviePosterIV.setImageResource(R.drawable.dummyposter4);
                         mMoviePosterBackIV.setImageResource(R.drawable.dummyback4);
                         break;
@@ -172,13 +171,11 @@ public class MovieDetailFragment extends Fragment
                 mFab.setVisibility(View.GONE);
                 isHeaderVisible = !isHeaderVisible;
             }
-        } else if (percentage < 0.8f) {
-            if (!isHeaderVisible) {
-                mMoviePosterIV.setVisibility(View.VISIBLE);
-                mMovieTitleTVExpanded.setVisibility(View.VISIBLE);
-                mFab.setVisibility(View.VISIBLE);
-                isHeaderVisible = !isHeaderVisible;
-            }
+        } else if (!isHeaderVisible) {
+            mMoviePosterIV.setVisibility(View.VISIBLE);
+            mMovieTitleTVExpanded.setVisibility(View.VISIBLE);
+            mFab.setVisibility(View.VISIBLE);
+            isHeaderVisible = !isHeaderVisible;
         }
     }
 }

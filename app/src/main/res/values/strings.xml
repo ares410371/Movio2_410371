@@ -99,5 +99,8 @@
     <string name="action_toogle_on">Discovery</string>
     <string name="action_toggle_off">Favorite</string>
 
+    <!--Sync-->
+    <string name="sync_account_type">pv256.fi.muni.cz</string>
+    <string name="sync_content_authority">cz.muni.fi.pv256.movio2.uco_410371</string>
 
 </resources>

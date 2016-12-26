@@ -27,4 +27,24 @@ Ukol 8:
       - adb shell dumpsys
 
 Ukol 9:
-....
+- Vytvorte unit testy pro svou aplikaci
+- Oddelte prezentacnu logiku od aplikacnej
+  - na testy na prezentačnej logike použite Espresso
+  - aplikacnu testujte pomocou nastroja Mockito/PowerMock
+    - pozor na instrumental tests a unit tests -> instrumental vyuzivaji Android SDK, unit testy su pure Java
+- Pouzijte Monkey tool (https://developer.android.com/studio/test/monkey.html)
+
+Samples architektury Android aplikacii
+https://github.com/googlesamples/android-architecture
+
+Ukol 10:
+- Vytvorte debug a release verzi aplikace
+  - vytvorte keystore a hesla ulozte na prislusne misto v projektu
+- Vytvorte flavors pro aplikaci
+  - prvni flavor bude pouzivat primarni temu
+  - druha flavor bude pouzivat sekundarni temu definovanou na zacatku a zmeni nazev aplikace a applicationId
+  - v BuildConfig promenne pro jeden flavor zadefinujeme, že ma logovat, druhy bude mit logovani zakazano
+  (bude to vlastni promenna logging=true/false, v aplikaci if(BuildConfig.logging(){Log.i(...)}))
+- Vytvorte vlastni cislovani verzi
+  - MAJOR_MINOR_PATCH_BUILD
+.....

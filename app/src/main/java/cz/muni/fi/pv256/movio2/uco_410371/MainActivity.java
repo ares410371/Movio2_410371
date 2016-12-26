@@ -17,6 +17,8 @@ import android.widget.Switch;
 
 import java.util.Set;
 
+import cz.muni.fi.pv256.movio2.uco_410371.sync.UpdaterSyncAdapter;
+
 /**
  * MainActivity
  * Created by Benjamin Varga on 20.9.2016.
@@ -38,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
             setTheme(R.style.AppTheme);
         }
         setContentView(R.layout.activity_main);
+
+        UpdaterSyncAdapter.initializeSyncAdapter(this);
 
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.fragment, new MainFragment())

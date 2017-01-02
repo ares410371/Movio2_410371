@@ -15,20 +15,19 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import cz.muni.fi.pv256.movio2.uco_410371.adapters.HorizontalRecyclerViewAdapter;
 import cz.muni.fi.pv256.movio2.uco_410371.adapters.MovieVERTRecyclerViewAdapter;
 import cz.muni.fi.pv256.movio2.uco_410371.db.MovioManager;
 import cz.muni.fi.pv256.movio2.uco_410371.db.models.MovieTable;
 import cz.muni.fi.pv256.movio2.uco_410371.models.Movie;
 
-public class MainDBFragment extends Fragment {
+public class MoviesDBFragment extends Fragment {
 
     //*****CONSTANT*****
-    public static final String TAG = MainDBFragment.class.getName();
+    public static final String TAG = MoviesDBFragment.class.getName();
 
     private boolean mTwoPane;
 
-    public MainDBFragment() {}
+    public MoviesDBFragment() {}
 
     @Override
     public void onAttach(Context context) {
@@ -48,13 +47,13 @@ public class MainDBFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView: ");
-        View view = inflater.inflate(R.layout.fragment_main, container, false);
+        View view = inflater.inflate(R.layout.movies_fragment, container, false);
 
         if (view.findViewById(R.id.movie_detail_container) != null) {
             mTwoPane = true;
         }
 
-        RecyclerView recyclerView = (RecyclerView)view.findViewById(R.id.recyclerView_main);
+        RecyclerView recyclerView = (RecyclerView)view.findViewById(R.id.movies_recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -69,25 +68,25 @@ public class MainDBFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        Log.d(MainDBFragment.TAG, "onStart: ");
+        Log.d(MoviesDBFragment.TAG, "onStart: ");
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Log.d(MainDBFragment.TAG, "onResume: ");
+        Log.d(MoviesDBFragment.TAG, "onResume: ");
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        Log.d(MainDBFragment.TAG, "onPause: ");
+        Log.d(MoviesDBFragment.TAG, "onPause: ");
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        Log.d(MainDBFragment.TAG, "onStop: ");
+        Log.d(MoviesDBFragment.TAG, "onStop: ");
     }
 
     @Override

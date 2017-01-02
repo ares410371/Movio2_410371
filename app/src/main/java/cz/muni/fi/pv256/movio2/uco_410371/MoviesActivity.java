@@ -1,13 +1,8 @@
 package cz.muni.fi.pv256.movio2.uco_410371;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -15,17 +10,13 @@ import android.view.MenuItem;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
-import java.util.Set;
-
 import cz.muni.fi.pv256.movio2.uco_410371.sync.UpdaterSyncAdapter;
+import cz.muni.fi.pv256.movio2.uco_410371.util.ActivityUtils;
 
-/**
- * MainActivity
- * Created by Benjamin Varga on 20.9.2016.
- */
-public class MainActivity extends AppCompatActivity {
+public class MoviesActivity extends AppCompatActivity {
 
-    private static final String TAG  = MainActivity.class.getName();
+    private static final String TAG  = MoviesActivity.class.getName();
+
     public static final String PREF_CONFIG_THEME = "PREF_CONFIG_THEME";
     public static final String PREF_THEME = "PREF_THEME";
 
@@ -33,19 +24,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate: ");
-        SharedPreferences sharedPreferences = getSharedPreferences(PREF_CONFIG_THEME, Context.MODE_PRIVATE);
-        if (sharedPreferences.getBoolean(PREF_THEME, false)){
-            setTheme(R.style.AppTheme_Inverse);
-        } else {
-            setTheme(R.style.AppTheme);
-        }
-        setContentView(R.layout.activity_main);
+//        SharedPreferences sharedPreferences = getSharedPreferences(PREF_CONFIG_THEME, Context.MODE_PRIVATE);
+//        if (sharedPreferences.getBoolean(PREF_THEME, false)){
+//            setTheme(R.style.AppTheme_Inverse);
+//        } else {
+//            setTheme(R.style.AppTheme);
+//        }
+        setContentView(R.layout.movies_activity);
 
         UpdaterSyncAdapter.initializeSyncAdapter(this);
 
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragment, new MainFragment())
-                .commit();
+        MoviesFragment moviesFragment = (MoviesFragment) getSupportFragmentManager().findFragmentById(R.id.movies_fragment_container);
+        if (moviesFragment == null) {
+            // Create new fragment
+            moviesFragment = MoviesFragment.newInstance();
+            ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), moviesFragment, R.id.movies_fragment_container);
+        }
     }
 
     @Override
@@ -64,18 +58,16 @@ public class MainActivity extends AppCompatActivity {
                 if (isChecked) {
                     buttonView.setText(R.string.action_toogle_on);
                     getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.fragment, new MainFragment())
+                            .replace(R.id.movies_fragment_container, new MoviesFragment())
                             .commit();
                 } else {
                     buttonView.setText(R.string.action_toggle_off);
                     getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.fragment, new MainDBFragment())
+                            .replace(R.id.movies_fragment_container, new MoviesDBFragment())
                             .commit();
                 }
             }
         });
-
-
         return true;
     }
 
@@ -84,12 +76,12 @@ public class MainActivity extends AppCompatActivity {
         // TODO dorobit vyber zanrov
 //        int id = item.getItemId();
 //        if (id == R.id.action_settings) {
-//            startActivity(new Intent(MainActivity.this, MainPreferences.class));
+//            startActivity(new Intent(MoviesActivity.this, MoviesPreferences.class));
 //            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 //            Set<String> set = preferences.getStringSet("pref_genres", null);
 //            if (set != null) {
 //                for (String s : set) {
-//                    Log.d(MainActivity.class.getName(), "onOptionsItemSelected: " + s);
+//                    Log.d(MoviesActivity.class.getName(), "onOptionsItemSelected: " + s);
 //                }
 //            }
 //            return true;

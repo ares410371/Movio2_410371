@@ -48,3 +48,6 @@ Ukol 10:
 - Vytvorte vlastni cislovani verzi
   - MAJOR_MINOR_PATCH_BUILD
 .....
+
+Last Branch name is -> Final:
+- Obsahuje všetky opravy úloh a zmeny nad rámec predmetu.

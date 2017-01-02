@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/movies_container"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="cz.muni.fi.pv256.movio2.uco_410371.MoviesFragment"
+    tools:showIn="@layout/movies_activity">
+
+    <include layout="@layout/movies_list"/>
+
+    <TextView
+        android:id="@+id/no_movies_main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/no_movies_string"
+        android:textColor="@color/color_black"
+        android:textStyle="bold"/>
+
+</FrameLayout>

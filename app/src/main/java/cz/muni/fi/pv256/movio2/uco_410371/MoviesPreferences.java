@@ -6,7 +6,7 @@ import android.preference.PreferenceFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class MainPreferences extends AppCompatActivity {
+public class MoviesPreferences extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

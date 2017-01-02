@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Locale;
 
 import cz.muni.fi.pv256.movio2.uco_410371.BuildConfig;
-import cz.muni.fi.pv256.movio2.uco_410371.MainFragment;
+import cz.muni.fi.pv256.movio2.uco_410371.MoviesFragment;
 import cz.muni.fi.pv256.movio2.uco_410371.R;
 import cz.muni.fi.pv256.movio2.uco_410371.interfaces.RetrofitInterface;
 import cz.muni.fi.pv256.movio2.uco_410371.models.Movie;
@@ -130,7 +130,7 @@ public class DownloadService extends IntentService {
     }
 
     private void sendIntent(List<Movie> movies, String type){
-        Intent intent = new Intent(MainFragment.MESSAGE);
+        Intent intent = new Intent(MoviesFragment.MESSAGE);
         intent.putExtra(RESULT_CODE, Activity.RESULT_OK);
         intent.putExtra(RESULT_TYPE, type);
         intent.putParcelableArrayListExtra(RESULT_MOVIES, (ArrayList<Movie>) movies);

@@ -1,10 +1,6 @@
 package cz.muni.fi.pv256.movio2.uco_410371;
 
-import android.app.Activity;
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,31 +12,29 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import cz.muni.fi.pv256.movio2.uco_410371.adapters.HorizontalRecyclerViewAdapter;
-import cz.muni.fi.pv256.movio2.uco_410371.models.Movie;
-import cz.muni.fi.pv256.movio2.uco_410371.network.DownloadService;
 
-public class MainFragment extends Fragment {
+public class MoviesFragment extends Fragment implements MoviesContract.View {
 
     //*****CONSTANT*****
     public static final String MESSAGE = "message";
-    public static final String TAG = MainFragment.class.getName();
+    public static final String TAG = MoviesFragment.class.getName();
 
     private boolean mTwoPane;
-    private LocalBroadcastManager mBroadcastManager;
     private HorizontalRecyclerViewAdapter mRecyclerViewAdapter;
 
-    public MainFragment() {}
+    private MoviesContract.Presenter mPresenter;
+
+    public MoviesFragment() {}
+
+    public static MoviesFragment newInstance() {
+        return new MoviesFragment();
+    }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         Log.d(TAG, "onAttach: ");
-        mBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
-        startService();
     }
 
     @Override
@@ -48,19 +42,21 @@ public class MainFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate: ");
         setRetainInstance(true);
+        mPresenter = new MoviesPresenter(this, getActivity(), LocalBroadcastManager.getInstance(getActivity()));
+        mPresenter.startService();
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView: ");
-        View view = inflater.inflate(R.layout.fragment_main, container, false);
+        View view = inflater.inflate(R.layout.movies_fragment, container, false);
 
         if (view.findViewById(R.id.movie_detail_container) != null) {
             mTwoPane = true;
         }
 
-        RecyclerView recyclerView = (RecyclerView)view.findViewById(R.id.recyclerView_main);
+        RecyclerView recyclerView = (RecyclerView)view.findViewById(R.id.movies_recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -80,14 +76,14 @@ public class MainFragment extends Fragment {
     public void onResume() {
         super.onResume();
         Log.d(TAG, "onResume: ");
-        registerReceiver();
+        mPresenter.registerReceiver(mRecyclerViewAdapter);
     }
 
     @Override
     public void onPause() {
         super.onPause();
         Log.d(TAG, "onPause: ");
-        unregisterReceiver();
+        mPresenter.unregisterReceiver();
     }
 
     @Override
@@ -113,36 +109,4 @@ public class MainFragment extends Fragment {
         super.onDetach();
         Log.d(TAG, "onDetach: ");
     }
-
-    //*****PRIVATE METHODS*****
-
-    private void startService() {
-        Intent intent = new Intent(getActivity(), DownloadService.class);
-        getActivity().startService(intent);
-    }
-
-    private void registerReceiver() {
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(MESSAGE);
-        mBroadcastManager.registerReceiver(mBroadcastReceiver, intentFilter);
-    }
-
-    private void unregisterReceiver() {
-        mBroadcastManager.unregisterReceiver(mBroadcastReceiver);
-    }
-
-    private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            int resultCode = intent.getIntExtra(DownloadService.RESULT_CODE, Activity.RESULT_CANCELED);
-            if (resultCode == Activity.RESULT_OK && intent.getAction().equals(MESSAGE)) {
-                String type = intent.getStringExtra(DownloadService.RESULT_TYPE);
-                ArrayList<Movie> movies = intent.getParcelableArrayListExtra(DownloadService.RESULT_MOVIES);
-                List<Object> list = new ArrayList<>();
-                list.add(type);
-                list.add(movies);
-                mRecyclerViewAdapter.addItems(list);
-            }
-        }
-    };
 }

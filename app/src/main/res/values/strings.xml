@@ -102,5 +102,6 @@
     <!--Sync-->
     <string name="sync_account_type">pv256.fi.muni.cz</string>
     <string name="sync_content_authority">cz.muni.fi.pv256.movio2.uco_410371</string>
+    <string name="no_movies_string">You have no Movies!</string>
 
 </resources>

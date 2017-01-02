@@ -21,4 +21,7 @@
     <!-- text color -->
     <color name="textColorPrimaryInverse">#212121</color>
     <color name="textColorSecondaryInverse">#757575</color>
+
+    <!--Black-->
+    <color name="color_black">#000</color>
 </resources>

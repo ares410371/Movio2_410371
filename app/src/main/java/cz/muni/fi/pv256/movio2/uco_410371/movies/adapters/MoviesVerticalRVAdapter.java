@@ -1,4 +1,4 @@
-package cz.muni.fi.pv256.movio2.uco_410371.adapters;
+package cz.muni.fi.pv256.movio2.uco_410371.movies.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -22,17 +22,14 @@ import cz.muni.fi.pv256.movio2.uco_410371.R;
 import cz.muni.fi.pv256.movio2.uco_410371.ItemClickListener;
 import cz.muni.fi.pv256.movio2.uco_410371.models.Movie;
 
-/**
- * Created by Benjamin Varga on 22.11.2016.
- */
 
-public class MovieVERTRecyclerViewAdapter extends RecyclerView.Adapter<MovieVERTRecyclerViewAdapter.MovieViewHolder>{
+public class MoviesVerticalRVAdapter extends RecyclerView.Adapter<MoviesVerticalRVAdapter.MovieViewHolder>{
 
     private List<Movie> mMovies;
     private Context mContext;
     private boolean mTwoPane;
 
-    public MovieVERTRecyclerViewAdapter(Context context, List<Movie> movies, boolean twoPane) {
+    public MoviesVerticalRVAdapter(Context context, List<Movie> movies, boolean twoPane) {
         mMovies = movies;
         mContext = context;
         mTwoPane = twoPane;
@@ -44,7 +41,7 @@ public class MovieVERTRecyclerViewAdapter extends RecyclerView.Adapter<MovieVERT
     }
 
     @Override
-    public MovieVERTRecyclerViewAdapter.MovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MoviesVerticalRVAdapter.MovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.view_holder_vert_movie, parent, false);
         return new MovieViewHolder(view);

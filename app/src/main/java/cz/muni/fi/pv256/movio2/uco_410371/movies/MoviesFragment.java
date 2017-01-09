@@ -11,22 +11,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import cz.muni.fi.pv256.movio2.uco_410371.R;
-import cz.muni.fi.pv256.movio2.uco_410371.adapters.HorizontalRecyclerViewAdapter;
+import cz.muni.fi.pv256.movio2.uco_410371.movies.adapters.CategoryRVAdapter;
 
 public class MoviesFragment extends Fragment implements MoviesContract.View {
 
-    //*****CONSTANT*****
     public static final String MESSAGE = "message";
-    public static final String TAG = MoviesFragment.class.getName();
+
+    private static final String TAG = MoviesFragment.class.getName();
 
     private boolean mTwoPane;
-    private HorizontalRecyclerViewAdapter mRecyclerViewAdapter;
-
+    private CategoryRVAdapter mRecyclerViewAdapter;
     private MoviesContract.Presenter mPresenter;
-
-    public MoviesFragment() {}
+    private LinearLayout mContentFrame;
 
     public static MoviesFragment newInstance() {
         return new MoviesFragment();
@@ -61,7 +60,7 @@ public class MoviesFragment extends Fragment implements MoviesContract.View {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        mRecyclerViewAdapter = new HorizontalRecyclerViewAdapter(getContext(), mTwoPane);
+        mRecyclerViewAdapter = new CategoryRVAdapter(getContext(), mTwoPane);
         recyclerView.setAdapter(mRecyclerViewAdapter);
 
         return view;

@@ -1,4 +1,4 @@
-package cz.muni.fi.pv256.movio2.uco_410371.adapters;
+package cz.muni.fi.pv256.movio2.uco_410371.movies.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -22,13 +22,13 @@ import cz.muni.fi.pv256.movio2.uco_410371.R;
 import cz.muni.fi.pv256.movio2.uco_410371.ItemClickListener;
 import cz.muni.fi.pv256.movio2.uco_410371.models.Movie;
 
-public class MovieHORZRecyclerViewAdapter extends RecyclerView.Adapter<MovieHORZRecyclerViewAdapter.MovieViewHolder> {
+public class MoviesHorizontalRVAdapter extends RecyclerView.Adapter<MoviesHorizontalRVAdapter.MovieViewHolder> {
 
     private List<Movie> mMovies;
     private Context mContext;
     private boolean mTwoPane;
 
-    public MovieHORZRecyclerViewAdapter(Context context, List<Movie> movies, boolean twoPane) {
+    public MoviesHorizontalRVAdapter(Context context, List<Movie> movies, boolean twoPane) {
         mMovies = movies;
         mContext = context;
         mTwoPane = twoPane;

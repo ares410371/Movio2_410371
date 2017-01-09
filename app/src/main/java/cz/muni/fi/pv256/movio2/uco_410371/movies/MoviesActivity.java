@@ -56,14 +56,12 @@ public class MoviesActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     buttonView.setText(R.string.action_toogle_on);
-                    getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.movies_fragment_container, new MoviesFragment())
-                            .commit();
+                    ActivityUtils.replaceFragmentInActivity(getSupportFragmentManager(),
+                            MoviesFragment.newInstance(), R.id.movies_fragment_container);
                 } else {
                     buttonView.setText(R.string.action_toggle_off);
-                    getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.movies_fragment_container, new MoviesDBFragment())
-                            .commit();
+                    ActivityUtils.replaceFragmentInActivity(getSupportFragmentManager(),
+                            MoviesDBFragment.newInstance(), R.id.movies_fragment_container);
                 }
             }
         });
@@ -72,9 +70,12 @@ public class MoviesActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // TODO dorobit vyber zanrov
-//        int id = item.getItemId();
-//        if (id == R.id.action_settings) {
+        int id = item.getItemId();
+        if (id == R.id.action_refresh) {
+            // TODO refresh sync uloha 8
+            return true;
+        } else if (id == R.id.action_settings) {
+            // TODO setting bonus
 //            startActivity(new Intent(MoviesActivity.this, MoviesPreferences.class));
 //            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 //            Set<String> set = preferences.getStringSet("pref_genres", null);
@@ -83,8 +84,8 @@ public class MoviesActivity extends AppCompatActivity {
 //                    Log.d(MoviesActivity.class.getName(), "onOptionsItemSelected: " + s);
 //                }
 //            }
-//            return true;
-//        }
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 

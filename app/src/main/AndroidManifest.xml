@@ -23,24 +23,24 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <!--<activity-->
-            <!--android:name=".MovieDetailActivity"-->
-            <!--android:label="@string/name_detail_activity"-->
-            <!--android:parentActivityName=".MoviesActivity"-->
-            <!--android:theme="@style/AppTheme.NoActionBar">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="cz.muni.fi.pv256.movio2.uco_410371.MovieDetailActivity"/>-->
+        <activity
+            android:name=".MovieDetailActivity"
+            android:label="@string/name_detail_activity"
+            android:parentActivityName=".MoviesActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="cz.muni.fi.pv256.movio2.uco_410371.MovieDetailActivity"/>
 
-                <!--<category android:name="android.intent.category.DEFAULT"/>-->
-            <!--</intent-filter>-->
-            <!--<meta-data-->
-                <!--android:name="android.support.PARENT_ACTIVITY"-->
-                <!--android:value=".MoviesActivity"/>-->
-        <!--</activity>-->
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MoviesActivity"/>
+        </activity>
         <activity android:name=".movies.MoviesPreferences">
         </activity>
         <service
-            android:name=".DownloadService"
+            android:name=".movies.network.DownloadService"
             android:enabled="true"
             android:exported="true"/>
         <provider

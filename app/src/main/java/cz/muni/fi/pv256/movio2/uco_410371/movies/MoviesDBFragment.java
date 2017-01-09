@@ -10,31 +10,30 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import cz.muni.fi.pv256.movio2.uco_410371.R;
-import cz.muni.fi.pv256.movio2.uco_410371.adapters.MovieVERTRecyclerViewAdapter;
+import cz.muni.fi.pv256.movio2.uco_410371.movies.adapters.MoviesVerticalRVAdapter;
 import cz.muni.fi.pv256.movio2.uco_410371.db.MovioManager;
 import cz.muni.fi.pv256.movio2.uco_410371.db.models.MovieTable;
 import cz.muni.fi.pv256.movio2.uco_410371.models.Movie;
 
 public class MoviesDBFragment extends Fragment {
 
-    //*****CONSTANT*****
-    public static final String TAG = MoviesDBFragment.class.getName();
+    private static final String TAG = MoviesDBFragment.class.getName();
 
     private boolean mTwoPane;
 
-    public MoviesDBFragment() {}
+    public static MoviesDBFragment newInstance() {
+        return new MoviesDBFragment();
+    }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         Log.d(TAG, "onAttach: ");
-        Toast.makeText(context, "DB fragment", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -60,8 +59,9 @@ public class MoviesDBFragment extends Fragment {
 
         List<MovieTable> movieTables = new MovioManager(getContext()).getAllMovies();
 
-        MovieVERTRecyclerViewAdapter movieVERTRecyclerViewAdapter = new MovieVERTRecyclerViewAdapter(getContext(), convertMovieTableToMovie(movieTables), mTwoPane);
-        recyclerView.setAdapter(movieVERTRecyclerViewAdapter);
+        MoviesVerticalRVAdapter moviesVerticalRVAdapter =
+                new MoviesVerticalRVAdapter(getContext(), convertMovieTableToMovie(movieTables), mTwoPane);
+        recyclerView.setAdapter(moviesVerticalRVAdapter);
 
         return view;
     }

@@ -14,8 +14,6 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.List;
-
 import cz.muni.fi.pv256.movio2.uco_410371.db.MovioManager;
 import cz.muni.fi.pv256.movio2.uco_410371.db.models.MovieTable;
 import cz.muni.fi.pv256.movio2.uco_410371.models.Movie;
@@ -39,7 +37,7 @@ public class MovieDetailActivity extends AppCompatActivity
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_movie_detail);
+        setContentView(R.layout.movie_detail_activity);
         Log.d(TAG, "onCreate: ");
 
         AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.app_bar);

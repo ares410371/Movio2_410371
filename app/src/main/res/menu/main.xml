@@ -9,8 +9,15 @@
         app:actionViewClass="android.widget.Switch"/>
 
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_refresh"
         android:orderInCategory="200"
+        android:title="Refresh"
+        android:icon="@android:drawable/stat_notify_sync"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="300"
         android:title="@string/action_settings"
         app:showAsAction="never"/>
 </menu>

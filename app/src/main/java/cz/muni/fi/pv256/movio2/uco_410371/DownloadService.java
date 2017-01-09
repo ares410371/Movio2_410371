@@ -1,4 +1,4 @@
-package cz.muni.fi.pv256.movio2.uco_410371.network;
+package cz.muni.fi.pv256.movio2.uco_410371;
 
 import android.app.Activity;
 import android.app.IntentService;
@@ -18,12 +18,9 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-import cz.muni.fi.pv256.movio2.uco_410371.BuildConfig;
-import cz.muni.fi.pv256.movio2.uco_410371.MoviesFragment;
-import cz.muni.fi.pv256.movio2.uco_410371.R;
-import cz.muni.fi.pv256.movio2.uco_410371.interfaces.RetrofitInterface;
 import cz.muni.fi.pv256.movio2.uco_410371.models.Movie;
 import cz.muni.fi.pv256.movio2.uco_410371.models.MoviesResponse;
+import cz.muni.fi.pv256.movio2.uco_410371.movies.MoviesFragment;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

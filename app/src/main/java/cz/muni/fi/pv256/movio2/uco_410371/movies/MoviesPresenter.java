@@ -1,4 +1,4 @@
-package cz.muni.fi.pv256.movio2.uco_410371;
+package cz.muni.fi.pv256.movio2.uco_410371.movies;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -10,9 +10,9 @@ import android.support.v4.content.LocalBroadcastManager;
 import java.util.ArrayList;
 import java.util.List;
 
+import cz.muni.fi.pv256.movio2.uco_410371.DownloadService;
 import cz.muni.fi.pv256.movio2.uco_410371.adapters.HorizontalRecyclerViewAdapter;
 import cz.muni.fi.pv256.movio2.uco_410371.models.Movie;
-import cz.muni.fi.pv256.movio2.uco_410371.network.DownloadService;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;

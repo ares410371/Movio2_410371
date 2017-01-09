@@ -1,40 +1,40 @@
-package cz.muni.fi.pv256.movio2.uco_410371;
+package cz.muni.fi.pv256.movio2.uco_410371.movies;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
-import cz.muni.fi.pv256.movio2.uco_410371.adapters.HorizontalRecyclerViewAdapter;
+import java.util.ArrayList;
+import java.util.List;
 
-public class MoviesFragment extends Fragment implements MoviesContract.View {
+import cz.muni.fi.pv256.movio2.uco_410371.R;
+import cz.muni.fi.pv256.movio2.uco_410371.adapters.MovieVERTRecyclerViewAdapter;
+import cz.muni.fi.pv256.movio2.uco_410371.db.MovioManager;
+import cz.muni.fi.pv256.movio2.uco_410371.db.models.MovieTable;
+import cz.muni.fi.pv256.movio2.uco_410371.models.Movie;
+
+public class MoviesDBFragment extends Fragment {
 
     //*****CONSTANT*****
-    public static final String MESSAGE = "message";
-    public static final String TAG = MoviesFragment.class.getName();
+    public static final String TAG = MoviesDBFragment.class.getName();
 
     private boolean mTwoPane;
-    private HorizontalRecyclerViewAdapter mRecyclerViewAdapter;
 
-    private MoviesContract.Presenter mPresenter;
-
-    public MoviesFragment() {}
-
-    public static MoviesFragment newInstance() {
-        return new MoviesFragment();
-    }
+    public MoviesDBFragment() {}
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         Log.d(TAG, "onAttach: ");
+        Toast.makeText(context, "DB fragment", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -42,8 +42,6 @@ public class MoviesFragment extends Fragment implements MoviesContract.View {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate: ");
         setRetainInstance(true);
-        mPresenter = new MoviesPresenter(this, getActivity(), LocalBroadcastManager.getInstance(getActivity()));
-        mPresenter.startService();
     }
 
     @Nullable
@@ -60,8 +58,10 @@ public class MoviesFragment extends Fragment implements MoviesContract.View {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        mRecyclerViewAdapter = new HorizontalRecyclerViewAdapter(getContext(), mTwoPane);
-        recyclerView.setAdapter(mRecyclerViewAdapter);
+        List<MovieTable> movieTables = new MovioManager(getContext()).getAllMovies();
+
+        MovieVERTRecyclerViewAdapter movieVERTRecyclerViewAdapter = new MovieVERTRecyclerViewAdapter(getContext(), convertMovieTableToMovie(movieTables), mTwoPane);
+        recyclerView.setAdapter(movieVERTRecyclerViewAdapter);
 
         return view;
     }
@@ -69,27 +69,25 @@ public class MoviesFragment extends Fragment implements MoviesContract.View {
     @Override
     public void onStart() {
         super.onStart();
-        Log.d(TAG, "onStart: ");
+        Log.d(MoviesDBFragment.TAG, "onStart: ");
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Log.d(TAG, "onResume: ");
-        mPresenter.registerReceiver(mRecyclerViewAdapter);
+        Log.d(MoviesDBFragment.TAG, "onResume: ");
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        Log.d(TAG, "onPause: ");
-        mPresenter.unregisterReceiver();
+        Log.d(MoviesDBFragment.TAG, "onPause: ");
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        Log.d(TAG, "onStop: ");
+        Log.d(MoviesDBFragment.TAG, "onStop: ");
     }
 
     @Override
@@ -108,5 +106,14 @@ public class MoviesFragment extends Fragment implements MoviesContract.View {
     public void onDetach() {
         super.onDetach();
         Log.d(TAG, "onDetach: ");
+    }
+
+    private List<Movie> convertMovieTableToMovie(List<MovieTable> movieTables) {
+        List<Movie> converted = new ArrayList<>();
+        for (MovieTable mt : movieTables) {
+            converted.add(new Movie(mt.getTMDId(), mt.getReleaseDate(), mt.getPosterPath(),
+                    mt.getTitle(), mt.getBackdropPath(), (float)mt.getPopularity()));
+        }
+        return converted;
     }
 }

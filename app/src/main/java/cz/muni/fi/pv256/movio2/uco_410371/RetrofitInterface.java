@@ -1,4 +1,4 @@
-package cz.muni.fi.pv256.movio2.uco_410371.interfaces;
+package cz.muni.fi.pv256.movio2.uco_410371;
 
 import cz.muni.fi.pv256.movio2.uco_410371.models.MovieCredits;
 import cz.muni.fi.pv256.movio2.uco_410371.models.MoviesResponse;

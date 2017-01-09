@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:id="@+id/movies_container"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="cz.muni.fi.pv256.movio2.uco_410371.MoviesFragment"
+    tools:context="cz.muni.fi.pv256.movio2.uco_410371.movies.MoviesFragment"
     tools:showIn="@layout/movies_activity">
 
     <include layout="@layout/movies_list"/>

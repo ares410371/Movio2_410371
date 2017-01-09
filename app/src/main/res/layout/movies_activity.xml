@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="cz.muni.fi.pv256.movio2.uco_410371.MoviesActivity">
+    tools:context="cz.muni.fi.pv256.movio2.uco_410371.movies.MoviesActivity">
 
     <FrameLayout
         android:id="@+id/movies_fragment_container"

@@ -1,4 +1,4 @@
-package cz.muni.fi.pv256.movio2.uco_410371;
+package cz.muni.fi.pv256.movio2.uco_410371.movies;
 
 import cz.muni.fi.pv256.movio2.uco_410371.adapters.HorizontalRecyclerViewAdapter;
 

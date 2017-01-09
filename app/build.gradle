@@ -2,22 +2,42 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
 
 def versionMajor = 0
-def versionMinor = 5
+def versionMinor = 8
 def versionPatch = 0
+def versionBuild = 1
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.3"
+    compileSdkVersion rootProject.compileSdkVersion
+    buildToolsVersion rootProject.buildToolsVersion
 
     defaultConfig {
         applicationId "cz.muni.fi.pv256.movio2.uco_410371"
-        minSdkVersion 17
-        targetSdkVersion 24
-        versionCode versionMajor * 1000 + versionMinor * 100 + versionPatch * 10
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
+        versionCode versionMajor * 1000 + versionMinor * 100 + versionPatch * 10 + versionBuild
         versionName "${versionMajor}.${versionMinor}.${versionPatch}"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
+    //standard gradle naming says almost nothing about your build; this way you can easily distinguish between different builds and versions
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            output.outputFile = new File(
+                    output.outputFile.parent,
+                    "$project.name-$variant.name-$variant.versionName-${variant.versionCode}.apk")
+        }
+    }
+
+//    //define your release config, so you can easily build and run release builds; this way you can avoid painful build->generate signed apk procedure
+//    signingConfigs {
+//        release {
+//            storeFile file(RELEASE_STORE_FILE)
+//            storePassword RELEASE_STORE_PASSWORD
+//            keyAlias RELEASE_KEY_ALIAS
+//            keyPassword RELEASE_KEY_PASSWORD
+//        }
+//    }
 
     buildTypes {
         release {
@@ -33,19 +53,25 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:24.2.1'
-    compile 'com.android.support:recyclerview-v7:24.2.1'
-    compile 'com.android.support:support-v4:24.2.1'
-    compile 'com.android.support:design:24.2.1'
-    compile 'com.google.guava:guava:18.0'
 
-    compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.bluelinelabs:logansquare:1.3.6'
-    compile 'com.squareup.retrofit2:retrofit:2.1.0'
-    compile 'com.github.aurae.retrofit2:converter-logansquare:1.4.1'
-    apt 'com.bluelinelabs:logansquare-compiler:1.3.6'
+    compile "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
+    compile "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
+    compile "com.android.support:support-v4:$rootProject.supportLibraryVersion"
+    compile "com.android.support:design:$rootProject.supportLibraryVersion"
+    compile "com.android.support:support-vector-drawable:$rootProject.supportLibraryVersion"
+
+    compile "com.google.guava:guava:$rootProject.guavaLibraryVersion"
+
+    compile "com.squareup.picasso:picasso:$rootProject.picassoLibraryVersion"
+
+    apt "com.bluelinelabs:logansquare-compiler:$rootProject.logansquareLibraryVersion"
+    compile "com.bluelinelabs:logansquare:$rootProject.logansquareLibraryVersion"
+
+    compile "com.squareup.retrofit2:retrofit:$rootProject.retrofit2LibraryVersion"
+    compile "com.github.aurae.retrofit2:converter-logansquare:$rootProject.logansquareConverterLibraryVersion"
+
     compile 'com.github.rubensousa:gravitysnaphelper:1.0'
-    compile 'com.android.support:support-vector-drawable:24.2.1'
+
     androidTestCompile 'junit:junit:4.12'
     androidTestCompile ('com.android.support.test:runner:0.5') {
         exclude group: 'com.android.support'

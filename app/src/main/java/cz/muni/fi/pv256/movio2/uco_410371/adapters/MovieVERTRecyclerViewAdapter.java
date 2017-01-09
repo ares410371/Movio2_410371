@@ -19,7 +19,7 @@ import java.util.List;
 import cz.muni.fi.pv256.movio2.uco_410371.MovieDetailActivity;
 import cz.muni.fi.pv256.movio2.uco_410371.MovieDetailFragment;
 import cz.muni.fi.pv256.movio2.uco_410371.R;
-import cz.muni.fi.pv256.movio2.uco_410371.interfaces.ItemClickListener;
+import cz.muni.fi.pv256.movio2.uco_410371.ItemClickListener;
 import cz.muni.fi.pv256.movio2.uco_410371.models.Movie;
 
 /**

@@ -22,7 +22,8 @@ public class MovioManager {
             MovioDbHelper.KEY_MOVIE_POSTER_PATH,
             MovioDbHelper.KEY_MOVIE_BACKDROP_PATH,
             MovioDbHelper.KEY_MOVIE_RELEASE_DATE,
-            MovioDbHelper.KEY_MOVIE_POPULARITY
+            MovioDbHelper.KEY_MOVIE_POPULARITY,
+            MovioDbHelper.KEY_MOVIE_OVERVIEW
     };
 
     private Context mContext;
@@ -91,6 +92,7 @@ public class MovioManager {
         contentValues.put(MovioDbHelper.KEY_MOVIE_TITLE, movieTable.getTitle());
         contentValues.put(MovioDbHelper.KEY_MOVIE_RELEASE_DATE, movieTable.getReleaseDate());
         contentValues.put(MovioDbHelper.KEY_MOVIE_POPULARITY, movieTable.getPopularity());
+        contentValues.put(MovioDbHelper.KEY_MOVIE_OVERVIEW, movieTable.getOverview());
         //// TODO: 14.11.2016 doplnit category id
         return contentValues;
     }
@@ -104,7 +106,8 @@ public class MovioManager {
                 cursor.getString(4),
                 cursor.getString(5),
                 cursor.getString(6),
-                cursor.getDouble(7)
+                cursor.getDouble(7),
+                cursor.getString(8)
         );
     }
 }

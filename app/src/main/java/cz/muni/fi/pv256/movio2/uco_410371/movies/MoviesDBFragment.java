@@ -112,7 +112,7 @@ public class MoviesDBFragment extends Fragment {
         List<Movie> converted = new ArrayList<>();
         for (MovieTable mt : movieTables) {
             converted.add(new Movie(mt.getTMDId(), mt.getReleaseDate(), mt.getPosterPath(),
-                    mt.getTitle(), mt.getBackdropPath(), (float)mt.getPopularity()));
+                    mt.getTitle(), mt.getBackdropPath(), (float)mt.getPopularity(), mt.getOverview()));
         }
         return converted;
     }

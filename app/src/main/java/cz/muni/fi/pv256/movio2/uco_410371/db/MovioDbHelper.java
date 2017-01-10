@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class MovioDbHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "movioDB.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     //KEY_+TABLE_+COLUMN_NAME
     //*****CATEGORY TABLE******
@@ -25,6 +25,7 @@ public class MovioDbHelper extends SQLiteOpenHelper {
     public static final String KEY_MOVIE_BACKDROP_PATH = "backdrop_path";
     public static final String KEY_MOVIE_RELEASE_DATE = "release_date";
     public static final String KEY_MOVIE_POPULARITY = "popularity";
+    public static final String KEY_MOVIE_OVERVIEW = "overview";
 
 
     public MovioDbHelper(Context context) {
@@ -49,6 +50,7 @@ public class MovioDbHelper extends SQLiteOpenHelper {
                 + KEY_MOVIE_BACKDROP_PATH + " TEXT, "
                 + KEY_MOVIE_RELEASE_DATE + " TEXT, "
                 + KEY_MOVIE_POPULARITY + " REAL, "
+                + KEY_MOVIE_OVERVIEW + " TEXT, "
                 + "FOREIGN KEY(" + KEY_MOVIE_CATEGORY_ID + ") REFERENCES " + TABLE_CATEGORY + "(" + KEY_CATEGORY_ID + ")"
                 + ")";
 

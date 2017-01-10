@@ -1,4 +1,4 @@
-package cz.muni.fi.pv256.movio2.uco_410371;
+package cz.muni.fi.pv256.movio2.uco_410371.moviedetail;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,12 +14,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
+import cz.muni.fi.pv256.movio2.uco_410371.R;
 import cz.muni.fi.pv256.movio2.uco_410371.models.Movie;
+import cz.muni.fi.pv256.movio2.uco_410371.util.ImageUtils;
 
 public class MovieDetailFragment extends Fragment
-        implements AppBarLayout.OnOffsetChangedListener{
+        implements AppBarLayout.OnOffsetChangedListener {
 
     public static final String TAG = MovieDetailFragment.class.getName();
     public static final String ARG_MOVIE = "movie";
@@ -31,10 +31,12 @@ public class MovieDetailFragment extends Fragment
     private ImageView mMoviePosterIV;
     private ImageView mMoviePosterBackIV;
     private TextView mMovieDateTV;
+    private TextView mMovieOverview;
     private boolean isHeaderVisible;
     private FloatingActionButton mFab;
 
-    public MovieDetailFragment() {
+    public static MovieDetailFragment newInstance() {
+        return new MovieDetailFragment();
     }
 
     @Override
@@ -58,7 +60,7 @@ public class MovieDetailFragment extends Fragment
         View view;
 
         if (mTwoPane) {
-            view = inflater.inflate(R.layout.movie_detail_twopane, container, false);
+            view = inflater.inflate(R.layout.movie_detail_fragment_twopane, container, false);
 
             AppBarLayout appBarLayout = (AppBarLayout) view.findViewById(R.id.app_bar);
             appBarLayout.addOnOffsetChangedListener(this);
@@ -71,28 +73,26 @@ public class MovieDetailFragment extends Fragment
                             .setAction("Action", null).show();
                 }
             });
-// TODO: 19.11.2016 Doriesit vo fragmente zorazovanie z databaze
-            mMovieTitleTVExpanded = (TextView)view.findViewById(R.id.text_movie_title_expanded);
-            mMoviePosterIV = (ImageView)view.findViewById(R.id.image_movie_poster);
-            mMoviePosterBackIV = (ImageView)view.findViewById(R.id.image_movie_back_poster);
-            mMovieDateTV = (TextView)view.findViewById(R.id.text_movie_year);
+
+            mMovieTitleTVExpanded = (TextView) view.findViewById(R.id.text_movie_title_expanded);
+            mMoviePosterIV = (ImageView) view.findViewById(R.id.image_movie_poster);
+            mMoviePosterBackIV = (ImageView) view.findViewById(R.id.image_movie_back_poster);
+            mMovieDateTV = (TextView) view.findViewById(R.id.text_movie_year);
+            mMovieOverview = (TextView) view.findViewById(R.id.text_movie_overview);
 
             if (mMovie != null) {
                 mMovieTitleTVExpanded.setText(mMovie.getTitle());
-
-                Picasso.with(getContext())
-                        .load("https://image.tmdb.org/t/p/w300" + mMovie.getBackdropPath())
-                        .placeholder(R.drawable.placeholder_poster)
-                        .into(mMoviePosterBackIV);
-                Picasso.with(getContext())
-                        .load("https://image.tmdb.org/t/p/w500" + mMovie.getPosterPath())
-                        .placeholder(R.drawable.placeholder_poster)
-                        .into(mMoviePosterIV);
+                ImageUtils.loadBackdropImage(getContext(), mMovie.getBackdropPath(), mMoviePosterBackIV);
+                ImageUtils.loadPosterImage(getContext(), mMovie.getPosterPath(), mMoviePosterIV);
                 mMovieDateTV.setText(mMovie.getReleaseDate());
+                mMovieOverview.setText(mMovie.getOverview());
             }
 
         } else {
-            view = inflater.inflate(R.layout.movie_detail, container, false);
+            view = inflater.inflate(R.layout.movie_detail_fragment, container, false);
+
+            mMovieOverview = (TextView) view.findViewById(R.id.text_movie_overview);
+            mMovieOverview.setText(mMovie.getOverview());
         }
 
         return view;

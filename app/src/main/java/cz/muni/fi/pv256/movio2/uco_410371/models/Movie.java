@@ -28,18 +28,22 @@ public class Movie implements Parcelable {
     @JsonField(name = "backdrop_path")
     private String mBackdropPath;
 
-    @JsonField(name = "popularity")
+    @JsonField(name = "vote_average")
     private float mPopularity;
+
+    @JsonField(name = "overview")
+    private String mOverview;
 
     public Movie() {}
 
-    public Movie(int id, String releaseDate, String posterPath, String title, String backdropPath, float popularity) {
+    public Movie(int id, String releaseDate, String posterPath, String title, String backdropPath, float popularity, String overview) {
         mId = id;
         mReleaseDate = releaseDate;
         mPosterPath = posterPath;
         mTitle = title;
         mBackdropPath = backdropPath;
         mPopularity = popularity;
+        mOverview = overview;
     }
 
     public int getId() {
@@ -90,6 +94,14 @@ public class Movie implements Parcelable {
         mPopularity = popularity;
     }
 
+    public String getOverview() {
+        return mOverview;
+    }
+
+    public void setOverview(String overview) {
+        mOverview = overview;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -102,6 +114,7 @@ public class Movie implements Parcelable {
         mTitle = in.readString();
         mBackdropPath = in.readString();
         mPopularity = in.readFloat();
+        mOverview = in.readString();
     }
 
     @Override
@@ -112,6 +125,7 @@ public class Movie implements Parcelable {
         dest.writeString(mTitle);
         dest.writeString(mBackdropPath);
         dest.writeFloat(mPopularity);
+        dest.writeString(mOverview);
     }
 
     public static final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>() {

@@ -4,14 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="cz.muni.fi.pv256.movio2.uco_410371.MovieDetailFragment">
+    tools:context="cz.muni.fi.pv256.movio2.uco_410371.moviedetail.MovieDetailFragment">
 
     <TextView
+        android:id="@+id/text_movie_overview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="@dimen/text_margin"
-        android:text="@string/large_text"/>
-        <!--android:layout_below="@id/movie_detail_info"/>-->
+        android:textSize="18sp"
+        android:textColor="@color/color_black"/>
 
 </RelativeLayout>
 

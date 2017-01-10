@@ -9,10 +9,11 @@ public class MovieTable {
     private String mPosterPath;
     private String mBackdropPath;
     private String mReleaseDate;
-    private double mPopularity ;
+    private double mPopularity;
+    private String mOverview;
 
     public MovieTable(long id, String title, int categoryId, int TMDId, String posterPath,
-                      String backdropPath, String releaseDate, double popularity) {
+                      String backdropPath, String releaseDate, double popularity, String overview) {
         mId = id;
         mTitle = title;
         mCategoryId = categoryId;
@@ -21,6 +22,7 @@ public class MovieTable {
         mBackdropPath = backdropPath;
         mReleaseDate = releaseDate;
         mPopularity = popularity;
+        mOverview = overview;
     }
 
     public long getId() {
@@ -87,6 +89,14 @@ public class MovieTable {
         mPopularity = popularity;
     }
 
+    public String getOverview() {
+        return mOverview;
+    }
+
+    public void setOverview(String overview) {
+        mOverview = overview;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -103,7 +113,9 @@ public class MovieTable {
             return false;
         if (mBackdropPath != null ? !mBackdropPath.equals(movie.mBackdropPath) : movie.mBackdropPath != null)
             return false;
-        return mReleaseDate != null ? mReleaseDate.equals(movie.mReleaseDate) : movie.mReleaseDate == null;
+        if (mReleaseDate != null ? !mReleaseDate.equals(movie.mReleaseDate) : movie.mReleaseDate != null)
+            return false;
+        return mOverview != null ? mOverview.equals(movie.mOverview) : movie.mOverview == null;
 
     }
 
@@ -120,6 +132,7 @@ public class MovieTable {
         result = 31 * result + (mReleaseDate != null ? mReleaseDate.hashCode() : 0);
         temp = Double.doubleToLongBits(mPopularity);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + (mOverview != null ? mOverview.hashCode() : 0);
         return result;
     }
 
@@ -134,6 +147,7 @@ public class MovieTable {
                 ", mBackdropPath='" + mBackdropPath + '\'' +
                 ", mReleaseDate='" + mReleaseDate + '\'' +
                 ", mPopularity=" + mPopularity +
+                ", mOverview='" + mOverview + '\'' +
                 '}';
     }
 }

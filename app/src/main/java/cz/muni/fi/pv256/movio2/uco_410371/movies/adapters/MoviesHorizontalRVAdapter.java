@@ -12,15 +12,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
-
 import java.util.List;
 
-import cz.muni.fi.pv256.movio2.uco_410371.MovieDetailActivity;
-import cz.muni.fi.pv256.movio2.uco_410371.MovieDetailFragment;
+import cz.muni.fi.pv256.movio2.uco_410371.moviedetail.MovieDetailActivity;
+import cz.muni.fi.pv256.movio2.uco_410371.moviedetail.MovieDetailFragment;
 import cz.muni.fi.pv256.movio2.uco_410371.R;
 import cz.muni.fi.pv256.movio2.uco_410371.ItemClickListener;
 import cz.muni.fi.pv256.movio2.uco_410371.models.Movie;
+import cz.muni.fi.pv256.movio2.uco_410371.util.ActivityUtils;
+import cz.muni.fi.pv256.movio2.uco_410371.util.ImageUtils;
 
 public class MoviesHorizontalRVAdapter extends RecyclerView.Adapter<MoviesHorizontalRVAdapter.MovieViewHolder> {
 
@@ -65,12 +65,7 @@ public class MoviesHorizontalRVAdapter extends RecyclerView.Adapter<MoviesHorizo
                     }
                 }
             });
-
-            Picasso.with(mContext)
-                    .load("https://image.tmdb.org/t/p/w500" + movie.getPosterPath())
-                    .placeholder(R.drawable.placeholder_poster)
-                    .into(movieViewHolder.getItemPoster());
-
+            ImageUtils.loadPosterImage(mContext, movie.getPosterPath(), movieViewHolder.getItemPoster());
             movieViewHolder.getItemTitle().setText(movie.getTitle());
         }
     }
@@ -80,11 +75,10 @@ public class MoviesHorizontalRVAdapter extends RecyclerView.Adapter<MoviesHorizo
             Bundle args = new Bundle();
             args.putParcelable(MovieDetailFragment.ARG_MOVIE, movie);
             args.putBoolean(MovieDetailFragment.ARG_SCREEN_TYPE, true);
-            MovieDetailFragment fragment = new MovieDetailFragment();
+            MovieDetailFragment fragment = MovieDetailFragment.newInstance();
             fragment.setArguments(args);
-            ((AppCompatActivity)mContext).getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.movie_detail_container, fragment)
-                    .commit();
+            ActivityUtils.replaceFragmentInActivity(((AppCompatActivity)mContext).getSupportFragmentManager(),
+                    fragment, R.id.movie_detail_container);
         } else {
             Intent intent = new Intent(mContext, MovieDetailActivity.class);
             intent.putExtra(MovieDetailFragment.ARG_MOVIE, movie);

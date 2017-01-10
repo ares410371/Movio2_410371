@@ -1,4 +1,4 @@
-package cz.muni.fi.pv256.movio2.uco_410371;
+package cz.muni.fi.pv256.movio2.uco_410371.moviedetail;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,11 +12,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
+import cz.muni.fi.pv256.movio2.uco_410371.R;
 import cz.muni.fi.pv256.movio2.uco_410371.db.MovioManager;
 import cz.muni.fi.pv256.movio2.uco_410371.db.models.MovieTable;
 import cz.muni.fi.pv256.movio2.uco_410371.models.Movie;
+import cz.muni.fi.pv256.movio2.uco_410371.util.ActivityUtils;
+import cz.muni.fi.pv256.movio2.uco_410371.util.ImageUtils;
 
 public class MovieDetailActivity extends AppCompatActivity
         implements AppBarLayout.OnOffsetChangedListener, View.OnClickListener {
@@ -58,17 +59,15 @@ public class MovieDetailActivity extends AppCompatActivity
             mFab.setImageResource(R.mipmap.ic_delete);
         }
 
-
         if (savedInstanceState == null) {
             Bundle args = new Bundle();
             args.putParcelable(MovieDetailFragment.ARG_MOVIE, movie);
             args.putBoolean(MovieDetailFragment.ARG_SCREEN_TYPE,
                     getIntent().getBooleanExtra(MovieDetailFragment.ARG_SCREEN_TYPE, false));
-            MovieDetailFragment fragment = new MovieDetailFragment();
+            MovieDetailFragment fragment = MovieDetailFragment.newInstance();
             fragment.setArguments(args);
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.movie_detail_container, fragment)
-                    .commit();
+            ActivityUtils.addFragmentToActivity(getSupportFragmentManager(),
+                    fragment, R.id.movie_detail_container);
         }
     }
     
@@ -107,7 +106,6 @@ public class MovieDetailActivity extends AppCompatActivity
         int maxScroll = appBarLayout.getTotalScrollRange();
         float percentage = (float) Math.abs(verticalOffset) / (float) maxScroll;
         Log.d(TAG, "onOffsetChanged: percentage = " + percentage);
-
         if (percentage >= 0.8f) {
             if (isHeaderVisible) {
                 mMoviePosterIV.setVisibility(View.GONE);
@@ -130,11 +128,8 @@ public class MovieDetailActivity extends AppCompatActivity
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.fab_detail) {
-
             if (isInDB) {
-                // // TODO: 18.11.2016 potrebujem null check??? 
                 mFab.setImageResource(R.mipmap.ic_add_circle);
-
                 if (mMovieTable != null) {
                     mManager.deleteMovie(mMovieTable);
                     isInDB = false;
@@ -143,7 +138,6 @@ public class MovieDetailActivity extends AppCompatActivity
                 }
             } else {
                 mFab.setImageResource(R.mipmap.ic_delete);
-
                 if (mMovieTable != null) {
                     mManager.createMovie(mMovieTable);
                     isInDB = true;
@@ -154,10 +148,6 @@ public class MovieDetailActivity extends AppCompatActivity
         }
     }
 
-
-    //*************************
-    //*****Private Methods*****
-
     private void initView() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_detail);
         setSupportActionBar(toolbar);
@@ -165,7 +155,6 @@ public class MovieDetailActivity extends AppCompatActivity
         if (actionBar != null) {
             actionBar.setDisplayShowTitleEnabled(false);
         }
-
         mMovieTitleTVExpanded = (TextView) findViewById(R.id.text_movie_title_expanded);
         mMovieTitleTVCollapsed = (TextView) findViewById(R.id.text_movie_title_collapsed);
         mMoviePosterIV = (ImageView) findViewById(R.id.image_movie_poster);
@@ -179,20 +168,12 @@ public class MovieDetailActivity extends AppCompatActivity
     private void setMovieDetail(Movie movie) {
         mMovieTitleTVExpanded.setText(movie.getTitle());
         mMovieTitleTVCollapsed.setText(movie.getTitle());
-        Picasso.with(this)
-                .load("https://image.tmdb.org/t/p/w300" + movie.getBackdropPath())
-                .placeholder(R.drawable.placeholder_poster)
-                .into(mMoviePosterBackIV);
-        Picasso.with(this)
-                .load("https://image.tmdb.org/t/p/w500" + movie.getPosterPath())
-                .placeholder(R.drawable.placeholder_poster)
-                .into(mMoviePosterIV);
+        ImageUtils.loadBackdropImage(this, movie.getBackdropPath(), mMoviePosterBackIV);
+        ImageUtils.loadPosterImage(this, movie.getPosterPath(), mMoviePosterIV);
         mMovieDateTV.setText(movie.getReleaseDate());
     }
 
     private MovieTable convertMovieToDB(Movie movie) {
-        Log.d(TAG, "convertMovieToDB: string= " + movie.getReleaseDate());
-
         return new MovieTable(
                 0,
                 movie.getTitle(),
@@ -201,7 +182,8 @@ public class MovieDetailActivity extends AppCompatActivity
                 movie.getPosterPath(),
                 movie.getBackdropPath(),
                 movie.getReleaseDate(),
-                movie.getPopularity()
+                movie.getPopularity(),
+                movie.getOverview()
         );
     }
 

@@ -38,7 +38,7 @@ public class MovioUITest {
                 .check(matches(isDisplayed()));
 
     }
-//
+
 //    @Test
 //    public void detailTest() {
 //        onView(withId(R.id.horizontal_recycler_view))

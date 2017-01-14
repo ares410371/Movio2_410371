@@ -2,20 +2,21 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/image_item_movie_vert_poster"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:adjustViewBounds="true"/>
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"/>
 
     <RelativeLayout
         android:id="@+id/bottom_bar_vert"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="#88888888">
+        android:background="@color/color_grey_backgroung">
 
         <TextView
             android:id="@+id/text_movie_vert_rating"
@@ -24,9 +25,10 @@
             android:text="4.5"
             android:textColor="@android:color/white"
             android:textSize="20sp"
-            android:gravity="center_vertical"
+            android:layout_centerInParent="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"/>
+            android:layout_alignParentEnd="true"
+            android:paddingEnd="5dp"/>
 
         <ImageView
             android:id="@+id/image_vert_rating_star"
@@ -35,7 +37,8 @@
             android:adjustViewBounds="true"
             android:src="@android:drawable/btn_star_big_on"
             android:layout_toLeftOf="@id/text_movie_vert_rating"
-            android:layout_toStartOf="@id/text_movie_vert_rating"/>
+            android:layout_toStartOf="@id/text_movie_vert_rating"
+            android:layout_centerInParent="true"/>
 
         <TextView
             android:id="@+id/text_movie_vert_title"
@@ -46,7 +49,8 @@
             android:text="HaHaHaHa"
             android:textColor="@android:color/white"
             android:textSize="20sp"
-            android:gravity="center_vertical"/>
+            android:layout_centerInParent="true"
+            android:paddingStart="5dp"/>
 
     </RelativeLayout>
 

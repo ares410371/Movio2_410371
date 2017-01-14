@@ -42,7 +42,7 @@ public class MoviesVerticalRVAdapter extends RecyclerView.Adapter<MoviesVertical
     @Override
     public MoviesVerticalRVAdapter.MovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.view_holder_vert_movie, parent, false);
+        View view = inflater.inflate(R.layout.view_holder_vertical_movie, parent, false);
         return new MovieViewHolder(view);
     }
 

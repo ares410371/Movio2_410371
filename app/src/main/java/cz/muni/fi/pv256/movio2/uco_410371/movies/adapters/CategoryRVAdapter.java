@@ -50,7 +50,7 @@ public class CategoryRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         switch (viewType) {
             case MOVIES: {
-                View view = inflater.inflate(R.layout.view_holder_horizontal_rv, parent, false);
+                View view = inflater.inflate(R.layout.view_holder_recycler_view, parent, false);
                 return new HorizontalRVViewHolder(view);
             }
             case EMPTY: {

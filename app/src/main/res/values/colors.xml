@@ -23,5 +23,10 @@
     <color name="textColorSecondaryInverse">#757575</color>
 
     <!--Black-->
-    <color name="color_black">#000</color>
+    <color name="color_black">#000000</color>
+
+    <!--White-->
+    <color name="color_white">#FFFFFF</color>
+
+    <color name="color_grey_backgroung">#88888888</color>
 </resources>

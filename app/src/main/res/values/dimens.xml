@@ -17,4 +17,8 @@
     <dimen name="image_poster_width">128dp</dimen>
     <dimen name="text_toolbar_title_size">26sp</dimen>
 
+    <dimen name="cardview_margin">2dp</dimen>
+    <dimen name="cardview_height">240dp</dimen>
+    <dimen name="cardview_width">110dp</dimen>
+
 </resources>

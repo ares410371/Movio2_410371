@@ -26,7 +26,7 @@
         <activity
             android:name=".moviedetail.MovieDetailActivity"
             android:label="@string/name_detail_activity"
-            android:parentActivityName=".MoviesActivity"
+            android:parentActivityName=".movies.MoviesActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="cz.muni.fi.pv256.movio2.uco_410371.MovieDetailActivity"/>
@@ -35,7 +35,7 @@
             </intent-filter>
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MoviesActivity"/>
+                android:value=".movies.MoviesActivity"/>
         </activity>
         <activity android:name=".movies.MoviesPreferences">
         </activity>

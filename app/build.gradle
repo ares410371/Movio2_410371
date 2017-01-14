@@ -72,11 +72,22 @@ dependencies {
 
     compile 'com.github.rubensousa:gravitysnaphelper:1.0'
 
-    androidTestCompile 'junit:junit:4.12'
-    androidTestCompile ('com.android.support.test:runner:0.5') {
+    testCompile "junit:junit:$rootProject.jUnitLibraryVersion"
+    testCompile "org.mockito:mockito-all:$rootProject.mockitoLibraryVersion"
+    testCompile "org.hamcrest:hamcrest-all:$rootProject.hamcrestLibraryVersion"
+    testCompile "org.powermock:powermock-module-junit4:$rootProject.powerMockitoLibraryVersion"
+    testCompile "org.powermock:powermock-api-mockito:$rootProject.powerMockitoLibraryVersion"
+
+    androidTestCompile ("com.android.support.test:runner:$rootProject.runnerLibraryVersion") {
         exclude group: 'com.android.support'
     }
-    androidTestCompile ('com.android.support.test:rules:0.5') {
+    androidTestCompile ("com.android.support.test:rules:$rootProject.rulesLibraryVersion") {
+        exclude group: 'com.android.support'
+    }
+    androidTestCompile ("com.android.support.test.espresso:espresso-core:$rootProject.espressoLibraryVersion") {
+        exclude group: 'com.android.support'
+    }
+    androidTestCompile ("com.android.support.test.espresso:espresso-contrib:$rootProject.espressoLibraryVersion") {
         exclude group: 'com.android.support'
     }
 }

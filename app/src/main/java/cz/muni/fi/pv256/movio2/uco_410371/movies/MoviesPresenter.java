@@ -18,6 +18,8 @@ import static android.app.Activity.RESULT_OK;
 
 public class MoviesPresenter extends BroadcastReceiver implements MoviesContract.Presenter {
 
+    public static final String CATEGORY = "Category";
+
     private MoviesContract.View mView;
     private FragmentActivity mFragmentActivity;
     private LocalBroadcastManager mBroadcastManager;
@@ -30,8 +32,9 @@ public class MoviesPresenter extends BroadcastReceiver implements MoviesContract
     }
 
     @Override
-    public void startService() {
+    public void startService(String category) {
         Intent intent = new Intent(mFragmentActivity, DownloadService.class);
+        intent.putExtra(CATEGORY, category);
         mFragmentActivity.startService(intent);
     }
 

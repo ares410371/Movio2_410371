@@ -21,6 +21,7 @@ import cz.muni.fi.pv256.movio2.uco_410371.R;
 import cz.muni.fi.pv256.movio2.uco_410371.models.Movie;
 import cz.muni.fi.pv256.movio2.uco_410371.models.MoviesResponse;
 import cz.muni.fi.pv256.movio2.uco_410371.movies.MoviesFragment;
+import cz.muni.fi.pv256.movio2.uco_410371.movies.MoviesPresenter;
 import cz.muni.fi.pv256.movio2.uco_410371.util.DateUtils;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -52,9 +53,22 @@ public class DownloadService extends IntentService {
         mNotificationManager.notify(DOWNLOAD_NOTIFICATION_ID, getDownloadNotification().build());
         init();
 
-        requestCall(getMovies(null, DateUtils.getFormattedDay(3), DateUtils.getFormattedDay(25)), getString(R.string.upcoming_movies_cat));
-        requestCall(getMovies(null, DateUtils.getFormattedDay(-25), DateUtils.getFormattedDay(3)), getString(R.string.now_playing_movies_cat));
-        requestCall(getMovies("popularity.desc", null, null), getString(R.string.popular_movies_cat)); // TODO opravit alebo zmenit
+        String category = intent.getStringExtra(MoviesPresenter.CATEGORY);
+
+        switch (category) {
+            case "upcoming": {
+                requestCall(getMovies(null, DateUtils.getFormattedDay(3), DateUtils.getFormattedDay(25)), getString(R.string.upcoming_movies_cat));
+                break;
+            }
+            case "nowplaying": {
+                requestCall(getMovies(null, DateUtils.getFormattedDay(-25), DateUtils.getFormattedDay(3)), getString(R.string.now_playing_movies_cat));
+                break;
+            }
+            case "popular": {
+                requestCall(getMovies("popularity.desc", null, null), getString(R.string.popular_movies_cat));
+                break;
+            }
+        }
     }
 
     @Override

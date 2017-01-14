@@ -10,7 +10,7 @@ public interface MoviesContract {
 
     interface Presenter {
 
-        void startService();
+        void startService(String category);
 
         void registerReceiver(CategoryRVAdapter adapter);
 

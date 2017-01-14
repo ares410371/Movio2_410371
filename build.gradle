@@ -37,6 +37,12 @@ ext {
     logansquareLibraryVersion = '1.3.6'
     logansquareConverterLibraryVersion = '1.4.1'
     retrofit2LibraryVersion = '2.1.0'
-    mosbyLibraryVersion = '2.0.1'
+    jUnitLibraryVersion = '4.12'
+    mockitoLibraryVersion = '1.10.19'
+    espressoLibraryVersion = '2.2.2'
+    hamcrestLibraryVersion = '1.3'
+    powerMockitoLibraryVersion = '1.5.4'
+    runnerLibraryVersion = '0.5'
+    rulesLibraryVersion = '0.5'
 
 }

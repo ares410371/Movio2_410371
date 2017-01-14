@@ -43,7 +43,8 @@ public class TestMovioManager {
                 "posterPath",
                 "TestMovie",
                 "backdropPath",
-                7.42f
+                7.42f,
+                "lorem ipsum"
         );
 
         MovieTable movieTable = new MovieTable(
@@ -54,7 +55,8 @@ public class TestMovioManager {
                 movie.getPosterPath(),
                 movie.getBackdropPath(),
                 movie.getReleaseDate(),
-                movie.getPopularity()
+                movie.getPopularity(),
+                movie.getOverview()
         );
 
         mMovioManager.createMovie(movieTable);
@@ -72,7 +74,8 @@ public class TestMovioManager {
                 "posterPath",
                 "TestMovie #2",
                 "backdropPath",
-                4.42f
+                4.42f,
+                "info info"
         );
 
         MovieTable movieTable = new MovieTable(
@@ -83,7 +86,8 @@ public class TestMovioManager {
                 movie.getPosterPath(),
                 movie.getBackdropPath(),
                 movie.getReleaseDate(),
-                movie.getPopularity()
+                movie.getPopularity(),
+                movie.getOverview()
         );
 
         mMovioManager.createMovie(movieTable);

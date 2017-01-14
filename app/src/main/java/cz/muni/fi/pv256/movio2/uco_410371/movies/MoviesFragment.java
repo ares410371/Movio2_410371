@@ -43,7 +43,9 @@ public class MoviesFragment extends Fragment implements MoviesContract.View {
         Log.d(TAG, "onCreate: ");
         setRetainInstance(true);
         mPresenter = new MoviesPresenter(this, getActivity(), LocalBroadcastManager.getInstance(getActivity()));
-        mPresenter.startService();
+        mPresenter.startService("upcoming");
+        mPresenter.startService("nowplaying");
+        mPresenter.startService("popular");
     }
 
     @Nullable

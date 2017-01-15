@@ -2,9 +2,9 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
 
 def versionMajor = 0
-def versionMinor = 8
-def versionPatch = 0
-def versionBuild = 1
+def versionMinor = 9
+def versionPatch = 1
+def versionBuild = 0
 
 android {
     compileSdkVersion rootProject.compileSdkVersion
@@ -29,30 +29,34 @@ android {
         }
     }
 
-//    //define your release config, so you can easily build and run release builds; this way you can avoid painful build->generate signed apk procedure
-//    signingConfigs {
-//        release {
-//            storeFile file(RELEASE_STORE_FILE)
-//            storePassword RELEASE_STORE_PASSWORD
-//            keyAlias RELEASE_KEY_ALIAS
-//            keyPassword RELEASE_KEY_PASSWORD
-//        }
-//    }
-
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            versionNameSuffix "-versionCode"
         }
     }
 
     buildTypes.each {
         it.buildConfigField "String", "MOVIE_DB_API_KEY", MOVIE_DB_API_KEY
     }
+
+    // second flavor not work
+    productFlavors {
+        main {
+
+        }
+        second {
+            applicationIdSuffix "second"
+            resValue "string", "name", "Second Movio2_410371"
+        }
+    }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
 
     compile "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
     compile "com.android.support:recyclerview-v7:$rootProject.supportLibraryVersion"
@@ -71,24 +75,22 @@ dependencies {
     compile "com.squareup.retrofit2:retrofit:$rootProject.retrofit2LibraryVersion"
     compile "com.github.aurae.retrofit2:converter-logansquare:$rootProject.logansquareConverterLibraryVersion"
 
-    compile 'com.github.rubensousa:gravitysnaphelper:1.0'
-
     testCompile "junit:junit:$rootProject.jUnitLibraryVersion"
     testCompile "org.mockito:mockito-all:$rootProject.mockitoLibraryVersion"
     testCompile "org.hamcrest:hamcrest-all:$rootProject.hamcrestLibraryVersion"
     testCompile "org.powermock:powermock-module-junit4:$rootProject.powerMockitoLibraryVersion"
     testCompile "org.powermock:powermock-api-mockito:$rootProject.powerMockitoLibraryVersion"
 
-    androidTestCompile ("com.android.support.test:runner:$rootProject.runnerLibraryVersion") {
+    androidTestCompile("com.android.support.test:runner:$rootProject.runnerLibraryVersion") {
         exclude group: 'com.android.support'
     }
-    androidTestCompile ("com.android.support.test:rules:$rootProject.rulesLibraryVersion") {
+    androidTestCompile("com.android.support.test:rules:$rootProject.rulesLibraryVersion") {
         exclude group: 'com.android.support'
     }
-    androidTestCompile ("com.android.support.test.espresso:espresso-core:$rootProject.espressoLibraryVersion") {
+    androidTestCompile("com.android.support.test.espresso:espresso-core:$rootProject.espressoLibraryVersion") {
         exclude group: 'com.android.support'
     }
-    androidTestCompile ("com.android.support.test.espresso:espresso-contrib:$rootProject.espressoLibraryVersion") {
+    androidTestCompile("com.android.support.test.espresso:espresso-contrib:$rootProject.espressoLibraryVersion") {
         exclude group: 'com.android.support'
     }
 }

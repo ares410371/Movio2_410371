@@ -39,8 +39,10 @@ public class MovioUITest {
 
     }
 
+    // Not work because multiple same view is exists
 //    @Test
 //    public void detailTest() {
+//
 //        onView(withId(R.id.horizontal_recycler_view))
 //                .check(matches(isDisplayed()))
 //                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));

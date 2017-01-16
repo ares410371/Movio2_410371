@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
+import cz.muni.fi.pv256.movio2.uco_410371.BuildConfig;
 import cz.muni.fi.pv256.movio2.uco_410371.R;
 import cz.muni.fi.pv256.movio2.uco_410371.sync.UpdaterSyncAdapter;
 import cz.muni.fi.pv256.movio2.uco_410371.util.ActivityUtils;
@@ -16,19 +17,18 @@ public class MoviesActivity extends AppCompatActivity {
 
     private static final String TAG  = MoviesActivity.class.getName();
 
-    public static final String PREF_CONFIG_THEME = "PREF_CONFIG_THEME";
-    public static final String PREF_THEME = "PREF_THEME";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(TAG, "onCreate: ");
-//        SharedPreferences sharedPreferences = getSharedPreferences(PREF_CONFIG_THEME, Context.MODE_PRIVATE);
-//        if (sharedPreferences.getBoolean(PREF_THEME, false)){
-//            setTheme(R.style.AppTheme_Inverse);
-//        } else {
-//            setTheme(R.style.AppTheme);
-//        }
+        if (BuildConfig.logging)
+            Log.d(TAG, "onCreate: ");
+
+        if (BuildConfig.theme) {
+            setTheme(R.style.AppTheme);
+        } else {
+            setTheme(R.style.AppTheme_Inverse);
+        }
+
         setContentView(R.layout.movies_activity);
 
         UpdaterSyncAdapter.initializeSyncAdapter(this);
@@ -72,7 +72,7 @@ public class MoviesActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_refresh) {
-            // TODO refresh sync uloha 8
+            UpdaterSyncAdapter.syncImmediately(this);
             return true;
         } else if (id == R.id.action_settings) {
             // TODO setting bonus
@@ -92,30 +92,35 @@ public class MoviesActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Log.d(TAG, "onStart: ");
+        if (BuildConfig.logging)
+            Log.d(TAG, "onStart: ");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Log.d(TAG, "onPause: ");
+        if (BuildConfig.logging)
+            Log.d(TAG, "onPause: ");
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        Log.d(TAG, "onRestart: ");
+        if (BuildConfig.logging)
+            Log.d(TAG, "onRestart: ");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        Log.d(TAG, "onStop: ");
+        if (BuildConfig.logging)
+            Log.d(TAG, "onStop: ");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.d(TAG, "onDestroy: ");
+        if (BuildConfig.logging)
+            Log.d(TAG, "onDestroy: ");
     }
 }

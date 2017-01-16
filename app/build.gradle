@@ -16,6 +16,7 @@ android {
         targetSdkVersion rootProject.targetSdkVersion
         versionCode versionMajor * 1000 + versionMinor * 100 + versionPatch * 10 + versionBuild
         versionName "${versionMajor}.${versionMinor}.${versionPatch}"
+        resConfigs "cs", "en", "sk"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -45,12 +46,16 @@ android {
 
     // second flavor not work
     productFlavors {
+        // default
         main {
-
+            buildConfigField ("boolean", "theme", "true")
+            buildConfigField ("boolean", "logging", "true")
         }
         second {
             applicationIdSuffix "second"
             resValue "string", "name", "Second Movio2_410371"
+            buildConfigField ("boolean", "theme", "false")
+            buildConfigField ("boolean", "logging", "false")
         }
     }
 }

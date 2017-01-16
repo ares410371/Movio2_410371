@@ -1,19 +1,15 @@
 <resources>
     <string name="app_name">Movio2_410371</string>
-    <string name="name_main_activity">MainActivity</string>
-    <string name="name_detail_activity">DetailActivity</string>
+    <string name="name_detail_activity" translatable="false">DetailActivity</string>
 
-    <string name="movie_detail_poster_picture">Poster Picture</string>
     <string name="empty_no_data">No movies data</string>
-    <string name="title_activity_genres">Genres</string>
     <string name="action_settings">Settings</string>
     <string name="action_toogle_on">Discovery</string>
     <string name="action_toggle_off">Favorite</string>
 
     <!--Sync-->
-    <string name="sync_account_type">pv256.fi.muni.cz</string>
-    <string name="sync_content_authority">cz.muni.fi.pv256.movio2.uco_410371</string>
-    <string name="no_movies_string">You have no Movies!</string>
+    <string name="sync_account_type" translatable="false">pv256.fi.muni.cz</string>
+    <string name="sync_content_authority" translatable="false">cz.muni.fi.pv256.movio2.uco_410371</string>
 
     <!--Movies Categories-->
     <string name="upcoming_movies_cat">Upcoming Movies</string>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Movio2_410371</string>
+    <string name="action_toggle_off">Obľúbené</string>
+    <string name="action_toogle_on">Všetky</string>
+    <string name="empty_no_data">Žiadne filmy</string>
+    <string name="action_settings">Nastavenie</string>
+    <string name="popular_movies_cat">Populárne Filmy</string>
+    <string name="now_playing_movies_cat">Teraz v Kinách</string>
+    <string name="upcoming_movies_cat">Pripravované filmy</string>
+</resources>

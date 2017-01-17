@@ -110,24 +110,12 @@ public class MoviesVerticalRVAdapter extends RecyclerView.Adapter<MoviesVertical
             return mItemPoster;
         }
 
-        public void setItemPoster(ImageView itemPoster) {
-            mItemPoster = itemPoster;
-        }
-
         public TextView getItemTitle() {
             return mItemTitle;
         }
 
-        public void setItemTitle(TextView itemTitle) {
-            mItemTitle = itemTitle;
-        }
-
         public TextView getItemRating() {
             return mItemRating;
-        }
-
-        public void setItemRating(TextView itemRating) {
-            mItemRating = itemRating;
         }
 
         public void setItemClickListener(ItemClickListener itemClickListener) {

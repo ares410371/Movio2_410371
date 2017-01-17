@@ -2,14 +2,13 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="@dimen/movie_header_height">
 
     <ImageView
         android:id="@+id/image_item_movie_vert_poster"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:scaleType="centerCrop"/>
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter"/>
 
     <RelativeLayout
         android:id="@+id/bottom_bar_vert"
@@ -22,13 +21,12 @@
             android:id="@+id/text_movie_vert_rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="4.5"
             android:textColor="@android:color/white"
             android:textSize="20sp"
             android:layout_centerInParent="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:paddingEnd="5dp"/>
+            android:paddingEnd="@dimen/bar_padding"/>
 
         <ImageView
             android:id="@+id/image_vert_rating_star"
@@ -46,11 +44,10 @@
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@id/image_vert_rating_star"
             android:layout_toStartOf="@id/image_vert_rating_star"
-            android:text="HaHaHaHa"
-            android:textColor="@android:color/white"
+            android:textColor="@color/color_white"
             android:textSize="20sp"
             android:layout_centerInParent="true"
-            android:paddingStart="5dp"/>
+            android:paddingStart="@dimen/bar_padding"/>
 
     </RelativeLayout>
 

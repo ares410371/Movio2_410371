@@ -52,7 +52,11 @@ public class MovioManager {
 
     public List<MovieTable> getAllMovies() {
         Cursor cursor = mContext.getContentResolver().query(MovioProvider.CONTENT_URI_MOVIE, MOVIE_COLUMS, null, null, null);
-        if (cursor != null && cursor.moveToFirst()) {
+        if (cursor == null) {
+            return Collections.emptyList();
+        }
+
+        if (cursor.moveToFirst()) {
             List<MovieTable> movies = new ArrayList<>(cursor.getCount());
             try {
                 while (!cursor.isAfterLast()) {
@@ -63,9 +67,10 @@ public class MovioManager {
                 cursor.close();
             }
             return movies;
+        } else {
+            cursor.close();
+            return Collections.emptyList();
         }
-
-        return Collections.emptyList();
     };
 
     public MovieTable getMovieByTitle(String title) {

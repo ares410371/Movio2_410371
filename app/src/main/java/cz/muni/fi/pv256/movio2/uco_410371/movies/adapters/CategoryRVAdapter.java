@@ -107,11 +107,6 @@ public class CategoryRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         MoviesHorizontalRVAdapter moviesHorizontalRVAdapter =
                 new MoviesHorizontalRVAdapter(mContext, movies, mTwoPane);
         horizontalRV.setAdapter(moviesHorizontalRVAdapter);
-
-//        SnapHelper snapHelperStart = new GravitySnapHelper(Gravity.START);
-//        java.lang.IllegalStateException: An instance of OnFlingListener already set.
-//        snapHelperStart.attachToRecyclerView(horizontalRV);
-//        horizontalRV.setOnFlingListener(snapHelperStart);
     }
 
     public static class HorizontalRVViewHolder extends RecyclerView.ViewHolder {

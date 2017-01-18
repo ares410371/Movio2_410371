@@ -2,6 +2,7 @@ package cz.muni.fi.pv256.movio2.uco_410371.movies;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
@@ -23,9 +24,11 @@ public class MoviesFragment extends Fragment implements MoviesContract.View {
     private static final String TAG = MoviesFragment.class.getName();
 
     private boolean mTwoPane;
+    private RecyclerView mRecyclerView;
     private CategoryRVAdapter mRecyclerViewAdapter;
     private MoviesContract.Presenter mPresenter;
     private LinearLayout mContentFrame;
+    private Parcelable mRecyclerViewState;
 
     public static MoviesFragment newInstance() {
         return new MoviesFragment();
@@ -58,12 +61,18 @@ public class MoviesFragment extends Fragment implements MoviesContract.View {
             mTwoPane = true;
         }
 
-        RecyclerView recyclerView = (RecyclerView)view.findViewById(R.id.movies_recycler_view);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        mRecyclerViewAdapter = new CategoryRVAdapter(getContext(), mTwoPane);
-        recyclerView.setAdapter(mRecyclerViewAdapter);
+
+        if (savedInstanceState != null) {
+            mRecyclerView.getLayoutManager().onRestoreInstanceState(mRecyclerViewState);
+        } else {
+            mRecyclerView = (RecyclerView) view.findViewById(R.id.movies_recycler_view);
+            mRecyclerView.setHasFixedSize(true);
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+            mRecyclerViewAdapter = new CategoryRVAdapter(getContext(), mTwoPane);
+            mRecyclerView.setAdapter(mRecyclerViewAdapter);
+        }
 
         return view;
     }
@@ -111,4 +120,11 @@ public class MoviesFragment extends Fragment implements MoviesContract.View {
         super.onDetach();
         Log.d(TAG, "onDetach: ");
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        mRecyclerViewState = mRecyclerView.getLayoutManager().onSaveInstanceState();
+        super.onSaveInstanceState(outState);
+    }
+
 }

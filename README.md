@@ -1,2 +1,4 @@
 # Movio2_410371
-PV256 Projekt z Androidu
+PV256 Project for Android platform
+
+* Some issues.

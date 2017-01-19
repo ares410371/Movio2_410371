@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/movie_header_height">
+
+    <ImageView
+        android:id="@+id/image_item_movie_vert_poster"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter"/>
+
+    <RelativeLayout
+        android:id="@+id/bottom_bar_vert"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/color_grey_backgroung">
+
+        <TextView
+            android:id="@+id/text_movie_vert_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:layout_centerInParent="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:paddingEnd="@dimen/bar_padding"/>
+
+        <ImageView
+            android:id="@+id/image_vert_rating_star"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:adjustViewBounds="true"
+            android:src="@android:drawable/btn_star_big_on"
+            android:layout_toLeftOf="@id/text_movie_vert_rating"
+            android:layout_toStartOf="@id/text_movie_vert_rating"
+            android:layout_centerInParent="true"/>
+
+        <TextView
+            android:id="@+id/text_movie_vert_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/image_vert_rating_star"
+            android:layout_toStartOf="@id/image_vert_rating_star"
+            android:textColor="@color/color_white"
+            android:textSize="20sp"
+            android:layout_centerInParent="true"
+            android:paddingStart="@dimen/bar_padding"/>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

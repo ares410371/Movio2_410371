@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">Movio2_410371</string>
+    <string name="name_detail_activity" translatable="false">DetailActivity</string>
+
+    <string name="empty_no_data">No movies data</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_toogle_on">Discovery</string>
+    <string name="action_toggle_off">Favorite</string>
+
+    <!--Sync-->
+    <string name="sync_account_type" translatable="false">pv256.fi.muni.cz</string>
+    <string name="sync_content_authority" translatable="false">cz.muni.fi.pv256.movio2.uco_410371</string>
+
+    <!--Movies Categories-->
+    <string name="upcoming_movies_cat">Upcoming Movies</string>
+    <string name="now_playing_movies_cat">NowPlaying Movies</string>
+    <string name="popular_movies_cat">Popular Movies</string>
+
 </resources>

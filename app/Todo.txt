@@ -1,0 +1,9 @@
+Ak je zobrazeni portrait režim na tablete tak po rotacii sa detail nezmeni na TwoPane
+
+Ukol 8:
+- Vytvořte SyncAdapter pro update dat v databázi (movie details pro dané id)
+  - Refresh bude možno vynutit i manuálně, z menu aplikace
+    - kód zůstává stejný, jenom se vykoná nejenom 1x denně, ale i po kliknutí na tlačítko
+
+Ukol 9:
+- Vytvorte unit testy pro svou aplikaci
